@@ -1,5 +1,14 @@
 package com.findhub.finhubbackend.service.member;
 
-public class MemberServiceImpl implements MemberService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.findhub.finhubbackend.repository.MemberRepository;
+
+@Service
+public class MemberServiceImpl implements MemberService {
+	
+	@Autowired
+	private MemberRepository memberRepository;
+	
 }

@@ -29,7 +29,10 @@ public class AccountServiceImpl implements AccountService {
 		}else {
 			return null;
 		}
-		
 	}
 
+	@Override
+	public void saveAccount(Account account) {
+		accountRepository.save(account);
+	}
 }
