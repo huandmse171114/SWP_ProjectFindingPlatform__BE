@@ -16,17 +16,32 @@ import com.findhub.finhubbackend.service.account.AccountService;
 @CrossOrigin
 @RequestMapping(path = "/api/accounts")
 public class AccountController {
-	
+
 	@Autowired
 	private AccountService accountService;
-	
+
 	@GetMapping("/getAll")
 	public List<Account> getAccounts() {
 		return accountService.getAccounts();
 	}
-	
+
 	@GetMapping("/{id}")
 	public Account getAccountById(@PathVariable("id") int id) {
 		return accountService.findAccountById(id);
+	}
+
+	// @GetMapping("/{email}")
+	public List<Account> getAccountByEmail(@PathVariable("email") String email) {
+		return accountService.findAccountsByEmail(email);
+	}
+
+	// @GetMapping("/{status}")
+	public List<Account> getAccountByStatus(@PathVariable("status") int status) {
+		return accountService.findAccountsByStatus(status);
+	}
+
+	// @GetMapping("/{role}")
+	public List<Account> getAccountByRole(@PathVariable("role") int role) {
+		return accountService.findAccountsByRole(role);
 	}
 }
