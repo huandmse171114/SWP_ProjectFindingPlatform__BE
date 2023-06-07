@@ -10,4 +10,6 @@ public interface AccountService {
 
 	public Account findAccountById(int id);
 
+	public void saveAccount(Account account);
+
 }

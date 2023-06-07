@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.findhub.finhubbackend.service.member.MemberService;
+import com.findhub.finhubbackend.service.application.ApplicationService;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = "/api/members")
-public class MemberController {
-
+@RequestMapping(path = "/api/applications")
+public class ApplicationController {
+	
 	@Autowired
-	private MemberService memberService;
+	private ApplicationService applicationService;
 }

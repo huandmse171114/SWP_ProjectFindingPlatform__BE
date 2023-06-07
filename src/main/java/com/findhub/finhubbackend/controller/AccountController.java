@@ -2,8 +2,6 @@ package com.findhub.finhubbackend.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +20,7 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 	
-	@GetMapping("/")
+	@GetMapping("/getAll")
 	public List<Account> getAccounts() {
 		return accountService.getAccounts();
 	}
