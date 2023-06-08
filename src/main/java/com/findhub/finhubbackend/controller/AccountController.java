@@ -29,4 +29,5 @@ public class AccountController {
 	public Account getAccountById(@PathVariable("id") int id) {
 		return accountService.findAccountById(id);
 	}
+	
 }
