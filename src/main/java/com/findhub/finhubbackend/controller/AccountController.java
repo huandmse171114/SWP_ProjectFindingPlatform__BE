@@ -16,18 +16,17 @@ import com.findhub.finhubbackend.service.account.AccountService;
 @CrossOrigin
 @RequestMapping(path = "/api/accounts")
 public class AccountController {
-	
+
 	@Autowired
 	private AccountService accountService;
-	
+
 	@GetMapping("/getAll")
 	public List<Account> getAccounts() {
-		return accountService.getAccounts();
+		return accountService.getAll();
 	}
-	
+
 	@GetMapping("/{id}")
 	public Account getAccountById(@PathVariable("id") int id) {
-		return accountService.findAccountById(id);
+		return accountService.findById(id);
 	}
-	
 }

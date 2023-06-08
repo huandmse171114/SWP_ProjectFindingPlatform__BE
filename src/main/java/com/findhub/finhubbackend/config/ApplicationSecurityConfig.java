@@ -45,7 +45,6 @@ public class ApplicationSecurityConfig {
         return http.build();
     }
 	
-	
 	@Bean
 	public AuthenticationManager authenticationManager
 		(AuthenticationConfiguration authenticationConfiguration)
