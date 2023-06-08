@@ -22,26 +22,26 @@ public class AccountController {
 
 	@GetMapping("/getAll")
 	public List<Account> getAccounts() {
-		return accountService.getAccounts();
+		return accountService.getAll();
 	}
 
 	@GetMapping("/{id}")
 	public Account getAccountById(@PathVariable("id") int id) {
-		return accountService.findAccountById(id);
+		return accountService.findById(id);
 	}
 
 	// @GetMapping("/{email}")
-	public List<Account> getAccountByEmail(@PathVariable("email") String email) {
-		return accountService.findAccountsByEmail(email);
-	}
+	// public List<Account> getAccountByEmail(@PathVariable("email") String email) {
+	// 	return accountService.findAccountsByEmail(email);
+	// }
 
 	// @GetMapping("/{status}")
-	public List<Account> getAccountByStatus(@PathVariable("status") int status) {
-		return accountService.findAccountsByStatus(status);
-	}
+	// public List<Account> getAccountByStatus(@PathVariable("status") int status) {
+	// 	return accountService.findAccountsByStatus(status);
+	// }
 
 	// @GetMapping("/{role}")
-	public List<Account> getAccountByRole(@PathVariable("role") int role) {
-		return accountService.findAccountsByRole(role);
-	}
+	// public List<Account> getAccountByRole(@PathVariable("role") int role) {
+	// 	return accountService.findAccountsByRole(role);
+	// }
 }

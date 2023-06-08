@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Nationalized;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +28,7 @@ public class Category {
     private int id;
 
     @Column(name = "Name", nullable = false)
+	@Nationalized
     private String name;
 
     @Column(name = "Status", nullable = false)

@@ -4,7 +4,7 @@ public enum TeamStatus {
     ACTIVE(1),
     INACTIVE(0);
 
-    private int value;
+    private final int value;
 
     private TeamStatus(int value) {
         this.value = value;

@@ -25,7 +25,7 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "SkillName", nullable = false)
+    @Column(name = "SkillName", columnDefinition = "nvarchar", nullable = false)
     private String name;
 
     @Column(name = "Status", nullable = false)

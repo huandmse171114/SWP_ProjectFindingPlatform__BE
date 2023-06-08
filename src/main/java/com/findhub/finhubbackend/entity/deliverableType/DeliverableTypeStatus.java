@@ -4,7 +4,7 @@ public enum DeliverableTypeStatus {
     ACTIVE(1),
     INACTIVE(0);
 
-    private int value;
+    private final int value;
 
     private DeliverableTypeStatus(int value) {
         this.value = value;

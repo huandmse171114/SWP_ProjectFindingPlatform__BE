@@ -40,7 +40,7 @@ public class AuthController {
 					.status(1)
 					.build();
 			
-			accountService.saveAccount(account);
+			accountService.save(account);
 			
 			return new ResponseEntity<>("Register success", HttpStatus.OK);
 		}

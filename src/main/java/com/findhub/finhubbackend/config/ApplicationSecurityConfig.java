@@ -51,7 +51,7 @@ public class ApplicationSecurityConfig {
 		return new InMemoryUserDetailsManager(
 				annaSmithUser,
 				adminUser
-		);		
+		);
 	}
 	
 	@Bean
