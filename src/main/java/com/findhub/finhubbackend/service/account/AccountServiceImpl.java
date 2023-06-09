@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.findhub.finhubbackend.entity.account.Account;
+import com.findhub.finhubbackend.entity.account.AccountRole;
 import com.findhub.finhubbackend.entity.account.AccountStatus;
 import com.findhub.finhubbackend.repository.AccountRepository;
 
@@ -96,8 +97,18 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
+	public List<Account> findAllByRole(AccountRole role) {
+		return findAllByRole(role.getValue());
+	}
+
+	@Override
 	public List<Account> findAllByRole(int role) {
 		return accountRepository.findAllByRole(role);
+	}
+
+	@Override
+	public List<Account> findAllByStatus(AccountStatus status) {
+		return findAllByStatus(status.getValue());
 	}
 
 	@Override

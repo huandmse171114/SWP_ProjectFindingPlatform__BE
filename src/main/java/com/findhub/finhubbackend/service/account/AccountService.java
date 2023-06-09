@@ -3,6 +3,8 @@ package com.findhub.finhubbackend.service.account;
 import java.util.List;
 
 import com.findhub.finhubbackend.entity.account.Account;
+import com.findhub.finhubbackend.entity.account.AccountRole;
+import com.findhub.finhubbackend.entity.account.AccountStatus;
 
 public interface AccountService {
 	/**
@@ -71,9 +73,19 @@ public interface AccountService {
 	public List<Account> findAllByStatus(int status);
 
 	/**
+	 * find accounts by status
+	 */
+	public List<Account> findAllByStatus(AccountStatus status);
+
+	/**
 	 * find accounts by role
 	 */
 	public List<Account> findAllByRole(int role);
+
+	/**
+	 * find accounts by role
+	 */
+	public List<Account> findAllByRole(AccountRole role);
 
 	/**
 	 * save account
