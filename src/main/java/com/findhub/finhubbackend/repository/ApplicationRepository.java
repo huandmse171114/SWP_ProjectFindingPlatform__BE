@@ -12,17 +12,49 @@ import com.findhub.finhubbackend.entity.application.Application;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
+    /**
+     * tìm chính xác application
+     */
+    Optional<Application> findById(int id);
 
-    @Query(value = "SELECT a FROM Application a WHERE ProjectId = ?1")
-    List<Application> findAccountsByProjectId(int projectId);
+    /**
+     * tìm tất cả application có id gần đúng
+     */
+    List<Application> findAllByIdLike(int id);
 
-    @Query(value = "SELECT a FROM Account a WHERE TeamId = ?1")
-    List<Application> findAccountsByTeamId(int teamId);
+    /**
+     * tìm tất cả application có ProjectId chính xác
+     */
+    List<Application> findAllByProjectId(int projectId);
 
-    @Query(value = "SELECT a FROM Application a WHERE Status = ?1")
-    List<Application> findAccountsByStatus(int status);
+    /**
+     * tìm tất cả application có ProjectId gần đúng
+     */
+    List<Application> findAllByProjectIdLike(int projectId);
 
-    @Query(value = "SELECT a FROM Application a WHERE CreateAt = ?1")
-    List<Application> findAccountsByDate(Date date);
+    /**
+     * tìm tất cả application có TeamId chính xác
+     */
+    List<Application> findAllByTeamId(int teamId);
+
+    /**
+     * tìm tất cả application có TeamId gần đúng
+     */
+    List<Application> findAllByTeamIdLike(int teamId);
+
+    /**
+     * tìm tất cả application với status
+     */
+    List<Application> findAllByStatus(int status);
+
+    /**
+     * tìm tất cả application theo date
+     */
+    List<Application> findAllByCreateAt(Date date);
+
+    /**
+     * tìm tất cả application từ date tới date
+     */
+    List<Application> findAllByCreateAtBetween(Date startDate, Date endDate);
 
 }
