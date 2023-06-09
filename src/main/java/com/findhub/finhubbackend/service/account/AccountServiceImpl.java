@@ -123,7 +123,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public List<Account> findAllByStatus(int status) {
-		return accountRepository.findByStatus(status);
+		return accountRepository.findAllByStatus(status);
 	}
 
 	@Override
