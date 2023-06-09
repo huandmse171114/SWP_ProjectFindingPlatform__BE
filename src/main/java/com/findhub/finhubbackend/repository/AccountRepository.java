@@ -16,13 +16,13 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
 	Optional<Account> findByEmail(String email);
 
-	List<Account> findByIdLike(int id);
+	List<Account> findAllByIdLike(int id);
 
-	List<Account> findByEmailLike(String email);
+	List<Account> findAllByEmailLike(String email);
 
 	List<Account> findByStatus(int status);
 
-	List<Account> findByRole(int role);
+	List<Account> findAllByRole(int role);
 
 	public Boolean existsByEmail(String email);
 

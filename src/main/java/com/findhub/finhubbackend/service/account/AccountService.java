@@ -58,22 +58,22 @@ public interface AccountService {
 	/**
 	 * find accounts by id (approximate id)
 	 */
-	public List<Account> findByIdLike(int id);
+	public List<Account> findAllByIdLike(int id);
 
 	/**
 	 * find accounts by email (approximate Email)
 	 */
-	public List<Account> findByEmailLike(String email);
+	public List<Account> findAllByEmailLike(String email);
 
 	/**
 	 * find accounts by status
 	 */
-	public List<Account> findByStatus(int status);
+	public List<Account> findAllByStatus(int status);
 
 	/**
 	 * find accounts by role
 	 */
-	public List<Account> findByRole(int role);
+	public List<Account> findAllByRole(int role);
 
 	/**
 	 * save account

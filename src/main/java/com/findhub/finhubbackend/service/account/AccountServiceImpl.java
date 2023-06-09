@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public boolean changeStatus(int id, int status) {
 		Optional<Account> account = accountRepository.findById(id);
-		return changeStatus(account.get(), status);
+		return changeStatus(account.isPresent() ? account.get() : null, status);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public boolean delete(int id) {
 		Optional<Account> account = accountRepository.findById(id);
-		return delete(account.get());
+		return delete(account.isPresent() ? account.get() : null);
 	}
 
 	@Override
@@ -86,22 +86,22 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<Account> findByIdLike(int id) {
-		return accountRepository.findByIdLike(id);
+	public List<Account> findAllByIdLike(int id) {
+		return accountRepository.findAllByIdLike(id);
 	}
 
 	@Override
-	public List<Account> findByEmailLike(String email) {
-		return accountRepository.findByEmailLike(email);
+	public List<Account> findAllByEmailLike(String email) {
+		return accountRepository.findAllByEmailLike(email);
 	}
 
 	@Override
-	public List<Account> findByRole(int role) {
-		return accountRepository.findByRole(role);
+	public List<Account> findAllByRole(int role) {
+		return accountRepository.findAllByRole(role);
 	}
 
 	@Override
-	public List<Account> findByStatus(int status) {
+	public List<Account> findAllByStatus(int status) {
 		return accountRepository.findByStatus(status);
 	}
 
