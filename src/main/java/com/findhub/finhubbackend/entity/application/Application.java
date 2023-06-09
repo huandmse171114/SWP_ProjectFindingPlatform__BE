@@ -44,7 +44,7 @@ public class Application {
 			name= "CreateAt",
 			nullable = false
 	)
-	private Date createDate;
+	private Date createAt;
 	
 	@Column(
 			name= "Status",
