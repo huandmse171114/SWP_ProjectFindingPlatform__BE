@@ -17,25 +17,36 @@ public class AccountServiceImpl implements AccountService {
 	private AccountRepository accountRepository;
 
 	/**
-	 * add new Account
+	 * add new Account to DB
 	 */
 	@Override
 	public Account add(Account account) {
 		return (account != null) ? accountRepository.save(account) : null;
 	}
 
+	/**
+	 * set new status of Account
+	 */
 	@Override
-	public boolean changeStatus(int id, int status) {
-		Optional<Account> account = accountRepository.findById(id);
-		if (account.isPresent()) {
-			account.get().setStatus(status);
+	public boolean changeStatus(Account account, int status) {
+		if (account != null) {
+			account.setStatus(status);
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * delete Account
+	 * set new status of Account
+	 */
+	@Override
+	public boolean changeStatus(int id, int status) {
+		Optional<Account> account = accountRepository.findById(id);
+		return changeStatus(account.get(), status);
+	}
+
+	/**
+	 * delete existed Account from DB
 	 */
 	@Override
 	public boolean delete(Account account) {
@@ -47,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	/**
-	 * delete Account
+	 * delete existed Account from DB
 	 */
 	@Override
 	public boolean delete(int id) {
@@ -55,14 +66,27 @@ public class AccountServiceImpl implements AccountService {
 		return delete(account.get());
 	}
 
+	/**
+	 * update Account
+	 */
 	@Override
-	public Account update(int id, Account account) {
-		if (account != null) {
-			Optional<Account> old = accountRepository.findById(id);
-			if (old.isPresent())
-				return accountRepository.save(account);
+	public Account update(Account oldAccount, Account newAccount) {
+		if (newAccount != null && oldAccount != null) {
+			int id = oldAccount.getId();
+			newAccount.setId(id);
+
+			return accountRepository.save(newAccount);
 		}
 		return null;
+	}
+
+	/**
+	 * update Account
+	 */
+	@Override
+	public Account update(int id, Account account) {
+		Optional<Account> old = accountRepository.findById(id);
+		return update(old.isPresent() ? old.get() : null, account);
 	}
 
 	/**
@@ -82,21 +106,50 @@ public class AccountServiceImpl implements AccountService {
 		return account.isPresent() ? account.get() : null;
 	}
 
+	/**
+	 * find account by email (exact Email)
+	 */
 	@Override
-	public List<Account> findAccountsByEmail(String email) {
-		return accountRepository.findAccountsByEmail(email);
+	public Account findByEmail(String email) {
+		Optional<Account> account = accountRepository.findByEmail(email);
+		return account.isPresent() ? account.get() : null;
 	}
 
+	/**
+	 * find accounts by id (approximate id)
+	 */
 	@Override
-	public List<Account> findAccountsByRole(int role) {
-		return accountRepository.findAccountsByRole(role);
+	public List<Account> findByIdLike(int id) {
+		return accountRepository.findByIdLike(id);
 	}
 
+	/**
+	 * find accounts by email (approximate Email)
+	 */
 	@Override
-	public List<Account> findAccountsByStatus(int status) {
-		return accountRepository.findAccountsByStatus(status);
+	public List<Account> findByEmailLike(String email) {
+		return accountRepository.findByEmailLike(email);
 	}
 
+	/**
+	 * find accounts by role
+	 */
+	@Override
+	public List<Account> findByRole(int role) {
+		return accountRepository.findByRole(role);
+	}
+
+	/**
+	 * find accounts by status
+	 */
+	@Override
+	public List<Account> findByStatus(int status) {
+		return accountRepository.findByStatus(status);
+	}
+
+	/**
+	 * save account
+	 */
 	@Override
 	public void save(Account account) {
 		accountRepository.save(account);
