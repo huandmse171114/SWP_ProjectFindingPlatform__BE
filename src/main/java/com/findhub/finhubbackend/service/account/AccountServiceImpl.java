@@ -38,6 +38,16 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
+	public boolean changeStatus(Account account, AccountStatus status) {
+		return changeStatus(account, status.getValue());
+	}
+
+	@Override
+	public boolean changeStatus(int id, AccountStatus status) {
+		return changeStatus(id, status.getValue());
+	}
+
+	@Override
 	public boolean delete(Account account) {
 		if (account != null) {
 			accountRepository.delete(account);

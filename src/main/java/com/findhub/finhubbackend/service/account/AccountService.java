@@ -30,7 +30,17 @@ public interface AccountService {
 	/**
 	 * set new status of Account
 	 */
+	public boolean changeStatus(int id, AccountStatus status);
+
+	/**
+	 * set new status of Account
+	 */
 	public boolean changeStatus(Account account, int status);
+
+	/**
+	 * set new status of Account
+	 */
+	public boolean changeStatus(Account account, AccountStatus status);
 
 	/**
 	 * delete existed Account from DB

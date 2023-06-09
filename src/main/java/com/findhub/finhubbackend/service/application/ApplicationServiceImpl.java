@@ -23,21 +23,28 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public boolean changeStatus(int id) {
-		// Optional<Application> application = applicationRepository.findById(id);
-		// if (application.isPresent()) {
-		// int status = application.get().getStatus();
-		// status = (status == 2) ? 0 : status++;
-		// application.get().setStatus(status);
-		// return true;
-		// }
+	public boolean changeStatus(Application application, int status) {
+		if (application != null) {
+			application.setStatus(status);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public boolean changeStatus(int id, int status) {
 		Optional<Application> application = applicationRepository.findById(id);
-		return delete(application.get());
+		return changeStatus(application.isPresent() ? application.get() : null, status);
+	}
+
+	@Override
+	public boolean changeStatus(Application application, ApplicationStatus status) {
+		return changeStatus(application, status.getValue());
+	}
+
+	@Override
+	public boolean changeStatus(int id, ApplicationStatus status) {
+		return changeStatus(id, status.getValue());
 	}
 
 	@Override
@@ -50,23 +57,31 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public List<Application> findApplicationsByDate(Date date) {
-		return applicationRepository.findAccountsByDate(date);
+	public boolean delete(int id) {
+		Optional<Application> application = applicationRepository.findById(id);
+		return delete(application.isPresent() ? application.get() : null);
 	}
 
 	@Override
-	public List<Application> findApplicationsByProjectId(int projectId) {
-		return applicationRepository.findAccountsByProjectId(projectId);
-	}
+	public Application update(Application oldApplication, Application newApplication) {
+		if (newApplication != null && oldApplication != null) {
+			int id = oldApplication.getId();
+			newApplication.setId(id);
 
-	@Override
-	public List<Application> findApplicationsByStatus(int status) {
-		return applicationRepository.findAccountsByStatus(status);
-	}
-
-	@Override
-	public List<Application> findApplicationsByTeamId(int teamId) {
+			return applicationRepository.save(newApplication);
+		}
 		return null;
+	}
+
+	@Override
+	public Application update(int id, Application application) {
+		Optional<Application> old = applicationRepository.findById(id);
+		return update(old.isPresent() ? old.get() : null, application);
+	}
+
+	@Override
+	public List<Application> getAll() {
+		return applicationRepository.findAll();
 	}
 
 	@Override
@@ -76,23 +91,59 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public List<Application> getAll() {
-		return applicationRepository.findAll();
+	public List<Application> findAllByIdLike(int id) {
+		return applicationRepository.findAllByIdLike(id);
+	}
+
+	@Override
+	public List<Application> findAllByProjectId(int id) {
+		return applicationRepository.findAllByProjectId(id);
+	}
+
+	@Override
+	public List<Application> findAllByProjectIdLike(int projectId) {
+		return applicationRepository.findAllByProjectIdLike(projectId);
+	}
+
+	@Override
+	public List<Application> findAllByTeamId(int teamId) {
+		return applicationRepository.findAllByTeamId(teamId);
+	}
+
+	@Override
+	public List<Application> findAllByTeamIdLike(int teamId) {
+		return applicationRepository.findAllByTeamIdLike(teamId);
+	}
+
+	@Override
+	public List<Application> findAllByDate(Date date) {
+		return applicationRepository.findAllByCreateAt(date);
+	}
+
+	@Override
+	public List<Application> findAllByDateBetween(Date fromDate, Date toDate) {
+		if (fromDate.compareTo(toDate) > 0) {
+			Date tempDate;
+
+			tempDate = fromDate;
+			fromDate = toDate;
+			toDate = tempDate;
+		}
+		return applicationRepository.findAllByCreateAtBetween(fromDate, toDate);
+	}
+
+	@Override
+	public List<Application> findAllByStatus(ApplicationStatus status) {
+		return findAllByStatus(status.getValue());
+	}
+
+	@Override
+	public List<Application> findAllByStatus(int status) {
+		return applicationRepository.findAllByStatus(status);
 	}
 
 	@Override
 	public void save(Application application) {
 		applicationRepository.save(application);
 	}
-
-	@Override
-	public Application update(int id, Application application) {
-		if (application != null) {
-			Optional<Application> old = applicationRepository.findById(id);
-			if (old.isPresent())
-				return applicationRepository.save(application);
-		}
-		return null;
-	}
-
 }
