@@ -92,7 +92,7 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
 
     @Override
     public List<E> findAllByStatus(S status) {
-        return repo.findAllByStatus(Integer.parseInt(status.toString()));
+        return repo.findAllByStatus(getValue(status));
     }
 
     @Override

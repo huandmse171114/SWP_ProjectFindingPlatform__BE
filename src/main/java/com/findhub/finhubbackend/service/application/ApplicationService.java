@@ -6,68 +6,9 @@ import java.util.List;
 import com.findhub.finhubbackend.entity.account.AccountStatus;
 import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.application.ApplicationStatus;
+import com.findhub.finhubbackend.service.service.Service;
 
-public interface ApplicationService {
-    /**
-     * add new Application to DB
-     */
-    public Application add(Application application);
-
-    /**
-     * update Application
-     */
-    public Application update(int id, Application application);
-
-    /**
-     * update Application
-     */
-    public Application update(Application oldApplication, Application newApplication);
-
-    /**
-     * set new status of Application
-     */
-    public boolean changeStatus(int id, int status);
-
-    /**
-     * set new status of Application
-     */
-    public boolean changeStatus(int id, ApplicationStatus status);
-
-    /**
-     * set new status of Application
-     */
-    public boolean changeStatus(Application application, int status);
-
-    /**
-     * set new status of Application
-     */
-    public boolean changeStatus(Application application, ApplicationStatus status);
-
-    /**
-     * delete existed Application from DB
-     */
-    public boolean delete(int id);
-
-    /**
-     * delete existed Application from DB
-     */
-    public boolean delete(Application application);
-
-    /**
-     * find application by id (exact id)
-     */
-    public Application findById(int id);
-
-    /**
-     * get all applications in DB
-     */
-    public List<Application> getAll();
-
-    /**
-     * tìm tất cả application có id gần đúng
-     */
-    public List<Application> findAllByIdLike(int id);
-
+public interface ApplicationService extends Service<Application, ApplicationStatus> {
     /**
      * tìm tất cả application có ProjectId chính xác
      */
@@ -89,16 +30,6 @@ public interface ApplicationService {
     public List<Application> findAllByTeamIdLike(int teamId);
 
     /**
-     * tìm tất cả application với status
-     */
-    public List<Application> findAllByStatus(int status);
-
-    /**
-     * tìm tất cả application với status
-     */
-    public List<Application> findAllByStatus(ApplicationStatus status);
-
-    /**
      * tìm tất cả application theo date
      */
     public List<Application> findAllByDate(Date createDate);
@@ -107,9 +38,4 @@ public interface ApplicationService {
      * tìm tất cả application từ date tới date
      */
     public List<Application> findAllByDateBetween(Date startDate, Date endDate);
-
-    /**
-     * save application
-     */
-    public void save(Application application);
 }

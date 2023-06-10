@@ -13,37 +13,19 @@ import com.findhub.finhubbackend.util.Config.*;
 @RestController
 @CrossOrigin
 @RequestMapping(path = Path.ACCOUNT)
-public class AccountController {
+public class AccountController extends MyController<Account, AccountService, AccountStatus> {
 
-	@Autowired
-	private AccountService accountService;
-
-	@GetMapping(Path.ALL)
-	public List<Account> getAccounts() {
-		return accountService.getAll();
+	@PostMapping(Path.ENABLE)
+	public boolean enableEntity(@RequestBody int id) {
+		return service.changeStatus(id, AccountStatus.ACTIVE);
 	}
 
-	@GetMapping(Path.ID)
-	public Account getAccountById(@PathVariable(Var.ID) int id) {
-		return accountService.findById(id);
+	@PostMapping(Path.DISABLE)
+	public boolean disableEntity(@RequestBody int id) {
+		return service.changeStatus(id, AccountStatus.INACTIVE);
 	}
 
-	public Account addAccount(Account account) {
-		return accountService.add(account);
-	}
-
-	@PostMapping(Path.UPDATE)
-	public Account updateAccount(@PathVariable(Var.ID) int id, @RequestBody Account account) {
-		return accountService.update(id, account);
-	}
-
-	@PostMapping(Path.DELETE)
-	public boolean deleteAccount(@RequestBody int id) {
-		return accountService.changeStatus(id, AccountStatus.INACTIVE);
-	}
-
-	@PostMapping(Path.RESTORE)
-	public boolean restoreAccount(@RequestBody int id) {
-		return accountService.changeStatus(id, AccountStatus.ACTIVE);
+	public boolean changeStatusEntity(@RequestBody int id, @RequestBody int status) {
+		return service.changeStatus(id, status);
 	}
 }

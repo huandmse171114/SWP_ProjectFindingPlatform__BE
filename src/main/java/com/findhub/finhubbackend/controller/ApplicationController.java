@@ -19,41 +19,19 @@ import com.findhub.finhubbackend.util.Config.*;
 @RestController
 @CrossOrigin
 @RequestMapping(path = Path.APPLICATION)
-public class ApplicationController {
+public class ApplicationController extends MyController<Application, ApplicationService, ApplicationStatus> {
 
-	@Autowired
-	private ApplicationService applicationService;
-
-	@GetMapping(Path.ALL)
-	public List<Application> getAccounts() {
-		return applicationService.getAll();
+	@PostMapping(Path.ENABLE)
+	public boolean enableEntity(@RequestBody int id) {
+		return service.changeStatus(id, ApplicationStatus.PENDING);
 	}
 
-	@GetMapping(Path.ID)
-	public Application getAccountById(@PathVariable("id") int id) {
-		return applicationService.findById(id);
+	@PostMapping(Path.DISABLE)
+	public boolean disableEntity(@RequestBody int id) {
+		return service.changeStatus(id, ApplicationStatus.DELETED);
 	}
 
-	public Application addApplication(Application application) {
-		return applicationService.add(application);
-	}
-
-	@PostMapping(Path.UPDATE)
-	public Application updateApplication(@PathVariable(Var.ID) int id, @RequestBody Application application) {
-		return applicationService.update(id, application);
-	}
-
-	@PostMapping(Path.DELETE)
-	public boolean deleteApplication(@RequestBody int id) {
-		return applicationService.changeStatus(id, ApplicationStatus.DELETED);
-	}
-
-	@PostMapping(Path.RESTORE)
-	public boolean restoreApplication(@RequestBody int id) {
-		return applicationService.changeStatus(id, ApplicationStatus.PENDING);
-	}
-
-	public boolean changeStatusApplication(@RequestBody int id, @RequestBody int status) {
-		return applicationService.changeStatus(id, status);
+	public boolean changeStatusEntity(@RequestBody int id, @RequestBody int status) {
+		return service.changeStatus(id, status);
 	}
 }

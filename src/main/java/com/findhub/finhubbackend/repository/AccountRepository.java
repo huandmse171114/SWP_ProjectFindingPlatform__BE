@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.findhub.finhubbackend.entity.account.Account;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Integer> {
+public interface AccountRepository extends JpaRepository<Account, Integer>{
 
 	Optional<Account> findById(int id);
 
@@ -20,7 +20,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
 	List<Account> findAllByEmailLike(String email);
 
-	List<Account> findByStatus(int status);
+	List<Account> findAllByStatus(int status);
 
 	List<Account> findAllByRole(int role);
 

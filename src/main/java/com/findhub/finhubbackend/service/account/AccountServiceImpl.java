@@ -10,6 +10,7 @@ import com.findhub.finhubbackend.entity.account.Account;
 import com.findhub.finhubbackend.entity.account.AccountRole;
 import com.findhub.finhubbackend.entity.account.AccountStatus;
 import com.findhub.finhubbackend.repository.AccountRepository;
+import com.findhub.finhubbackend.service.service.ServiceImpl;
 
 @Service
 public class AccountServiceImpl implements AccountService {
