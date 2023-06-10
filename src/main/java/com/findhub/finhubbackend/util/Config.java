@@ -19,7 +19,7 @@ public class Config {
         public static final String ENABLE = "/enable";
         public static final String DISABLE = "/disable";
         public static final String UPDATE = "/update/" + Var.ID + "={" + Var.ID + "}";
-        public static final String ID = "/" + Var.ID + "={" + Var.ID + "}";
+        public static final String ID = "/{" + Var.ID + "}";
 
     }
 
