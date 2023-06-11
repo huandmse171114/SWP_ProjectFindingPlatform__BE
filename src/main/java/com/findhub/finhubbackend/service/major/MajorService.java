@@ -17,7 +17,7 @@ public interface MajorService extends Service<Major, MajorStatus> {
     /**
      * tìm tất cả Major có chính xác
      */
-    public List<Major> findAllByNameLike(String name);
+    public List<Major> findAllByNameContaining(String name);
 
     /**
      * tìm chính xác major
@@ -27,5 +27,5 @@ public interface MajorService extends Service<Major, MajorStatus> {
     /**
      * tìm tất cả major có Name chính xác
      */
-    public List<Major> findAllByCodeLike(String code);
+    public List<Major> findAllByCodeStartingWith(String code);
 }

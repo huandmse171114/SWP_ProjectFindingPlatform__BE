@@ -18,7 +18,7 @@ public interface MajorRepository extends JpaRepository<Major, Integer>, Repo<Maj
     /**
      * tìm tất cả Major có chính xác
      */
-    List<Major> findAllByNameLike(String name);
+    List<Major> findAllByNameContaining(String name);
 
     /**
      * tìm chính xác major
@@ -28,6 +28,6 @@ public interface MajorRepository extends JpaRepository<Major, Integer>, Repo<Maj
     /**
      * tìm tất cả major có Name chính xác
      */
-    List<Major> findAllByCodeLike(String code);
+    List<Major> findAllByCodeStartingWith(String code);
 
 }

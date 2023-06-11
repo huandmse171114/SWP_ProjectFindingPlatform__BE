@@ -15,8 +15,8 @@ public class CategoryServiceImpl extends ServiceImpl<Category, CategoryRepositor
         implements CategoryService {
 
     @Override
-    public List<Category> findAllByNameLike(String name) {
-        return repo.findAllByNameLike(name);
+    public List<Category> findAllByNameContaining(String name) {
+        return repo.findAllByNameContaining(name);
     }
 
     @Override

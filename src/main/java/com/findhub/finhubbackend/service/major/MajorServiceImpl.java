@@ -15,13 +15,13 @@ public class MajorServiceImpl extends ServiceImpl<Major, MajorRepository, MajorS
 		implements MajorService {
 
 	@Override
-	public List<Major> findAllByCodeLike(String code) {
-		return repo.findAllByCodeLike(code);
+	public List<Major> findAllByCodeStartingWith(String code) {
+		return repo.findAllByCodeStartingWith(code);
 	}
 
 	@Override
-	public List<Major> findAllByNameLike(String name) {
-		return repo.findAllByNameLike(name);
+	public List<Major> findAllByNameContaining(String name) {
+		return repo.findAllByNameContaining(name);
 	}
 
 	@Override

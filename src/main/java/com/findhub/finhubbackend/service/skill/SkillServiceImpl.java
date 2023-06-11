@@ -15,8 +15,8 @@ public class SkillServiceImpl extends ServiceImpl<Skill, SkillRepository, SkillS
         implements SkillService {
 
     @Override
-    public List<Skill> findAllByNameLike(String name) {
-        return repo.findAllByNameLike(name);
+    public List<Skill> findAllByNameContaining(String name) {
+        return repo.findAllByNameContaining(name);
     }
 
     @Override

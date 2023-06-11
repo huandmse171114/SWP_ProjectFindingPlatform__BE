@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.findhub.finhubbackend.entity.category.Category;
 import com.findhub.finhubbackend.entity.category.CategoryStatus;
 import com.findhub.finhubbackend.service.category.CategoryService;
-import com.findhub.finhubbackend.util.Config.*;
+import com.findhub.finhubbackend.util.Config.ApiPath;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = Path.CATEGORY)
+@RequestMapping(path = ApiPath.CATEGORY)
 public class CategoryController extends MyController<Category, CategoryService, CategoryStatus> {
 
-    @PostMapping(Path.ENABLE)
+    @PostMapping(ApiPath.ENABLE)
     public boolean enableEntity(@RequestBody int id) {
         return service.changeStatus(id, CategoryStatus.ACTIVE);
     }
 
-    @PostMapping(Path.DISABLE)
+    @PostMapping(ApiPath.DISABLE)
     public boolean restoreEntity(@RequestBody int id) {
         return service.changeStatus(id, CategoryStatus.INACTIVE);
     }
 
     public boolean changeStatusEntity(@RequestBody int id, @RequestBody int status) {
-		return service.changeStatus(id, status);
-	}
+        return service.changeStatus(id, status);
+    }
 }

@@ -19,5 +19,5 @@ public interface SkillRepository extends JpaRepository<Skill, Integer>, Repo<Ski
     /**
      * tìm tất cả Skill có chính xác
      */
-    List<Skill> findAllByNameLike(String name);
+    List<Skill> findAllByNameContaining(String name);
 }

@@ -17,5 +17,5 @@ public interface SkillService extends Service<Skill, SkillStatus> {
     /**
      * tìm tất cả Skill có chính xác
      */
-    public List<Skill> findAllByNameLike(String name);
+    public List<Skill> findAllByNameContaining(String name);
 }

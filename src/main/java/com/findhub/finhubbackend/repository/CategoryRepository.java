@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.findhub.finhubbackend.entity.category.Category;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Integer>,Repo<Category> {
+public interface CategoryRepository extends JpaRepository<Category, Integer>, Repo<Category> {
     /**
      * tìm chính xác name
      */
@@ -18,5 +18,5 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>,Rep
     /**
      * tìm tất cả Category có chính xác
      */
-    List<Category> findAllByNameLike(String name);
+    List<Category> findAllByNameContaining(String name);
 }

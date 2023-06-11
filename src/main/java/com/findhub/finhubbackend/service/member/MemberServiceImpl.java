@@ -9,87 +9,55 @@ import org.springframework.stereotype.Service;
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberStatus;
 import com.findhub.finhubbackend.repository.MemberRepository;
+import com.findhub.finhubbackend.service.service.ServiceImpl;
 
 @Service
-public class MemberServiceImpl implements MemberService {
-
-    @Autowired
-    private MemberRepository repo;
+public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, MemberStatus>
+        implements MemberService {
 
     @Override
-    public Member add(Member entity) {
-        return (entity != null) ? repo.save(entity) : null;
+    public List<Member> findAllByBalance(float balance) {
+        return repo.findAllByBalance(balance);
     }
 
     @Override
-    public boolean changeStatus(int id, int status) {
-        Optional<Member> entity = repo.findById(id);
-        return changeStatus(entity.isPresent() ? entity.get() : null, status);
+    public List<Member> findAllByBalanceBetween(float start, float end) {
+        return repo.findAllByBalanceBetween(start, end);
     }
 
     @Override
-    public boolean changeStatus(int id, MemberStatus status) {
-        return false;
+    public List<Member> findAllByEmailContaining(String email) {
+        return repo.findAllByEmailContaining(email);
     }
 
     @Override
-    public boolean changeStatus(Member entity, int status) {
-        return false;
+    public List<Member> findAllByMajorCodeStartingWith(String majorCode) {
+        return repo.findAllByMajorCodeStartingWith(majorCode);
     }
 
     @Override
-    public boolean changeStatus(Member entity, MemberStatus status) {
-        return false;
+    public List<Member> findAllByNameContaining(String name) {
+        return repo.findAllByNameContaining(name);
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public List<Member> findAllByPhoneLike(String phone) {
+        return repo.findAllByPhoneLike(phone);
     }
 
     @Override
-    public boolean delete(Member entity) {
-        return false;
+    public Optional<Member> findByEmail(String email) {
+        return repo.findByEmail(email);
     }
 
     @Override
-    public List<Member> findAllByIdLike(int id) {
-        return null;
+    public Optional<Member> findByName(String name) {
+        return repo.findByName(name);
     }
 
     @Override
-    public List<Member> findAllByStatus(int status) {
-        return null;
-    }
-
-    @Override
-    public List<Member> findAllByStatus(MemberStatus status) {
-        return null;
-    }
-
-    @Override
-    public Member findById(int id) {
-        return null;
-    }
-
-    @Override
-    public List<Member> getAll() {
-        return null;
-    }
-
-    @Override
-    public void save(Member entity) {
-
-    }
-
-    @Override
-    public Member update(int id, Member entity) {
-        return null;
-    }
-
-    @Override
-    public Member update(Member oldT, Member newT) {
-        return null;
+    public Optional<Member> findByPhone(String phone) {
+        return repo.findByPhone(phone);
     }
 
 }

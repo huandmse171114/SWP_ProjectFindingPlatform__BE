@@ -16,7 +16,7 @@ public interface Repo<T> extends JpaRepository<T, Integer> {
     /**
      * tìm tất cả T có id gần đúng
      */
-    List<T> findAllByIdLike(int id);
+    List<T> findAllByIdContaining(int id);
 
     /**
      * tìm tất cả T với status

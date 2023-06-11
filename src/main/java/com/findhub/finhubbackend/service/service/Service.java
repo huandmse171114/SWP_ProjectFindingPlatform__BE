@@ -61,7 +61,7 @@ public interface Service<T, E> {
     /**
      * tìm tất cả T có id gần đúng
      */
-    public List<T> findAllByIdLike(int id);
+    public List<T> findAllByIdStartingWith(int id);
 
     /**
      * tìm tất cả T với status

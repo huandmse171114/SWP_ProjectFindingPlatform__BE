@@ -12,16 +12,6 @@ import com.findhub.finhubbackend.entity.application.Application;
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Integer>, Repo<Application> {
     /**
-     * tìm chính xác category
-     */
-    Optional<Application> findById(int id);
-
-    /**
-     * tìm tất cả category có id gần đúng
-     */
-    List<Application> findAllByIdLike(int id);
-
-    /**
      * tìm tất cả category có ProjectId chính xác
      */
     List<Application> findAllByProjectId(int projectId);
@@ -29,7 +19,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     /**
      * tìm tất cả category có ProjectId gần đúng
      */
-    List<Application> findAllByProjectIdLike(int projectId);
+    List<Application> findAllByProjectIdStartingWith(int projectId);
 
     /**
      * tìm tất cả category có TeamId chính xác
@@ -39,17 +29,22 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     /**
      * tìm tất cả category có TeamId gần đúng
      */
-    List<Application> findAllByTeamIdLike(int teamId);
-
-    /**
-     * tìm tất cả category với status
-     */
-    List<Application> findAllByStatus(int status);
+    List<Application> findAllByTeamIdStartingWith(int teamId);
 
     /**
      * tìm tất cả category theo date
      */
     List<Application> findAllByCreateAt(Date date);
+
+    /**
+     * tìm tất cả category theo date before
+     */
+    List<Application> findAllByCreateAtBefore(Date date);
+
+    /**
+     * tìm tất cả category theo date after
+     */
+    List<Application> findAllByCreateAtAfter(Date date);
 
     /**
      * tìm tất cả category từ date tới date

@@ -80,8 +80,8 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
-    public List<E> findAllByIdLike(int id) {
-        return repo.findAllByIdLike(id);
+    public List<E> findAllByIdStartingWith(int id) {
+        return repo.findAllByIdContaining(id);
 
     }
 

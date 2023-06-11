@@ -18,5 +18,5 @@ public interface DeliverableTypeRepository extends JpaRepository<DeliverableType
     /**
      * tìm tất cả DeliverableType có chính xác
      */
-    List<DeliverableType> findAllByNameLike(String name);
+    List<DeliverableType> findAllByNameContaining(String name);
 }

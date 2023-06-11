@@ -18,5 +18,5 @@ public interface CategoryService extends Service<Category, CategoryStatus> {
     /**
      * tìm tất cả Category có chính xác
      */
-    public List<Category> findAllByNameLike(String name);
+    public List<Category> findAllByNameContaining(String name);
 }

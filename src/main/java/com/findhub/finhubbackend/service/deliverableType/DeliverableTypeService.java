@@ -17,5 +17,5 @@ public interface DeliverableTypeService extends Service<DeliverableType, Deliver
     /**
      * tìm tất cả DeliverableType có chính xác
      */
-    public List<DeliverableType> findAllByNameLike(String name);
+    public List<DeliverableType> findAllByNameContaining(String name);
 }

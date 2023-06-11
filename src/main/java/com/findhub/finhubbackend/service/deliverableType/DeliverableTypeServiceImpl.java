@@ -16,8 +16,8 @@ public class DeliverableTypeServiceImpl
         implements DeliverableTypeService {
 
     @Override
-    public List<DeliverableType> findAllByNameLike(String name) {
-        return repo.findAllByNameLike(name);
+    public List<DeliverableType> findAllByNameContaining(String name) {
+        return repo.findAllByNameContaining(name);
     }
 
     @Override

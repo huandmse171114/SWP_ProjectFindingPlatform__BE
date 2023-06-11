@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
 
+import com.findhub.finhubbackend.entity.entity.MyEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,69 +24,37 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Project {
+public class Project extends MyEntity {
 	@Id
-	@Column(
-			name= "Id",
-			nullable = false
-	)
+	@Column(name = "Id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Nationalized
-	@Column(
-			name= "Title",
-			nullable = false
-	)
+	@Column(name = "Title", nullable = false)
 	private String title;
-	
+
 	@Nationalized
-	@Column(
-			name= "Type",
-			nullable = true
-	)
+	@Column(name = "Type", nullable = true)
 	private String type;
-	
+
 	@Nationalized
-	@Column(
-			name= "Description",
-			nullable = true
-	)
+	@Column(name = "Description", nullable = true)
 	private String description;
-	
-	@Column(
-			name= "Wage",
-			nullable = true
-	)
+
+	@Column(name = "Wage", nullable = true)
 	private float wage;
-	
-	@Column(
-			name= "ImageURL",
-			nullable = true
-	)
+
+	@Column(name = "ImageURL", nullable = true)
 	private String imageURL;
-	
-	@Column(
-			name= "DeliverDays",
-			nullable = false
-	)
+
+	@Column(name = "DeliverDays", nullable = false)
 	private int deliverDays;
-	
-	@Column(
-			name= "PublisherDate",
-			nullable = false
-	)
+
+	@Column(name = "PublisherDate", nullable = false)
 	private Date publishDate;
-	
-	@Column(
-			name= "Status",
-			nullable = false
-	)
+
+	@Column(name = "Status", nullable = false)
 	private int status;
-	
-	
-	
-	
-	
-	
+
 }

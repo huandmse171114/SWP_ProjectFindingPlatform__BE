@@ -22,8 +22,18 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 	}
 
 	@Override
-	public List<Application> findAllByProjectIdLike(int projectId) {
-		return repo.findAllByProjectIdLike(projectId);
+	public List<Application> findAllByDateAfter(Date date) {
+		return repo.findAllByCreateAtAfter(date);
+	}
+
+	@Override
+	public List<Application> findAllByDateBefore(Date date) {
+		return repo.findAllByCreateAtBefore(date);
+	}
+
+	@Override
+	public List<Application> findAllByProjectIdStartingWith(int projectId) {
+		return repo.findAllByProjectIdStartingWith(projectId);
 	}
 
 	@Override
@@ -32,8 +42,8 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 	}
 
 	@Override
-	public List<Application> findAllByTeamIdLike(int teamId) {
-		return repo.findAllByTeamIdLike(teamId);
+	public List<Application> findAllByTeamIdStartingWith(int teamId) {
+		return repo.findAllByTeamIdStartingWith(teamId);
 	}
 
 	@Override

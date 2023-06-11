@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Account {
+public class Account extends MyEntity {
 
 	@Id
 	@Column(name = "Id", nullable = false)

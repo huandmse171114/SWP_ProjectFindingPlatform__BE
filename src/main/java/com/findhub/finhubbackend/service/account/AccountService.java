@@ -16,12 +16,12 @@ public interface AccountService extends Service<Account, AccountStatus> {
 	/**
 	 * find accounts by id (approximate id)
 	 */
-	public List<Account> findAllByIdLike(int id);
+	public List<Account> findAllByIdStartingWith(int id);
 
 	/**
 	 * find accounts by email (approximate Email)
 	 */
-	public List<Account> findAllByEmailLike(String email);
+	public List<Account> findAllByEmailContaining(String email);
 
 	/**
 	 * find accounts by role
