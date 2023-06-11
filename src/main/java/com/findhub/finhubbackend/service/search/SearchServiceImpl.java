@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.service.filter;
+package com.findhub.finhubbackend.service.search;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import com.findhub.finhubbackend.entity.account.Account;
 import com.findhub.finhubbackend.repository.AccountRepository;
 
 @Service
-public class FilterServiceImpl implements FilterService{
+public class SearchServiceImpl implements SearchService{
 	
 	@Autowired
 	private AccountRepository accountRepository;

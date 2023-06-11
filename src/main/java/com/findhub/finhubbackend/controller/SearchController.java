@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.account.Account;
-import com.findhub.finhubbackend.service.filter.FilterService;
+import com.findhub.finhubbackend.service.search.SearchService;
 
 @RestController
 @RequestMapping("/api/search")
-public class FilterController {
+public class SearchController {
 	
 	@Autowired
-	private FilterService filterService;
+	private SearchService filterService;
 	
     @GetMapping("/accounts/{id}")
     public Account filterAccountById(@PathVariable("id") int id) {

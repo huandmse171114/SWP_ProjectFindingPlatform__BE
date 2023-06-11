@@ -1,9 +1,9 @@
-package com.findhub.finhubbackend.service.filter;
+package com.findhub.finhubbackend.service.search;
 
 
 import com.findhub.finhubbackend.entity.account.Account;
 
-public interface FilterService {
+public interface SearchService {
 
 	Account findAccountById(int id) ;
 
