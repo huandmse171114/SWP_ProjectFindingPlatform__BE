@@ -12,13 +12,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
+// OncePerRequestFilter: this will make this filter run everytime server has a request.
+@Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-	@Autowired
+	@Autowired 
 	private JwtTokenProvider jwtTokenProvider;
 	
 	@Autowired
@@ -26,15 +28,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	protected void doFilterInternal(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			FilterChain filterChain)
 			throws ServletException, IOException {
 		//Get the jwt from the request
 		String token = getJwtFromRequest(request);
 		if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
 			String username = jwtTokenProvider.getUsernameFromJwt(token);
 			UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
+			System.out.println("Authorities: " + userDetails.getAuthorities().toString());
 			UsernamePasswordAuthenticationToken authenticationToken = 
-					new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities());
+					new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 		}
@@ -44,7 +50,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	private String getJwtFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7, bearerToken.length());
+			return bearerToken.substring(7);
 		}
 		return null;
 	}

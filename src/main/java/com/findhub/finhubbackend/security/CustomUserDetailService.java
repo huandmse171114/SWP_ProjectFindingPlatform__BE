@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -34,10 +33,10 @@ public class CustomUserDetailService implements UserDetailsService {
 	private Collection<GrantedAuthority> mapRolesToAuthorities(int role) {
 		List<SimpleGrantedAuthority> roles = new ArrayList<>();
 		if (role == AccountRole.ADMIN.getValue()) {
-			roles.add(new SimpleGrantedAuthority("ADMIN"));
+			roles.add(new SimpleGrantedAuthority(AccountRole.ADMIN.toString()));
 		}else if (role == AccountRole.MEMBER.getValue()) {
-			roles.add(new SimpleGrantedAuthority("MEMBER"));
-		}else roles.add(new SimpleGrantedAuthority("PUBLISHER"));
+			roles.add(new SimpleGrantedAuthority(AccountRole.MEMBER.toString()));
+		}else roles.add(new SimpleGrantedAuthority(AccountRole.PUBLISHER.toString()));
 		
 		return roles.stream().collect(Collectors.toList());
 	}
