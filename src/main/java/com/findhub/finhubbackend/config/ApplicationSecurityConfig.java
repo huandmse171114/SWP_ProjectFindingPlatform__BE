@@ -38,7 +38,13 @@ public class ApplicationSecurityConfig {
         	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         	.and()
             .authorizeHttpRequests()
-            .antMatchers("/", "/api/auth/**").permitAll()
+            .antMatchers(
+            		"/", 
+            		"/api/auth/**", 
+            		"/swagger-ui/**",
+            		"/swagger-resources/**",
+            		"/v2/api-docs"
+            ).permitAll()
             .antMatchers(
             		HttpMethod.GET,
             		"/api/projects/**", 
