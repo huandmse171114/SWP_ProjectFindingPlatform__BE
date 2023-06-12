@@ -1,6 +1,6 @@
 package com.findhub.finhubbackend.security;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
@@ -16,7 +16,6 @@ public class JwtTokenProvider {
 		String username = authentication.getName();
 		Date currentDate = new Date(System.currentTimeMillis());
 		Date expireDate = new Date(currentDate.getTime() + JwtConstants.JWT_EXPIRATION);
-		
 		String token = Jwts.builder()
 				.setSubject(username)
 				.setIssuedAt(currentDate)
@@ -25,9 +24,11 @@ public class JwtTokenProvider {
 				.compact();
 		return token;
 	}
-	
+	 
+	//extract JWT to get username value
 	public String getUsernameFromJwt(String token) {
-		Claims claims = Jwts.parser()
+		Claims claims = Jwts
+				.parser()
 				.setSigningKey(JwtConstants.JWT_SECRET)
 				.parseClaimsJws(token)
 				.getBody();
@@ -35,13 +36,22 @@ public class JwtTokenProvider {
 	}
 	
 	public boolean validateToken(String token) {
+		boolean correct = token.equals("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODY0NjgxMDUsImV4cCI6MTY4NjQ2ODE3NX0.dVdnW2fb13Cv-oj0W1QrnChAtU_hkNMuC1LaPqqs0pVpwVJN2aqfQTdgUXmpZWCGbPBTzJ2cLpnwqdZaHwhy3w");
 		try {
 			Jwts.parser()
 			.setSigningKey(JwtConstants.JWT_SECRET)
 			.parseClaimsJws(token);
 			return true;
 		} catch (Exception e) {
-			
-		}throw new AuthenticationCredentialsNotFoundException("Jwt was expired or incorrect");
+			throw new AuthenticationCredentialsNotFoundException("Jwt was expired or incorrect: " + correct);
+		}
+	}
+	
+	private Claims extractAllXClaims(String token) {
+		return Jwts
+				.parser()
+				.setSigningKey(JwtConstants.JWT_SECRET)
+				.parseClaimsJws(token)
+				.getBody();
 	}
 }

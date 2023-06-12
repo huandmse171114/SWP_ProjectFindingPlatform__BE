@@ -14,7 +14,7 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.PROJECT)
 public class ProjectController extends MyController<Project, ProjectService, ProjectStatus> {
 
-	// @PostMapping(apiPath.ENABLE)
+  // @PostMapping(apiPath.ENABLE)
 	// public boolean enableEntity(@RequestBody int id) {
 	// return service.changeStatus(id, ProjectStatus.ONGOING);
 	// }
@@ -24,3 +24,4 @@ public class ProjectController extends MyController<Project, ProjectService, Pro
 	// return service.changeStatus(id, ProjectStatus.DELETED);
 	// }
 }
+
