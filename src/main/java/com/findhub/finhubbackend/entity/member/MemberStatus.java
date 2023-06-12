@@ -2,7 +2,9 @@ package com.findhub.finhubbackend.entity.member;
 
 public enum MemberStatus {
 	AVAILABLE(1),
-	ONPROJECT(0);
+	ONPROJECT(0),
+	DELETED(0),
+	;
 
 	private final int value;
 

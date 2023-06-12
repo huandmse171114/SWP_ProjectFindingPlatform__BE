@@ -3,36 +3,49 @@ package com.findhub.finhubbackend.service.application;
 import java.sql.Date;
 import java.util.List;
 
+import com.findhub.finhubbackend.entity.account.AccountStatus;
 import com.findhub.finhubbackend.entity.application.Application;
+import com.findhub.finhubbackend.entity.application.ApplicationStatus;
+import com.findhub.finhubbackend.service.service.Service;
 
-public interface ApplicationService {
-
-    public Application add(Application application);
-
-    public Application update(int id, Application application);
+public interface ApplicationService extends Service<Application, ApplicationStatus> {
+    /**
+     * tìm tất cả application có ProjectId chính xác
+     */
+    public List<Application> findAllByProjectId(int projectId);
 
     /**
-     * status = ACTIVE -> INACTIVE
-     * <p>
-     * status = INACTIVE -> ACTIVE
+     * tìm tất cả application có ProjectId gần đúng
      */
-    public boolean changeStatus(int id);
+    public List<Application> findAllByProjectIdStartingWith(int projectId);
 
-    public boolean delete(int id);
+    /**
+     * tìm tất cả application có TeamId chính xác
+     */
+    public List<Application> findAllByTeamId(int teamId);
 
-    public boolean delete(Application application);
+    /**
+     * tìm tất cả application có TeamId gần đúng
+     */
+    public List<Application> findAllByTeamIdStartingWith(int teamId);
 
-    public List<Application> getAll();
+    /**
+     * tìm tất cả application theo date
+     */
+    public List<Application> findAllByDate(Date createDate);
 
-    public Application findById(int id);
+    /**
+     * tìm tất cả application theo date
+     */
+    public List<Application> findAllByDateBefore(Date createDate);
 
-    public List<Application> findApplicationsByProjectId(int projectId);
+    /**
+     * tìm tất cả application theo date after
+     */
+    public List<Application> findAllByDateAfter(Date createDate);
 
-    public List<Application> findApplicationsByTeamId(int teamId);
-
-    public List<Application> findApplicationsByStatus(int status);
-
-    public List<Application> findApplicationsByDate(Date date);
-
-    public void save(Application application);
+    /**
+     * tìm tất cả application từ date tới date
+     */
+    public List<Application> findAllByDateBetween(Date startDate, Date endDate);
 }

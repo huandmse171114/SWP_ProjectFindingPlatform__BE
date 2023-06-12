@@ -5,24 +5,49 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.findhub.finhubbackend.entity.application.Application;
 
 @Repository
-public interface ApplicationRepository extends JpaRepository<Application, Integer> {
+public interface ApplicationRepository extends JpaRepository<Application, Integer>, Repo<Application> {
+    /**
+     * tìm tất cả category có ProjectId chính xác
+     */
+    List<Application> findAllByProjectId(int projectId);
 
-    @Query(value = "SELECT a FROM Application a WHERE ProjectId = ?1")
-    List<Application> findAccountsByProjectId(int projectId);
+    /**
+     * tìm tất cả category có ProjectId gần đúng
+     */
+    List<Application> findAllByProjectIdStartingWith(int projectId);
 
-    @Query(value = "SELECT a FROM Account a WHERE TeamId = ?1")
-    List<Application> findAccountsByTeamId(int teamId);
+    /**
+     * tìm tất cả category có TeamId chính xác
+     */
+    List<Application> findAllByTeamId(int teamId);
 
-    @Query(value = "SELECT a FROM Application a WHERE Status = ?1")
-    List<Application> findAccountsByStatus(int status);
+    /**
+     * tìm tất cả category có TeamId gần đúng
+     */
+    List<Application> findAllByTeamIdStartingWith(int teamId);
 
-    @Query(value = "SELECT a FROM Application a WHERE CreateAt = ?1")
-    List<Application> findAccountsByDate(Date date);
+    /**
+     * tìm tất cả category theo date
+     */
+    List<Application> findAllByCreateAt(Date date);
 
+    /**
+     * tìm tất cả category theo date before
+     */
+    List<Application> findAllByCreateAtBefore(Date date);
+
+    /**
+     * tìm tất cả category theo date after
+     */
+    List<Application> findAllByCreateAtAfter(Date date);
+
+    /**
+     * tìm tất cả category từ date tới date
+     */
+    List<Application> findAllByCreateAtBetween(Date startDate, Date endDate);
 }

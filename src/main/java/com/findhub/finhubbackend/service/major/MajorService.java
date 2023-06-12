@@ -1,36 +1,31 @@
 package com.findhub.finhubbackend.service.major;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.findhub.finhubbackend.entity.major.Major;
+import com.findhub.finhubbackend.entity.major.MajorStatus;
+import com.findhub.finhubbackend.service.service.Service;
 
-public interface MajorService {
-    public Major add(Major application);
-
-    public Major update(int id, Major application);
+public interface MajorService extends Service<Major, MajorStatus> {
 
     /**
-     * status = ACTIVE -> INACTIVE
-     * <p>
-     * status = INACTIVE -> ACTIVE
+     * tìm chính xác name
      */
-    public boolean changeStatus(int id);
+    public Optional<Major> findByName(String name);
 
-    public boolean delete(int id);
+    /**
+     * tìm tất cả Major có chính xác
+     */
+    public List<Major> findAllByNameContaining(String name);
 
-    public void delete(Major major);
+    /**
+     * tìm chính xác major
+     */
+    public Optional<Major> findByCode(String code);
 
-    public List<Major> getAll();
-
-    public Major findById(int id);
-
-    public List<Major> findApplicationsByProjectId(int projectId);
-
-    public List<Major> findApplicationsByTeamId(int teamId);
-
-    public List<Major> findApplicationsByStatus(int status);
-
-    // public List<Major> findApplicationsByDate(Date date);
-
-    public void saveApplication(Major application);
+    /**
+     * tìm tất cả major có Name chính xác
+     */
+    public List<Major> findAllByCodeStartingWith(String code);
 }

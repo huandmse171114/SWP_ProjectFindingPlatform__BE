@@ -3,36 +3,33 @@ package com.findhub.finhubbackend.service.account;
 import java.util.List;
 
 import com.findhub.finhubbackend.entity.account.Account;
+import com.findhub.finhubbackend.entity.account.AccountRole;
+import com.findhub.finhubbackend.entity.account.AccountStatus;
+import com.findhub.finhubbackend.service.service.Service;
 
-public interface AccountService {
-
-	public Account add(Account account);
-
-	public Account update(int id, Account account);
-
-	public Account update(Account oldAccount, Account newAccount);
-
-	public boolean changeStatus(int id, int status);
-
-	public boolean changeStatus(Account account, int status);
-
-	public boolean delete(int id);
-
-	public boolean delete(Account account);
-
-	public Account findById(int id);
-
+public interface AccountService extends Service<Account, AccountStatus> {
+	/**
+	 * find account by email (exact Email)
+	 */
 	public Account findByEmail(String email);
 
-	public List<Account> getAll();
+	/**
+	 * find accounts by id (approximate id)
+	 */
+	public List<Account> findAllByIdStartingWith(int id);
 
-	public List<Account> findByIdLike(int id);
+	/**
+	 * find accounts by email (approximate Email)
+	 */
+	public List<Account> findAllByEmailContaining(String email);
 
-	public List<Account> findByEmailLike(String email);
+	/**
+	 * find accounts by role
+	 */
+	public List<Account> findAllByRole(int role);
 
-	public List<Account> findByStatus(int status);
-
-	public List<Account> findByRole(int role);
-
-	public void save(Account account);
+	/**
+	 * find accounts by role
+	 */
+	public List<Account> findAllByRole(AccountRole role);
 }

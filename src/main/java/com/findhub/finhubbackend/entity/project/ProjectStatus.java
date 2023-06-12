@@ -1,9 +1,12 @@
 package com.findhub.finhubbackend.entity.project;
 
 public enum ProjectStatus {
-	APPROVE(0),
-	ONGOING(1),
-	FINISHED(2);
+	DELETED(0),
+	INACTIVE(1),
+	ACTIVE(2),
+	APPROVE(3),
+	ONGOING(4),
+	FINISHED(5);
 
 	private final int value;
 
