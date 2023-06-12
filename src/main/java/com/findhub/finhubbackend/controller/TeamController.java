@@ -14,15 +14,15 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.TEAM)
-public class TeamController extends MyController<Team, TeamService, TeamStatus> {
+public class TeamController extends ApiController<Team, TeamService, TeamStatus> {
 
     @PostMapping(ApiPath.ENABLE)
     public boolean enableEntity(@RequestBody int id) {
-        return service.changeStatus(id, TeamStatus.ACTIVE);
+        return service.updateStatus(id, TeamStatus.ACTIVE);
     }
 
     @PostMapping(ApiPath.DISABLE)
     public boolean disableEntity(@RequestBody int id) {
-        return service.changeStatus(id, TeamStatus.INACTIVE);
+        return service.updateStatus(id, TeamStatus.INACTIVE);
     }
 }

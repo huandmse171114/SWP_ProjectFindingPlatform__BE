@@ -14,19 +14,19 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.SKILL)
-public class SkillController extends MyController<Skill, SkillService, SkillStatus> {
+public class SkillController extends ApiController<Skill, SkillService, SkillStatus> {
 
     @PostMapping(ApiPath.ENABLE)
     public boolean enableEntity(@RequestBody int id) {
-        return service.changeStatus(id, SkillStatus.ACTIVE);
+        return service.updateStatus(id, SkillStatus.ACTIVE);
     }
 
     @PostMapping(ApiPath.DISABLE)
     public boolean restoreEntity(@RequestBody int id) {
-        return service.changeStatus(id, SkillStatus.INACTIVE);
+        return service.updateStatus(id, SkillStatus.INACTIVE);
     }
 
-    public boolean changeStatusEntity(@RequestBody int id, @RequestBody int status) {
-        return service.changeStatus(id, status);
+    public boolean updateStatus(@RequestBody int id, @RequestBody int status) {
+        return service.updateStatus(id, status);
     }
 }

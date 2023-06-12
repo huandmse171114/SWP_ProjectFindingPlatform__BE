@@ -14,15 +14,15 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.MEMBER)
-public class MemberController extends MyController<Member, MemberService, MemberStatus> {
+public class MemberController extends ApiController<Member, MemberService, MemberStatus> {
 
 	@PostMapping(ApiPath.ENABLE)
 	public boolean enableEntity(@RequestBody int id) {
-		return service.changeStatus(id, MemberStatus.AVAILABLE);
+		return service.updateStatus(id, MemberStatus.AVAILABLE);
 	}
 
 	@PostMapping(ApiPath.DISABLE)
 	public boolean disableEntity(@RequestBody int id) {
-		return service.changeStatus(id, MemberStatus.DELETED);
+		return service.updateStatus(id, MemberStatus.DELETED);
 	}
 }

@@ -12,7 +12,7 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.PAYMENT)
-public class PaymentController extends MyController<Payment, PaymentService, PaymentStatus> {
+public class PaymentController extends ApiController<Payment, PaymentService, PaymentStatus> {
 
     // @PostMapping(ApiPath.ENABLE)
     // public boolean enableEntity(@RequestBody int id) {
