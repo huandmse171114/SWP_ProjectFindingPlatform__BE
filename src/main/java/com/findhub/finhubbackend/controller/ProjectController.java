@@ -12,7 +12,7 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.PROJECT)
-public class ProjectController extends MyController<Project, ProjectService, ProjectStatus> {
+public class ProjectController extends ApiController<Project, ProjectService, ProjectStatus> {
 
   // @PostMapping(apiPath.ENABLE)
 	// public boolean enableEntity(@RequestBody int id) {

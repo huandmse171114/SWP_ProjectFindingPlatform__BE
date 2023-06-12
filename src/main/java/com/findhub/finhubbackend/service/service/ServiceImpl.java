@@ -33,18 +33,18 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
-    public boolean changeStatus(int id, int status) {
+    public boolean updateStatus(int id, int status) {
         Optional<E> entity = repo.findById(id);
-        return changeStatus(entity.isPresent() ? entity.get() : null, status);
+        return updateStatus(entity.isPresent() ? entity.get() : null, status);
     }
 
     @Override
-    public boolean changeStatus(int id, S status) {
-        return changeStatus(id, getValue(status));
+    public boolean updateStatus(int id, S status) {
+        return updateStatus(id, getValue(status));
     }
 
     @Override
-    public boolean changeStatus(E entity, int status) {
+    public boolean updateStatus(E entity, int status) {
         if (entity != null) {
             entity.setStatus(status);
             return true;
@@ -53,8 +53,8 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
-    public boolean changeStatus(E entity, S status) {
-        return changeStatus(entity, getValue(status));
+    public boolean updateStatus(E entity, S status) {
+        return updateStatus(entity, getValue(status));
     }
 
     @Override

@@ -15,19 +15,19 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @CrossOrigin
 @RequestMapping(path = ApiPath.DELIVERABLE_TYPE)
 public class DeliverableTypeController
-        extends MyController<DeliverableType, DeliverableTypeService, DeliverableTypeStatus> {
+        extends ApiController<DeliverableType, DeliverableTypeService, DeliverableTypeStatus> {
 
     @PostMapping(ApiPath.ENABLE)
     public boolean enableEntity(@RequestBody int id) {
-        return service.changeStatus(id, DeliverableTypeStatus.ACTIVE);
+        return service.updateStatus(id, DeliverableTypeStatus.ACTIVE);
     }
 
     @PostMapping(ApiPath.DISABLE)
     public boolean disableEntity(@RequestBody int id) {
-        return service.changeStatus(id, DeliverableTypeStatus.INACTIVE);
+        return service.updateStatus(id, DeliverableTypeStatus.INACTIVE);
     }
 
-    public boolean changeStatusEntity(@RequestBody int id, @RequestBody int status) {
-        return service.changeStatus(id, status);
+    public boolean updateStatus(@RequestBody int id, @RequestBody int status) {
+        return service.updateStatus(id, status);
     }
 }

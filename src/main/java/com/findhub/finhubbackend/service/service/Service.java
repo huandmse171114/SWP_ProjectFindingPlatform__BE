@@ -21,22 +21,22 @@ public interface Service<T, E> {
     /**
      * set new status of T
      */
-    public boolean changeStatus(int id, int status);
+    public boolean updateStatus(int id, int status);
 
     /**
      * set new status of T
      */
-    public boolean changeStatus(int id, E status);
+    public boolean updateStatus(int id, E status);
 
     /**
      * set new status of T
      */
-    public boolean changeStatus(T entity, int status);
+    public boolean updateStatus(T entity, int status);
 
     /**
      * set new status of T
      */
-    public boolean changeStatus(T entity, E status);
+    public boolean updateStatus(T entity, E status);
 
     /**
      * delete existed T from DB
