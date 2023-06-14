@@ -25,8 +25,4 @@ public class ApplicationController extends ApiController<Application, Applicatio
 	public boolean disableEntity(@RequestBody int id) {
 		return service.updateStatus(id, ApplicationStatus.DELETED);
 	}
-
-	public boolean updateStatus(@RequestBody int id, @RequestBody int status) {
-		return service.updateStatus(id, status);
-	}
 }

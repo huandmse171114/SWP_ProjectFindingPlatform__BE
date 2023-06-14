@@ -14,16 +14,19 @@ import com.findhub.finhubbackend.entity.entity.MyEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "Categories", uniqueConstraints = @UniqueConstraint(columnNames = "Name"))
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category extends MyEntity{
+public class Category extends MyEntity {
     @Id
     @Column(name = "Id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +37,6 @@ public class Category extends MyEntity{
     private String name;
 
     @Column(name = "Status", nullable = false)
-    private int status;
+    @Default
+    private int status = CategoryStatus.ACTIVE.getValue();
 }

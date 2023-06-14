@@ -15,11 +15,14 @@ import com.findhub.finhubbackend.entity.entity.MyEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "Payment")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,18 +41,19 @@ public class Payment extends MyEntity {
     private int teamId;
 
     @Column(name = "Amount", nullable = false)
-    @Builder.Default
+    @Default
     private float amount = 0;
 
     @Column(name = "CreateAt", nullable = false)
-    @Builder.Default
+    @Default
     private Date createAt = new Date(System.currentTimeMillis());
 
     @Column(name = "Description", nullable = false)
     @Nationalized
-    @Builder.Default
+    @Default
     private String description = "";
 
     @Column(name = "Status", nullable = false)
-    private int status;
+    @Default
+    private int status = PaymentStatus.PENDING.getValue();
 }

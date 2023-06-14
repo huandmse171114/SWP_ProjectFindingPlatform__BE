@@ -7,19 +7,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface Repo<T> extends JpaRepository<T, Integer> {
+public interface Repo<E> extends JpaRepository<E, Integer> {
     /**
-     * tìm chính xác T
+     * tìm chính xác E
      */
-    Optional<T> findById(int id);
+    Optional<E> findById(int id);
 
     /**
-     * tìm tất cả T có id gần đúng
+     * tìm tất cả E có id gần đúng
      */
-    List<T> findAllByIdContaining(int id);
+    List<E> findAllByIdContaining(int id);
 
     /**
-     * tìm tất cả T với status
+     * tìm tất cả E với status
      */
-    List<T> findAllByStatus(int status);
+    List<E> findAllByStatus(int status);
 }

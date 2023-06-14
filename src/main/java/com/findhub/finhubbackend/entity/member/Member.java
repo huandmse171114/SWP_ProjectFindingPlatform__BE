@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Nationalized;
-import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.data.annotation.Transient;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 
@@ -17,10 +17,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "Member", uniqueConstraints = @UniqueConstraint(columnNames = "Email"))
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,12 +44,18 @@ public class Member extends MyEntity {
 	private String phone;
 
 	@Column(name = "Balance", nullable = false)
-	@Builder.Default
+	@Default
 	private float balance = 0;
 
 	@Column(name = "Status", nullable = false)
-	private int status;
+	@Default
+	private int status = MemberStatus.AVAILABLE.getValue();
 
 	@Column(name = "MajorCode", nullable = true)
 	private String majorCode;
+
+	@Transient
+	public String getMajorName() {
+		return null;
+	}
 }

@@ -2,21 +2,21 @@ package com.findhub.finhubbackend.service.service;
 
 import java.util.List;
 
-public interface Service<T, E> {
+public interface Service<E, S> {
     /**
      * add new T to DB
      */
-    public T add(T entity);
+    public E add(E entity);
 
     /**
      * update T
      */
-    public T update(int id, T entity);
+    public E update(int id, E entity);
 
     /**
      * update T
      */
-    public T update(T oldT, T newT);
+    public E update(E oldT, E newT);
 
     /**
      * set new status of T
@@ -26,17 +26,17 @@ public interface Service<T, E> {
     /**
      * set new status of T
      */
-    public boolean updateStatus(int id, E status);
+    public boolean updateStatus(int id, S status);
 
     /**
      * set new status of T
      */
-    public boolean updateStatus(T entity, int status);
+    public boolean updateStatus(E entity, int status);
 
     /**
      * set new status of T
      */
-    public boolean updateStatus(T entity, E status);
+    public boolean updateStatus(E entity, S status);
 
     /**
      * delete existed T from DB
@@ -46,35 +46,35 @@ public interface Service<T, E> {
     /**
      * delete existed T from DB
      */
-    public boolean delete(T entity);
+    public boolean delete(E entity);
 
     /**
      * find T by id (exact id)
      */
-    public T findById(int id);
+    public E findById(int id);
 
     /**
      * get all Ts in DB
      */
-    public List<T> getAll();
+    public List<E> getAll();
 
     /**
      * tìm tất cả T có id gần đúng
      */
-    public List<T> findAllByIdStartingWith(int id);
+    public List<E> findAllByIdStartingWith(int id);
 
     /**
      * tìm tất cả T với status
      */
-    public List<T> findAllByStatus(int status);
+    public List<E> findAllByStatus(int status);
 
     /**
      * tìm tất cả T với status
      */
-    public List<T> findAllByStatus(E status);
+    public List<E> findAllByStatus(S status);
 
     /**
      * save T
      */
-    public void save(T entity);
+    public E save(E entity);
 }

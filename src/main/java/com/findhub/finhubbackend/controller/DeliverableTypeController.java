@@ -26,8 +26,4 @@ public class DeliverableTypeController
     public boolean disableEntity(@RequestBody int id) {
         return service.updateStatus(id, DeliverableTypeStatus.INACTIVE);
     }
-
-    public boolean updateStatus(@RequestBody int id, @RequestBody int status) {
-        return service.updateStatus(id, status);
-    }
 }

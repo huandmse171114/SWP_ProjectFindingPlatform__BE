@@ -3,7 +3,6 @@ package com.findhub.finhubbackend.service.application;
 import java.sql.Date;
 import java.util.List;
 
-import com.findhub.finhubbackend.entity.account.AccountStatus;
 import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.application.ApplicationStatus;
 import com.findhub.finhubbackend.service.service.Service;

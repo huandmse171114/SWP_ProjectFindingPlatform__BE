@@ -12,11 +12,14 @@ import com.findhub.finhubbackend.entity.entity.MyEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "Account", uniqueConstraints = @UniqueConstraint(columnNames = "Email"))
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,9 +38,11 @@ public class Account extends MyEntity {
 	private String password;
 
 	@Column(name = "Status", nullable = false)
-	private int status;
+	@Default
+	private int status = AccountStatus.ACTIVE.getValue();
 
 	@Column(name = "Role", nullable = false)
-	private int role;
+	@Default
+	private int role = AccountRole.MEMBER.getValue();
 
 }

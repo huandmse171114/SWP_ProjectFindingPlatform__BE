@@ -15,11 +15,14 @@ import com.findhub.finhubbackend.entity.entity.MyEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "Project")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -55,6 +58,7 @@ public class Project extends MyEntity {
 	private Date publishDate;
 
 	@Column(name = "Status", nullable = false)
-	private int status;
+	@Default
+	private int status = ProjectStatus.ACTIVE.getValue();
 
 }

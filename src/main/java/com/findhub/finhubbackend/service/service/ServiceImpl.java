@@ -101,8 +101,8 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
-    public void save(E entity) {
-        repo.save(entity);
+    public E save(E entity) {
+        return repo.save(entity);
     }
 
     @Override

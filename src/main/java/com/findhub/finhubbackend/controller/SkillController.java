@@ -25,8 +25,4 @@ public class SkillController extends ApiController<Skill, SkillService, SkillSta
     public boolean restoreEntity(@RequestBody int id) {
         return service.updateStatus(id, SkillStatus.INACTIVE);
     }
-
-    public boolean updateStatus(@RequestBody int id, @RequestBody int status) {
-        return service.updateStatus(id, status);
-    }
 }

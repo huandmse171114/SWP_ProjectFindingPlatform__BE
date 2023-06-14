@@ -14,11 +14,14 @@ import com.findhub.finhubbackend.entity.entity.MyEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "DeliverableType", uniqueConstraints = @UniqueConstraint(columnNames = "Name"))
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,5 +37,6 @@ public class DeliverableType extends MyEntity {
     private String name;
 
     @Column(name = "Status", nullable = false)
-    private int status;
+    @Default
+    private int status = DeliverableTypeStatus.ACTIVE.getValue();
 }
