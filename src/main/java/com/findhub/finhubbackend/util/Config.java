@@ -17,14 +17,14 @@ public class Config {
         public static final String PAYMENT = API + "/payments";
         public static final String DELIVERABLE_TYPE = API + "/deliverable-type";
 
+        public static final String ID = "/{" + Var.ID + "}";
         public static final String ALL = "/all";
         public static final String ADD = "/add";
         public static final String DELETE = "/delete";
         public static final String ENABLE = "/enable";
         public static final String DISABLE = "/disable";
-        public static final String UPDATE = "/update/" + Var.ID + "={" + Var.ID + "}";
-        public static final String CHANGE_STATUS = "/change-status/" + Var.ID + "={" + Var.ID + "}";
-        public static final String ID = "/{" + Var.ID + "}";
+        public static final String UPDATE = "/update" + ID;
+        public static final String CHANGE_STATUS = "/status" + ID;
 
     }
 
