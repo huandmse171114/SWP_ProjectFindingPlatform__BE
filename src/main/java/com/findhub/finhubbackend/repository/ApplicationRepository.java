@@ -11,6 +11,7 @@ import com.findhub.finhubbackend.entity.application.Application;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Integer>, Repo<Application> {
+
     /**
      * tìm tất cả category có ProjectId chính xác
      */
@@ -50,4 +51,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
      * tìm tất cả category từ date tới date
      */
     List<Application> findAllByCreateAtBetween(Date startDate, Date endDate);
+
+    boolean existsByTeamId(String teamId);
+
+    boolean existsByTeamIdAndProjectId(int teamId, int projectId);
+
 }

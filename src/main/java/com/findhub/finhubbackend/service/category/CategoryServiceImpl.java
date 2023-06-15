@@ -24,4 +24,9 @@ public class CategoryServiceImpl extends ServiceImpl<Category, CategoryRepositor
         return repo.findByName(name);
     }
 
+    @Override
+    public boolean existsByName(String name) {
+        return repo.existsByName(name);
+    }
+
 }

@@ -58,4 +58,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>, Repo
      */
     List<Payment> findAllByCreateAtBetween(Date startDate, Date endDate);
 
+    boolean existsByTeamIdAndProjectId(int teamId, int projectId);
+
 }

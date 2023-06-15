@@ -42,4 +42,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, Repo
     List<Project> findAllByPublishDateAfter(Date publishDate);
 
     List<Project> findAllByPublishDateBefore(Date publishDate);
+
+    boolean existsByTeamIdAndId(int teamId, int projectId);
+
 }

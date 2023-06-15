@@ -1,5 +1,8 @@
 package com.findhub.finhubbackend.entity.project;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum ProjectStatus {
 	DELETED(0),
 	INACTIVE(1),
@@ -9,6 +12,13 @@ public enum ProjectStatus {
 	FINISHED(5);
 
 	private final int value;
+	private static final Map<Integer, String> NAMES = new HashMap<>();
+
+	static {
+		for (ProjectStatus ps : values())
+			NAMES.put(ps.getValue(), ps.name());
+
+	}
 
 	private ProjectStatus(int value) {
 		this.value = value;
@@ -16,5 +26,9 @@ public enum ProjectStatus {
 
 	public int getValue() {
 		return this.value;
+	}
+
+	public static String nameOf(int val) {
+		return NAMES.get(val);
 	}
 }

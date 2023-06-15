@@ -15,6 +15,11 @@ public class PaymentServiceImpl extends ServiceImpl<Payment, PaymentRepository, 
         implements PaymentService {
 
     @Override
+    public boolean existsByTeamIdAndProjectId(int teamId, int projectId) {
+        return repo.existsByTeamIdAndProjectId(teamId, projectId);
+    }
+
+    @Override
     public List<Payment> findAllByAmount(float amount) {
         return repo.findAllByAmount(amount);
     }

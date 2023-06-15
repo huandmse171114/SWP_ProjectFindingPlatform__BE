@@ -1,5 +1,7 @@
 package com.findhub.finhubbackend.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.application.ApplicationStatus;
+import com.findhub.finhubbackend.model.ApplicationCreateModel;
 import com.findhub.finhubbackend.service.application.ApplicationService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 
@@ -16,13 +19,37 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.APPLICATION)
 public class ApplicationController extends ApiController<Application, ApplicationService, ApplicationStatus> {
 
-	@PostMapping(ApiPath.ENABLE)
-	public boolean enableEntity(@RequestBody int id) {
-		return service.updateStatus(id, ApplicationStatus.PENDING);
+	// @PostMapping(ApiPath.ENABLE)
+	// public boolean enableEntity(@RequestBody int id) {
+	// return service.updateStatus(id, ApplicationStatus.PENDING);
+	// }
+
+	// @PostMapping(ApiPath.DISABLE)
+	// public boolean disableEntity(@RequestBody int id) {
+	// return service.updateStatus(id, ApplicationStatus.DELETED);
+	// }
+
+	@PostMapping("/")
+	public ResponseEntity<String> add(@RequestBody ApplicationCreateModel model) {
+		int teamId = model.getTeamId();
+		int projectId = model.getProjectId();
+
+		if (service.existsByTeamIdAndProjectId(teamId, projectId))
+			return new ResponseEntity<String>(
+					"Failed to add "
+							+ "Application[team=" + teamId + "; project=" + projectId + "]: "
+							+ "already existed",
+					HttpStatus.FOUND);
+
+		Application application = Application.builder()
+				.teamId(teamId)
+				.projectId(projectId)
+				.build();
+
+		service.save(application);
+		return new ResponseEntity<String>(
+				"Added new Application[teamId=" + teamId + "; projectId=" + projectId + "] successfully",
+				HttpStatus.OK);
 	}
 
-	@PostMapping(ApiPath.DISABLE)
-	public boolean disableEntity(@RequestBody int id) {
-		return service.updateStatus(id, ApplicationStatus.DELETED);
-	}
 }

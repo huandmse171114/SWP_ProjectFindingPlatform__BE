@@ -56,4 +56,6 @@ public interface PaymentService extends Service<Payment, PaymentStatus> {
      */
     public List<Payment> findAllByCreateAtBetween(Date startDate, Date endDate);
 
+    public boolean existsByTeamIdAndProjectId(int teamId, int projectId);
+
 }

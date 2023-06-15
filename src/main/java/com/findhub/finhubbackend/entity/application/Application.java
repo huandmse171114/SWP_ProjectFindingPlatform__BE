@@ -39,7 +39,8 @@ public class Application extends MyEntity {
 	private int teamId;
 
 	@Column(name = "CreateAt", nullable = false)
-	private Date createAt;
+	@Default
+	private Date createAt = new Date(System.currentTimeMillis());
 
 	@Column(name = "Status", nullable = false)
 	@Default

@@ -1,17 +1,22 @@
 package com.findhub.finhubbackend.entity.project;
 
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
+import com.findhub.finhubbackend.entity.skill.Skill;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,6 +49,10 @@ public class Project extends MyEntity {
 	@Nationalized
 	@Column(name = "Description", nullable = true)
 	private String description;
+
+	@ManyToMany
+	@JoinTable(name = "ProjectSkillRequire", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "SkillId"))
+	private Set<Skill> skillSet;
 
 	@Column(name = "Wage", nullable = true)
 	private float wage;

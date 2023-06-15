@@ -25,4 +25,9 @@ public class DeliverableTypeServiceImpl
         return repo.findByName(name);
     }
 
+    @Override
+    public boolean existsByName(String name) {
+        return repo.existsByName(name);
+    }
+
 }

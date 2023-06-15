@@ -60,4 +60,14 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 		}
 		return repo.findAllByCreateAtBetween(fromDate, toDate);
 	}
+
+	@Override
+	public boolean existsByTeamIdAndProjectId(int teamId, int projectId) {
+		return repo.existsByTeamIdAndProjectId(teamId, projectId);
+	}
+
+	@Override
+	public boolean existsByTeamId(String teamId) {
+		return repo.existsByTeamId(teamId);
+	}
 }

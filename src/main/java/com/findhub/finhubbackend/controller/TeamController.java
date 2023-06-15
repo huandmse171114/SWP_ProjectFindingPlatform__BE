@@ -1,8 +1,8 @@
 package com.findhub.finhubbackend.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,13 +16,13 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.TEAM)
 public class TeamController extends ApiController<Team, TeamService, TeamStatus> {
 
-    @PostMapping(ApiPath.ENABLE)
-    public boolean enableEntity(@RequestBody int id) {
-        return service.updateStatus(id, TeamStatus.ACTIVE);
-    }
+    // @PostMapping(ApiPath.ENABLE)
+    // public boolean enableEntity(@RequestBody int id) {
+    //     return service.updateStatus(id, TeamStatus.ACTIVE);
+    // }
 
-    @PostMapping(ApiPath.DISABLE)
-    public boolean disableEntity(@RequestBody int id) {
-        return service.updateStatus(id, TeamStatus.INACTIVE);
-    }
+    // @PostMapping(ApiPath.DISABLE)
+    // public boolean disableEntity(@RequestBody int id) {
+    //     return service.updateStatus(id, TeamStatus.INACTIVE);
+    // }
 }

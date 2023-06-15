@@ -38,5 +38,5 @@ public interface MemberRepository extends JpaRepository<Member, Integer>, Repo<M
 
     List<Member> findAllByStatus(int status);
 
-    public Boolean existsByEmail(String email);
+    boolean existsByEmail(String email);
 }

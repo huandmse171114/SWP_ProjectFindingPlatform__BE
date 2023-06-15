@@ -30,4 +30,8 @@ public interface MajorRepository extends JpaRepository<Major, Integer>, Repo<Maj
      */
     List<Major> findAllByCodeStartingWith(String code);
 
+    boolean existsByName(String name);
+
+    boolean existsByCode(String code);
+
 }

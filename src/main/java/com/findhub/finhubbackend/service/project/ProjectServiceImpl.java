@@ -85,4 +85,9 @@ public class ProjectServiceImpl extends ServiceImpl<Project, ProjectRepository, 
 		return repo.findByType(type);
 	}
 
+	@Override
+	public boolean existsByTeamIdAndProjectId(int teamId, int projectId) {
+		return repo.existsByTeamIdAndId(teamId, projectId);
+	}
+
 }

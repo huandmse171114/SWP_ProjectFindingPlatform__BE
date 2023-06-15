@@ -19,4 +19,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>, Re
      * tìm tất cả Category có chính xác
      */
     List<Category> findAllByNameContaining(String name);
+
+    boolean existsByName(String name);
+
 }

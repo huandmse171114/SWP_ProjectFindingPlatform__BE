@@ -41,4 +41,7 @@ public interface ProjectService extends Service<Project, ProjectStatus> {
     public List<Project> findAllByPublishDateAfter(Date publishDate);
 
     public List<Project> findAllByPublishDateBefore(Date publishDate);
+
+    public boolean existsByTeamIdAndProjectId(int teamId, int projectId);
+
 }

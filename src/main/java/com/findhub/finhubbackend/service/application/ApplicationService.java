@@ -8,6 +8,9 @@ import com.findhub.finhubbackend.entity.application.ApplicationStatus;
 import com.findhub.finhubbackend.service.service.Service;
 
 public interface ApplicationService extends Service<Application, ApplicationStatus> {
+
+    public boolean existsByTeamIdAndProjectId(int teamId, int projectId);
+
     /**
      * tìm tất cả application có ProjectId chính xác
      */
@@ -47,4 +50,7 @@ public interface ApplicationService extends Service<Application, ApplicationStat
      * tìm tất cả application từ date tới date
      */
     public List<Application> findAllByDateBetween(Date startDate, Date endDate);
+
+    public boolean existsByTeamId(String teamId);
+
 }
