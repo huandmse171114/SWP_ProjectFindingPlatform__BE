@@ -21,12 +21,12 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 
 	@Override
 	public List<Application> findAllByDateAfter(Date date) {
-		return repo.findAllByCreateAtAfter(date);
+		return repo.findAllByCreateDateAfter(date);
 	}
 
 	@Override
 	public List<Application> findAllByDateBefore(Date date) {
-		return repo.findAllByCreateAtBefore(date);
+		return repo.findAllByCreateDateBefore(date);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 
 	@Override
 	public List<Application> findAllByDate(Date date) {
-		return repo.findAllByCreateAt(date);
+		return repo.findAllByCreateDate(date);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 			fromDate = toDate;
 			toDate = tempDate;
 		}
-		return repo.findAllByCreateAtBetween(fromDate, toDate);
+		return repo.findAllByCreateDateBetween(fromDate, toDate);
 	}
 
 	@Override

@@ -1,14 +1,14 @@
 package com.findhub.finhubbackend.entity.entity;
 
-public enum MyEntityStatus {
-    DELETED(0),
-    INACTIVE(1),
-    ACTIVE(2),
+public enum Status {
+    INACTIVE(0),
+    ACTIVE(1),
+    DELETED(99),
     ;
 
     protected final int value;
 
-    private MyEntityStatus(int value) {
+    private Status(int value) {
         this.value = value;
     }
 

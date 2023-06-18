@@ -37,7 +37,7 @@ public class Member extends MyEntity {
 	private String email;
 
 	@Nationalized
-	@Column(name = "Fullname", nullable = true)
+	@Column(name = "Name", nullable = true)
 	private String name;
 
 	@Column(name = "Phone", nullable = true)
@@ -51,11 +51,11 @@ public class Member extends MyEntity {
 	@Default
 	private int status = MemberStatus.AVAILABLE.getValue();
 
-	@Column(name = "MajorCode", nullable = true)
-	private String majorCode;
+	@Column(name = "MajorId", nullable = true)
+	private int majorId;
 
-	@Transient
-	public String getMajorName() {
-		return null;
-	}
+	// @Transient
+	// public String getMajorName() {
+	// return null;
+	// }
 }

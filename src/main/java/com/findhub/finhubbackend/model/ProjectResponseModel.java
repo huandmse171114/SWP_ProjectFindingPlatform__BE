@@ -21,6 +21,7 @@ public class ProjectResponseModel {
     private int deliverDays;
     private float wage;
     private Date dueDate;
-    private String category;
+    private Map<Integer, String> categories;
+    private Map<Integer, String> delivarableTypes;
     private String status;
 }

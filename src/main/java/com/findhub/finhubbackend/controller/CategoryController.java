@@ -29,7 +29,7 @@ public class CategoryController extends ApiController<Category, CategoryService,
     // }
 
     @PostMapping("/")
-    public ResponseEntity<String> add(@RequestBody String name) {
+    public ResponseEntity<?> add(@RequestBody String name) {
         if (service.existsByName(name))
             return new ResponseEntity<>("Category[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 

@@ -12,9 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Nationalized;
 
+import com.findhub.finhubbackend.entity.category.Category;
+import com.findhub.finhubbackend.entity.deliverableType.DeliverableType;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.skill.Skill;
 
@@ -28,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "Project")
+@Table(name = "Project", uniqueConstraints = @UniqueConstraint(columnNames = { "Name", "ImageURL" }))
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -39,12 +42,19 @@ public class Project extends MyEntity {
 	private int id;
 
 	@Nationalized
-	@Column(name = "Title", nullable = false)
-	private String title;
+	@Column(name = "Name", nullable = false)
+	private String name;
 
-	@Nationalized
-	@Column(name = "Type", nullable = true)
-	private String type;
+	@Column(name = "PublisherId", nullable = false)
+	private int publisherId;
+
+	// @Nationalized
+	// @Column(name = "DeliverableType", nullable = true)
+	// private String DeliverableTypeId;
+
+	// @JoinTable(name = "ProjectDeliverable", joinColumns = @JoinColumn(name =
+	// "ProjectId"), inverseJoinColumns = @JoinColumn(name = "DeliverableTypeId"))
+	// private Set<DeliverableType> deliverableTypeSet;
 
 	@Nationalized
 	@Column(name = "Description", nullable = true)
@@ -53,6 +63,10 @@ public class Project extends MyEntity {
 	@ManyToMany
 	@JoinTable(name = "ProjectSkillRequire", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "SkillId"))
 	private Set<Skill> skillSet;
+
+	@ManyToMany
+	@JoinTable(name = "ProjectCategoryDetail", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "CategoryId"))
+	private Set<Category> categorySet;
 
 	@Column(name = "Wage", nullable = true)
 	private float wage;
@@ -63,11 +77,11 @@ public class Project extends MyEntity {
 	@Column(name = "DeliverDays", nullable = false)
 	private int deliverDays;
 
-	@Column(name = "PublisherDate", nullable = false)
+	@Column(name = "PublishDate", nullable = false)
 	private Date publishDate;
 
-	@Column(name = "Status", nullable = false)
 	@Default
+	@Column(name = "Status", nullable = false)
 	private int status = ProjectStatus.ACTIVE.getValue();
 
 }

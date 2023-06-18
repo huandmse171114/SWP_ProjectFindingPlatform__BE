@@ -14,7 +14,6 @@ import com.findhub.finhubbackend.entity.payment.PaymentStatus;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.team.Team;
 import com.findhub.finhubbackend.model.PaymentCreateModel;
-import com.findhub.finhubbackend.service.account.AccountService;
 import com.findhub.finhubbackend.service.payment.PaymentService;
 import com.findhub.finhubbackend.service.project.ProjectService;
 import com.findhub.finhubbackend.service.team.TeamService;
@@ -27,8 +26,8 @@ public class PaymentController extends ApiController<Payment, PaymentService, Pa
 
     @Autowired
     private ProjectService projectService;
-    @Autowired
-    private AccountService accountService;
+    // @Autowired
+    // private AccountService accountService;
 
     @Autowired
     private TeamService teamService;
@@ -62,11 +61,11 @@ public class PaymentController extends ApiController<Payment, PaymentService, Pa
                             + " Team[id=" + teamId + "] not existed",
                     HttpStatus.BAD_REQUEST);
 
-        if (!projectService.existsByTeamIdAndProjectId(teamId, projectId))
-            return new ResponseEntity<String>(
-                    "Failed to create Payment"
-                            + "Project[id=" + projectId + "] does not have Team[id=" + teamId + "]",
-                    HttpStatus.BAD_REQUEST);
+        // if (!projectService.existsByTeamIdAndProjectId(teamId, projectId))
+        // return new ResponseEntity<String>(
+        // "Failed to create Payment"
+        // + "Project[id=" + projectId + "] does not have Team[id=" + teamId + "]",
+        // HttpStatus.BAD_REQUEST);
 
         Payment payment = Payment.builder()
                 .projectId(projectId)

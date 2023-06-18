@@ -38,9 +38,9 @@ public class Application extends MyEntity {
 	@Column(name = "TeamId", nullable = false)
 	private int teamId;
 
-	@Column(name = "CreateAt", nullable = false)
+	@Column(name = "CreateDate", nullable = false)
 	@Default
-	private Date createAt = new Date(System.currentTimeMillis());
+	private Date createDate = new Date(System.currentTimeMillis());
 
 	@Column(name = "Status", nullable = false)
 	@Default

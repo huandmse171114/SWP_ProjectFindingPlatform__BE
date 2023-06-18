@@ -13,6 +13,8 @@ public interface Repo<E> extends JpaRepository<E, Integer> {
      */
     Optional<E> findById(int id);
 
+    List<E> findAllById(int id);
+
     /**
      * tìm tất cả E có id gần đúng
      */

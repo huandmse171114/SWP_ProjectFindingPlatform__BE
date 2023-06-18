@@ -10,13 +10,13 @@ import com.findhub.finhubbackend.service.service.Service;
 
 public interface ProjectService extends Service<Project, ProjectStatus> {
 
-    public Optional<Project> findByTitle(String title);
+    public Optional<Project> findByName(String name);
 
-    public List<Project> findAllByTitleContaining(String title);
+    public List<Project> findAllByNameContaining(String name);
 
-    public Optional<Project> findByType(String type);
+    // public Optional<Project> findByDeliverableTypeId(int id);
 
-    public List<Project> findAllByTypeContaining(String type);
+    // public List<Project> findAllByDeliverableTypeId(int id);
 
     // description: không làm
 
@@ -42,6 +42,6 @@ public interface ProjectService extends Service<Project, ProjectStatus> {
 
     public List<Project> findAllByPublishDateBefore(Date publishDate);
 
-    public boolean existsByTeamIdAndProjectId(int teamId, int projectId);
+    // public boolean existsByTeamIdAndProjectId(int teamId, int projectId);
 
 }

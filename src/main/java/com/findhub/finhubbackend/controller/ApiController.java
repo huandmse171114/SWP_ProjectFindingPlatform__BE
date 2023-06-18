@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
+import com.findhub.finhubbackend.entity.entity.Status;
 import com.findhub.finhubbackend.service.service.Service;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.Var;
@@ -19,18 +20,31 @@ import com.findhub.finhubbackend.util.Config.Var;
 @SuppressWarnings("null")
 public class ApiController<E, T extends Service<E, S>, S> {
 
-    // private E x;
-    // private String classSimpleName = x.getClass().getSimpleName();
-    // private String className = x.getClass().getName();
-    // private Class eService = Class.forName(className + "Service");
-    // private Class eStatus = Class.forName(className + "Status");
+    // private E e;
+    // private String eName = e.getClass().getSimpleName();
+    // private String ePath = "com.findhub.finhubbackend.";
+    // private Class eService = Class.forName(ePath + "service." + eName + "." +
+    // eName + "Service");
+    // private Class eStatus = Class.forName(e.getClass().getName() + "Status");
+    // private Class eCreateModel = Class.forName(ePath + "model" + eName + "." +
+    // eName + "CreateModel");
+    // private Class eResponseModel = Class.forName(ePath + "model" + eName + "." +
+    // eName + "ResponseModel");
 
     @Autowired
     protected T service;
 
+    public boolean doGetEntities() {
+        return false;
+    }
+
     @GetMapping(ApiPath.ALL)
     public List<E> getEntities() {
         return service.getAll();
+    }
+
+    public boolean doGet() {
+        return false;
     }
 
     @GetMapping(ApiPath.ID)
@@ -38,8 +52,16 @@ public class ApiController<E, T extends Service<E, S>, S> {
         return service.findById(id);
     }
 
-    // @PostMapping(ApiPath.ADD)
-    public ResponseEntity<String> add(@RequestBody E entity) {
+    public boolean doAdd() {
+        return false;
+    }
+
+    // @PostMapping("/")
+    // @SuppressWarnings("unchecked")
+    public ResponseEntity<?> add(@RequestBody E entity) {
+
+        // if (entity instanceof E) {
+        // }
 
         if (entity == null)
             return new ResponseEntity<>(
@@ -53,7 +75,10 @@ public class ApiController<E, T extends Service<E, S>, S> {
     }
 
     @PutMapping(ApiPath.ID)
-    public ResponseEntity<String> update(@PathVariable(Var.ID) int id, @RequestBody E entity) {
+    // @SuppressWarnings("unchecked")
+    public ResponseEntity<?> update(@PathVariable(Var.ID) int id, @RequestBody E entity) {
+        // if(entity instanceof E){}
+        // E x = (E) entity;
 
         if (service.findById(id) == null)
             return new ResponseEntity<>(
@@ -70,14 +95,18 @@ public class ApiController<E, T extends Service<E, S>, S> {
                             + ": update content is NULL",
                     HttpStatus.BAD_REQUEST);
 
-        service.update(id, entity);
-        return new ResponseEntity<>(
-                "Updated " + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
-                HttpStatus.OK);
+        E updateE = service.update(id, entity);
+        return (updateE != null)
+                ? new ResponseEntity<>(
+                        "Updated " + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
+                        HttpStatus.OK)
+                : new ResponseEntity<>(
+                        "Failed to update " + entity.getClass().getSimpleName() + "[id=" + id + "]",
+                        HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping(ApiPath.CHANGE_STATUS)
-    public ResponseEntity<String> updateStatus(@PathVariable(Var.ID) int id, @RequestBody int status) {
+    public ResponseEntity<?> updateStatus(@PathVariable(Var.ID) int id, @RequestBody int status) {
 
         E entity = service.findById(id);
 
@@ -90,13 +119,16 @@ public class ApiController<E, T extends Service<E, S>, S> {
                             + entity.getClass().getSimpleName() + "[id=" + id + "] not found",
                     HttpStatus.NOT_FOUND);
 
-        service.updateStatus(id, status);
-        return new ResponseEntity<>(
-                "Updated"
-                        + entity.getClass().getSimpleName()
-                        + "[status=" + ((MyEntity) entity).getStatus() + "] to "
-                        + entity.getClass().getSimpleName() + "[status=" + status + "] successfully",
-                HttpStatus.OK);
+        return (service.updateStatus(id, status))
+                ? new ResponseEntity<>(
+                        "Updated"
+                                + entity.getClass().getSimpleName()
+                                + "[status=" + ((MyEntity) entity).getStatus() + "] to "
+                                + entity.getClass().getSimpleName() + "[status=" + status + "] successfully",
+                        HttpStatus.OK)
+                : new ResponseEntity<>(
+                        "Failed to update " + entity.getClass().getSimpleName() + "[id=" + id + "]",
+                        HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/")
@@ -111,10 +143,34 @@ public class ApiController<E, T extends Service<E, S>, S> {
                             + entity.getClass().getSimpleName() + "[id=" + id + "] not found",
                     HttpStatus.NOT_FOUND);
 
-        service.delete(entity);
-        return new ResponseEntity<>(
-                "Deleted " + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
-                HttpStatus.OK);
+        return (service.delete(entity))
+                ? new ResponseEntity<>(
+                        "Deleted " + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
+                        HttpStatus.OK)
+                : new ResponseEntity<>(
+                        "Failed to delete " + entity.getClass().getSimpleName() + "[id=" + id + "]",
+                        HttpStatus.BAD_REQUEST);
     }
 
+    public ResponseEntity<?> enable(@RequestBody int id) {
+        E entity = service.findById(id);
+        return (service.updateStatus(id, Status.ACTIVE))
+                ? new ResponseEntity<>(
+                        "Enable " + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
+                        HttpStatus.OK)
+                : new ResponseEntity<>(
+                        "Failed to enable " + entity.getClass().getSimpleName() + "[id=" + id + "]",
+                        HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<?> disable(@RequestBody int id) {
+        E entity = service.findById(id);
+        return (service.updateStatus(id, Status.INACTIVE))
+                ? new ResponseEntity<>(
+                        "Disable" + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
+                        HttpStatus.OK)
+                : new ResponseEntity<>(
+                        "Failed to disable" + entity.getClass().getSimpleName() + "[id=" + id + "]",
+                        HttpStatus.BAD_REQUEST);
+    }
 }

@@ -4,19 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ProjectStatus {
-	DELETED(0),
-	INACTIVE(1),
-	ACTIVE(2),
-	APPROVE(3),
-	ONGOING(4),
-	FINISHED(5);
+	INACTIVE(0),
+	ACTIVE(1),
+	DELETED(99),
+
+	APPROVED(2),
+	ONGOING(3),
+	FINISHED(4),
+	;
 
 	private final int value;
-	private static final Map<Integer, String> NAMES = new HashMap<>();
+	private static final Map<Integer, String> status = new HashMap<>();
 
 	static {
-		for (ProjectStatus ps : values())
-			NAMES.put(ps.getValue(), ps.name());
+		// only java 10+
+		for (var ps : values())
+			status.put(ps.getValue(), ps.name());
 
 	}
 
@@ -29,6 +32,6 @@ public enum ProjectStatus {
 	}
 
 	public static String nameOf(int val) {
-		return NAMES.get(val);
+		return status.get(val);
 	}
 }

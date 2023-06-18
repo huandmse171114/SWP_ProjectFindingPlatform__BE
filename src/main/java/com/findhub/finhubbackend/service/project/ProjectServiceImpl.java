@@ -46,14 +46,14 @@ public class ProjectServiceImpl extends ServiceImpl<Project, ProjectRepository, 
 	}
 
 	@Override
-	public List<Project> findAllByTitleContaining(String title) {
-		return repo.findAllByTitleContaining(title);
+	public List<Project> findAllByNameContaining(String title) {
+		return repo.findAllByNameContaining(title);
 	}
 
-	@Override
-	public List<Project> findAllByTypeContaining(String type) {
-		return repo.findAllByTypeContaining(type);
-	}
+	// @Override
+	// public List<Project> findAllByDeliverableTypeId(int id) {
+	// return repo.findAllByDeliverableTypeId(id);
+	// }
 
 	@Override
 	public List<Project> findAllByWage(float wage) {
@@ -76,18 +76,18 @@ public class ProjectServiceImpl extends ServiceImpl<Project, ProjectRepository, 
 	}
 
 	@Override
-	public Optional<Project> findByTitle(String title) {
-		return repo.findByTitle(title);
+	public Optional<Project> findByName(String title) {
+		return repo.findByName(title);
 	}
 
-	@Override
-	public Optional<Project> findByType(String type) {
-		return repo.findByType(type);
-	}
+	// @Override
+	// public Optional<Project> findByDeliverableTypeId(int id) {
+	// return repo.findByDeliverableTypeId(id);
+	// }
 
-	@Override
-	public boolean existsByTeamIdAndProjectId(int teamId, int projectId) {
-		return repo.existsByTeamIdAndId(teamId, projectId);
-	}
+	// @Override
+	// public boolean existsByTeamIdAndProjectId(int teamId, int projectId) {
+	// return repo.existsByTeamIdAndId(teamId, projectId);
+	// }
 
 }

@@ -35,22 +35,22 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     /**
      * tìm tất cả category theo date
      */
-    List<Application> findAllByCreateAt(Date date);
+    List<Application> findAllByCreateDate(Date date);
 
     /**
      * tìm tất cả category theo date before
      */
-    List<Application> findAllByCreateAtBefore(Date date);
+    List<Application> findAllByCreateDateBefore(Date date);
 
     /**
      * tìm tất cả category theo date after
      */
-    List<Application> findAllByCreateAtAfter(Date date);
+    List<Application> findAllByCreateDateAfter(Date date);
 
     /**
      * tìm tất cả category từ date tới date
      */
-    List<Application> findAllByCreateAtBetween(Date startDate, Date endDate);
+    List<Application> findAllByCreateDateBetween(Date startDate, Date endDate);
 
     boolean existsByTeamId(String teamId);
 

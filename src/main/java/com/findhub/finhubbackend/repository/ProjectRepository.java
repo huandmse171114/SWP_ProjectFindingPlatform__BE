@@ -11,13 +11,13 @@ import com.findhub.finhubbackend.entity.project.Project;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Integer>, Repo<Project> {
-    Optional<Project> findByTitle(String title);
+    Optional<Project> findByName(String name);
 
-    List<Project> findAllByTitleContaining(String title);
+    List<Project> findAllByNameContaining(String name);
 
-    Optional<Project> findByType(String type);
+    // Optional<Project> findByDeliverableTypeId(int id);
 
-    List<Project> findAllByTypeContaining(String type);
+    // List<Project> findAllByDeliverableTypeId(int id);
 
     // description: không làm
 
@@ -43,6 +43,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, Repo
 
     List<Project> findAllByPublishDateBefore(Date publishDate);
 
-    boolean existsByTeamIdAndId(int teamId, int projectId);
+    // boolean existsByTeamIdAndId(int teamId, int projectId);
 
 }

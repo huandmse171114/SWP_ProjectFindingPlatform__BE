@@ -44,9 +44,9 @@ public class Payment extends MyEntity {
     @Default
     private float amount = 0;
 
-    @Column(name = "CreateAt", nullable = false)
+    @Column(name = "CreateDate", nullable = false)
     @Default
-    private Date createAt = new Date(System.currentTimeMillis());
+    private Date createDate = new Date(System.currentTimeMillis());
 
     @Column(name = "Description", nullable = false)
     @Nationalized

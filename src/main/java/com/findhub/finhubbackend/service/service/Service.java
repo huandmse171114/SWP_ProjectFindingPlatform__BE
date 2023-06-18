@@ -2,6 +2,8 @@ package com.findhub.finhubbackend.service.service;
 
 import java.util.List;
 
+import com.findhub.finhubbackend.entity.entity.Status;
+
 public interface Service<E, S> {
     /**
      * add new T to DB
@@ -31,12 +33,22 @@ public interface Service<E, S> {
     /**
      * set new status of T
      */
+    public boolean updateStatus(int id, Status status);
+
+    /**
+     * set new status of T
+     */
     public boolean updateStatus(E entity, int status);
 
     /**
      * set new status of T
      */
     public boolean updateStatus(E entity, S status);
+
+    /**
+     * set new status of T
+     */
+    public boolean updateStatus(E entity, Status status);
 
     /**
      * delete existed T from DB
@@ -52,6 +64,8 @@ public interface Service<E, S> {
      * find T by id (exact id)
      */
     public E findById(int id);
+
+    public List<E> findAllById(int id);
 
     /**
      * get all Ts in DB

@@ -41,22 +41,22 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>, Repo
     /**
      * tìm tất cả payment theo date
      */
-    List<Payment> findAllByCreateAt(Date date);
+    List<Payment> findAllByCreateDate(Date date);
 
     /**
      * tìm tất cả payment theo date before
      */
-    List<Payment> findAllByCreateAtBefore(Date date);
+    List<Payment> findAllByCreateDateBefore(Date date);
 
     /**
      * tìm tất cả payment theo date after
      */
-    List<Payment> findAllByCreateAtAfter(Date date);
+    List<Payment> findAllByCreateDateAfter(Date date);
 
     /**
      * tìm tất cả payment từ date tới date
      */
-    List<Payment> findAllByCreateAtBetween(Date startDate, Date endDate);
+    List<Payment> findAllByCreateDateBetween(Date startDate, Date endDate);
 
     boolean existsByTeamIdAndProjectId(int teamId, int projectId);
 

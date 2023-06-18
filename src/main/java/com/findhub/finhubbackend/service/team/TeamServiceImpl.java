@@ -19,6 +19,11 @@ public class TeamServiceImpl extends ServiceImpl<Team, TeamRepository, TeamStatu
     }
 
     @Override
+    public List<Team> findAllById(int id) {
+        return repo.findAllById(id);
+    }
+
+    @Override
     public List<Team> findAllByBalanceBetween(float start, float end) {
         return repo.findAllByBalanceBetween(start, end);
     }

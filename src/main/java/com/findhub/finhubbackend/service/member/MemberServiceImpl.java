@@ -30,8 +30,8 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
     }
 
     @Override
-    public List<Member> findAllByMajorCodeStartingWith(String majorCode) {
-        return repo.findAllByMajorCodeStartingWith(majorCode);
+    public List<Member> findAllByMajorId(int id) {
+        return repo.findAllByMajorId(id);
     }
 
     @Override

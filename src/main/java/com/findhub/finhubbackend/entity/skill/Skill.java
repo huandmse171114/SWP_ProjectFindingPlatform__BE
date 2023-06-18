@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "Skill", uniqueConstraints = @UniqueConstraint(columnNames = "SkillName"))
+@Table(name = "Skill", uniqueConstraints = @UniqueConstraint(columnNames = "Name"))
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -34,7 +34,7 @@ public class Skill extends MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "SkillName", columnDefinition = "nvarchar", nullable = false)
+    @Column(name = "Name", columnDefinition = "nvarchar", nullable = false)
     private String name;
 
     @Column(name = "Status", nullable = false)
