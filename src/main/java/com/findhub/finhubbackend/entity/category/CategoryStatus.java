@@ -1,8 +1,9 @@
 package com.findhub.finhubbackend.entity.category;
 
 public enum CategoryStatus {
+    INACTIVE(0),
     ACTIVE(1),
-    INACTIVE(0);
+    ;
 
     private final int value;
 

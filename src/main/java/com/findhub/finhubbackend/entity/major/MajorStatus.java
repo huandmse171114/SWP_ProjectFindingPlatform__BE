@@ -1,8 +1,9 @@
 package com.findhub.finhubbackend.entity.major;
 
 public enum MajorStatus {
+	INACTIVE(0),
 	ACTIVE(1),
-	INACTIVE(0);
+	;
 
 	private final int value;
 

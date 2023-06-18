@@ -1,5 +1,7 @@
 package com.findhub.finhubbackend.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,17 +19,26 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 public class DeliverableTypeController
         extends ApiController<DeliverableType, DeliverableTypeService, DeliverableTypeStatus> {
 
-    @PostMapping(ApiPath.ENABLE)
-    public boolean enableEntity(@RequestBody int id) {
-        return service.updateStatus(id, DeliverableTypeStatus.ACTIVE);
-    }
+    // @PostMapping(ApiPath.ENABLE)
+    // public boolean enableEntity(@RequestBody int id) {
+    //     return service.updateStatus(id, DeliverableTypeStatus.ACTIVE);
+    // }
 
-    @PostMapping(ApiPath.DISABLE)
-    public boolean disableEntity(@RequestBody int id) {
-        return service.updateStatus(id, DeliverableTypeStatus.INACTIVE);
-    }
+    // @PostMapping(ApiPath.DISABLE)
+    // public boolean disableEntity(@RequestBody int id) {
+    //     return service.updateStatus(id, DeliverableTypeStatus.INACTIVE);
+    // }
 
-    public boolean updateStatus(@RequestBody int id, @RequestBody int status) {
-        return service.updateStatus(id, status);
+    @PostMapping("/")
+    public ResponseEntity<String> add(@RequestBody String name) {
+        if (service.existsByName(name))
+            return new ResponseEntity<>("DeliverableType[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
+
+        DeliverableType deliverableType = DeliverableType.builder()
+                .name(name)
+                .build();
+
+        service.save(deliverableType);
+        return new ResponseEntity<>("Added new DeliverableType[name=\'" + name + "\'] successfully", HttpStatus.OK);
     }
 }

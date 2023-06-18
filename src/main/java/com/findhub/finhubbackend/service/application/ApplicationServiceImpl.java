@@ -2,9 +2,7 @@ package com.findhub.finhubbackend.service.application;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.findhub.finhubbackend.entity.application.Application;
@@ -23,12 +21,12 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 
 	@Override
 	public List<Application> findAllByDateAfter(Date date) {
-		return repo.findAllByCreateAtAfter(date);
+		return repo.findAllByCreateDateAfter(date);
 	}
 
 	@Override
 	public List<Application> findAllByDateBefore(Date date) {
-		return repo.findAllByCreateAtBefore(date);
+		return repo.findAllByCreateDateBefore(date);
 	}
 
 	@Override
@@ -48,7 +46,7 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 
 	@Override
 	public List<Application> findAllByDate(Date date) {
-		return repo.findAllByCreateAt(date);
+		return repo.findAllByCreateDate(date);
 	}
 
 	@Override
@@ -60,6 +58,16 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 			fromDate = toDate;
 			toDate = tempDate;
 		}
-		return repo.findAllByCreateAtBetween(fromDate, toDate);
+		return repo.findAllByCreateDateBetween(fromDate, toDate);
+	}
+
+	@Override
+	public boolean existsByTeamIdAndProjectId(int teamId, int projectId) {
+		return repo.existsByTeamIdAndProjectId(teamId, projectId);
+	}
+
+	@Override
+	public boolean existsByTeamId(String teamId) {
+		return repo.existsByTeamId(teamId);
 	}
 }

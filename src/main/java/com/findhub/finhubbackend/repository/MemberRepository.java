@@ -34,9 +34,9 @@ public interface MemberRepository extends JpaRepository<Member, Integer>, Repo<M
 
     List<Member> findAllByBalanceBetween(float start, float end);
 
-    List<Member> findAllByMajorCodeStartingWith(String majorCode);
+    List<Member> findAllByMajorId(int id);
 
     List<Member> findAllByStatus(int status);
 
-    public Boolean existsByEmail(String email);
+    boolean existsByEmail(String email);
 }

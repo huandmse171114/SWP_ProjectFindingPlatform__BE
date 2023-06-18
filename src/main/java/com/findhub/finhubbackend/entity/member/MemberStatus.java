@@ -1,8 +1,8 @@
 package com.findhub.finhubbackend.entity.member;
 
 public enum MemberStatus {
+	NOT_AVAILABLE(0),
 	AVAILABLE(1),
-	ONPROJECT(0),
 	DELETED(0),
 	;
 

@@ -1,10 +1,10 @@
 package com.findhub.finhubbackend.entity.application;
 
 public enum ApplicationStatus {
-	PENDING(0),
-	APPROVED(1),
+	APPROVED(0),
+	PENDING(1),
 	REJECTED(2),
-	DELETED(3),
+	DELETED(99),
 	;
 
 	private final int value;

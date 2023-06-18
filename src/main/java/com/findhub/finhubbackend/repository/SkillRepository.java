@@ -20,4 +20,6 @@ public interface SkillRepository extends JpaRepository<Skill, Integer>, Repo<Ski
      * tìm tất cả Skill có chính xác
      */
     List<Skill> findAllByNameContaining(String name);
+
+    boolean existsByName(String name);
 }

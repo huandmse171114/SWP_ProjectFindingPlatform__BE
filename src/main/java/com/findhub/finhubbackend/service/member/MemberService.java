@@ -32,5 +32,5 @@ public interface MemberService extends Service<Member, MemberStatus> {
 
     public List<Member> findAllByBalanceBetween(float start, float end);
 
-    public List<Member> findAllByMajorCodeStartingWith(String majorCode);
+    public List<Member> findAllByMajorId(int id);
 }

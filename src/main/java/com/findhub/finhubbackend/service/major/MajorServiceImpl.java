@@ -33,4 +33,15 @@ public class MajorServiceImpl extends ServiceImpl<Major, MajorRepository, MajorS
 	public Optional<Major> findByName(String name) {
 		return repo.findByName(name);
 	}
+
+	@Override
+	public boolean existsByCode(String code) {
+		return repo.existsByCode(code);
+	}
+
+	@Override
+	public boolean existsByName(String name) {
+		return repo.existsByName(name);
+	}
+
 }
