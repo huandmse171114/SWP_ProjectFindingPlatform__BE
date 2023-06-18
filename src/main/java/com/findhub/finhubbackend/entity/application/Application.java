@@ -8,22 +8,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "Application")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Application extends MyEntity{
+public class Application extends MyEntity {
 
 	@Id
 	@Column(name = "Id", nullable = false)
@@ -37,8 +39,10 @@ public class Application extends MyEntity{
 	private int teamId;
 
 	@Column(name = "CreateDate", nullable = false)
-	private Date createAt;
+	@Default
+	private Date createDate = new Date(System.currentTimeMillis());
 
 	@Column(name = "Status", nullable = false)
-	private int status;
+	@Default
+	private int status = ApplicationStatus.PENDING.getValue();
 }

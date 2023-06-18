@@ -15,6 +15,11 @@ public class PaymentServiceImpl extends ServiceImpl<Payment, PaymentRepository, 
         implements PaymentService {
 
     @Override
+    public boolean existsByTeamIdAndProjectId(int teamId, int projectId) {
+        return repo.existsByTeamIdAndProjectId(teamId, projectId);
+    }
+
+    @Override
     public List<Payment> findAllByAmount(float amount) {
         return repo.findAllByAmount(amount);
     }
@@ -36,22 +41,22 @@ public class PaymentServiceImpl extends ServiceImpl<Payment, PaymentRepository, 
 
     @Override
     public List<Payment> findAllByCreateAt(Date date) {
-        return repo.findAllByCreateAt(date);
+        return repo.findAllByCreateDate(date);
     }
 
     @Override
     public List<Payment> findAllByCreateAtAfter(Date date) {
-        return repo.findAllByCreateAtAfter(date);
+        return repo.findAllByCreateDateAfter(date);
     }
 
     @Override
     public List<Payment> findAllByCreateAtBefore(Date date) {
-        return repo.findAllByCreateAtBefore(date);
+        return repo.findAllByCreateDateBefore(date);
     }
 
     @Override
     public List<Payment> findAllByCreateAtBetween(Date start, Date end) {
-        return repo.findAllByCreateAtBetween(start, end);
+        return repo.findAllByCreateDateBetween(start, end);
     }
 
     @Override

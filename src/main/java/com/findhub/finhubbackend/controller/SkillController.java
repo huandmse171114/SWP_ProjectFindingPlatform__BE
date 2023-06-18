@@ -1,5 +1,7 @@
 package com.findhub.finhubbackend.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,19 +16,18 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.SKILL)
-public class SkillController extends MyController<Skill, SkillService, SkillStatus> {
+public class SkillController extends ApiController<Skill, SkillService, SkillStatus> {
 
-    @PostMapping(ApiPath.ENABLE)
-    public boolean enableEntity(@RequestBody int id) {
-        return service.changeStatus(id, SkillStatus.ACTIVE);
-    }
+    @PostMapping("/")
+    public ResponseEntity<String> add(@RequestBody String name) {
+        if (service.existsByName(name))
+            return new ResponseEntity<>("Skill[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 
-    @PostMapping(ApiPath.DISABLE)
-    public boolean restoreEntity(@RequestBody int id) {
-        return service.changeStatus(id, SkillStatus.INACTIVE);
-    }
+        Skill skill = Skill.builder()
+                .name(name)
+                .build();
 
-    public boolean changeStatusEntity(@RequestBody int id, @RequestBody int status) {
-        return service.changeStatus(id, status);
+        service.save(skill);
+        return new ResponseEntity<>("Added new Skill[name=\'" + name + "\'] successfully", HttpStatus.OK);
     }
 }

@@ -1,5 +1,7 @@
 package com.findhub.finhubbackend.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,19 +17,28 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @CrossOrigin
 @RequestMapping(path = ApiPath.DELIVERABLE_TYPE)
 public class DeliverableTypeController
-        extends MyController<DeliverableType, DeliverableTypeService, DeliverableTypeStatus> {
+        extends ApiController<DeliverableType, DeliverableTypeService, DeliverableTypeStatus> {
 
-    @PostMapping(ApiPath.ENABLE)
-    public boolean enableEntity(@RequestBody int id) {
-        return service.changeStatus(id, DeliverableTypeStatus.ACTIVE);
-    }
+    // @PostMapping(ApiPath.ENABLE)
+    // public boolean enableEntity(@RequestBody int id) {
+    //     return service.updateStatus(id, DeliverableTypeStatus.ACTIVE);
+    // }
 
-    @PostMapping(ApiPath.DISABLE)
-    public boolean disableEntity(@RequestBody int id) {
-        return service.changeStatus(id, DeliverableTypeStatus.INACTIVE);
-    }
+    // @PostMapping(ApiPath.DISABLE)
+    // public boolean disableEntity(@RequestBody int id) {
+    //     return service.updateStatus(id, DeliverableTypeStatus.INACTIVE);
+    // }
 
-    public boolean changeStatusEntity(@RequestBody int id, @RequestBody int status) {
-        return service.changeStatus(id, status);
+    @PostMapping("/")
+    public ResponseEntity<String> add(@RequestBody String name) {
+        if (service.existsByName(name))
+            return new ResponseEntity<>("DeliverableType[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
+
+        DeliverableType deliverableType = DeliverableType.builder()
+                .name(name)
+                .build();
+
+        service.save(deliverableType);
+        return new ResponseEntity<>("Added new DeliverableType[name=\'" + name + "\'] successfully", HttpStatus.OK);
     }
 }

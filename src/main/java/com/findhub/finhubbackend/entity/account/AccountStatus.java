@@ -1,8 +1,8 @@
 package com.findhub.finhubbackend.entity.account;
 
 public enum AccountStatus {
-	ACTIVE(1),
 	INACTIVE(0),
+	ACTIVE(1),
 	;
 
 	private final int value;

@@ -1,11 +1,13 @@
 package com.findhub.finhubbackend.service.service;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
+import com.findhub.finhubbackend.entity.entity.Status;
 import com.findhub.finhubbackend.repository.Repo;
 
 /**
@@ -24,6 +26,11 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
         return Integer.parseInt(e.toString());
     }
 
+    @Override
+    public List<E> findAllById(int id) {
+        return repo.findAllById(id);
+    }
+
     @Autowired
     protected R repo;
 
@@ -33,18 +40,18 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
-    public boolean changeStatus(int id, int status) {
+    public boolean updateStatus(int id, int status) {
         Optional<E> entity = repo.findById(id);
-        return changeStatus(entity.isPresent() ? entity.get() : null, status);
+        return updateStatus(entity.isPresent() ? entity.get() : null, status);
     }
 
     @Override
-    public boolean changeStatus(int id, S status) {
-        return changeStatus(id, getValue(status));
+    public boolean updateStatus(int id, S status) {
+        return updateStatus(id, getValue(status));
     }
 
     @Override
-    public boolean changeStatus(E entity, int status) {
+    public boolean updateStatus(E entity, int status) {
         if (entity != null) {
             entity.setStatus(status);
             return true;
@@ -53,8 +60,18 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
-    public boolean changeStatus(E entity, S status) {
-        return changeStatus(entity, getValue(status));
+    public boolean updateStatus(E entity, S status) {
+        return updateStatus(entity, getValue(status));
+    }
+
+    @Override
+    public boolean updateStatus(E entity, Status status) {
+        return updateStatus(entity, status.getValue());
+    }
+
+    @Override
+    public boolean updateStatus(int id, Status status) {
+        return updateStatus(id, status.getValue());
     }
 
     @Override
@@ -101,8 +118,8 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
-    public void save(E entity) {
-        repo.save(entity);
+    public E save(E entity) {
+        return repo.save(entity);
     }
 
     @Override

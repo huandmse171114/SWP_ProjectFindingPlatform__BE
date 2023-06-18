@@ -3,7 +3,6 @@ package com.findhub.finhubbackend.service.member;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.findhub.finhubbackend.entity.member.Member;
@@ -31,8 +30,8 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
     }
 
     @Override
-    public List<Member> findAllByMajorCodeStartingWith(String majorCode) {
-        return repo.findAllByMajorCodeStartingWith(majorCode);
+    public List<Member> findAllByMajorId(int id) {
+        return repo.findAllByMajorId(id);
     }
 
     @Override

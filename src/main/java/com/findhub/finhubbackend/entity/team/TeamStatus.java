@@ -1,8 +1,9 @@
 package com.findhub.finhubbackend.entity.team;
 
 public enum TeamStatus {
-    ACTIVE(1),
-    INACTIVE(0);
+    INACTIVE(0),
+	ACTIVE(1),
+	;
 
     private final int value;
 

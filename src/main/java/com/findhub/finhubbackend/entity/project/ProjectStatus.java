@@ -1,14 +1,27 @@
 package com.findhub.finhubbackend.entity.project;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum ProjectStatus {
-	DELETED(0),
-	INACTIVE(1),
-	ACTIVE(2),
-	APPROVE(3),
-	ONGOING(4),
-	FINISHED(5);
+	INACTIVE(0),
+	ACTIVE(1),
+	DELETED(99),
+
+	APPROVED(2),
+	ONGOING(3),
+	FINISHED(4),
+	;
 
 	private final int value;
+	private static final Map<Integer, String> status = new HashMap<>();
+
+	static {
+		// only java 10+
+		for (var ps : values())
+			status.put(ps.getValue(), ps.name());
+
+	}
 
 	private ProjectStatus(int value) {
 		this.value = value;
@@ -16,5 +29,9 @@ public enum ProjectStatus {
 
 	public int getValue() {
 		return this.value;
+	}
+
+	public static String nameOf(int val) {
+		return status.get(val);
 	}
 }

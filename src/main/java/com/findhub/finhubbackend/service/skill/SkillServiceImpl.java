@@ -23,4 +23,9 @@ public class SkillServiceImpl extends ServiceImpl<Skill, SkillRepository, SkillS
     public Optional<Skill> findByName(String name) {
         return repo.findByName(name);
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        return repo.existsByName(name);
+    }
 }

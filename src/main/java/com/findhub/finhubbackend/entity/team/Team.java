@@ -7,17 +7,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "Team")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,10 +29,11 @@ public class Team extends MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "Balance", nullable = false, columnDefinition = "float default 0")
-    // @ColumnDefault("0")
-    private float balance;
+    @Column(name = "Balance", nullable = false)
+    @Default
+    private float balance = 0;
 
     @Column(name = "Status", nullable = false)
-    private int status;
+    @Default
+    private int status = TeamStatus.ACTIVE.getValue();
 }

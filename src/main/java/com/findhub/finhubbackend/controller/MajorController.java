@@ -1,5 +1,7 @@
 package com.findhub.finhubbackend.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,19 +16,32 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.MAJOR)
-public class MajorController extends MyController<Major, MajorService, MajorStatus> {
+public class MajorController extends ApiController<Major, MajorService, MajorStatus> {
 
-	@PostMapping(ApiPath.ENABLE)
-	public boolean enableEntity(@RequestBody int id) {
-		return service.changeStatus(id, MajorStatus.ACTIVE);
-	}
+	// @PostMapping(ApiPath.ENABLE)
+	// public boolean enableEntity(@RequestBody int id) {
+	// return service.updateStatus(id, MajorStatus.ACTIVE);
+	// }
 
-	@PostMapping(ApiPath.DISABLE)
-	public boolean disableEntity(@RequestBody int id) {
-		return service.changeStatus(id, MajorStatus.INACTIVE);
-	}
+	// @PostMapping(ApiPath.DISABLE)
+	// public boolean disableEntity(@RequestBody int id) {
+	// return service.updateStatus(id, MajorStatus.INACTIVE);
+	// }
 
-	public boolean changeStatusEntity(@RequestBody int id, @RequestBody int status) {
-		return service.changeStatus(id, status);
+	@PostMapping("/")
+	public ResponseEntity<String> add(@RequestBody String code, @RequestBody String name) {
+		if (service.existsByCode(code))
+			return new ResponseEntity<>("Major[code=\'" + code + "\'] already existed", HttpStatus.FOUND);
+		if (service.existsByName(name))
+			return new ResponseEntity<>("Major[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
+
+		Major major = Major.builder()
+				.code(code)
+				.name(name)
+				.build();
+
+		service.save(major);
+		return new ResponseEntity<>("Added new Major[code=" + code + "; name=\'" + name + "\'] successfully",
+				HttpStatus.OK);
 	}
 }

@@ -28,4 +28,8 @@ public interface MajorService extends Service<Major, MajorStatus> {
      * tìm tất cả major có Name chính xác
      */
     public List<Major> findAllByCodeStartingWith(String code);
+
+    public boolean existsByName(String name);
+
+    public boolean existsByCode(String code);
 }
