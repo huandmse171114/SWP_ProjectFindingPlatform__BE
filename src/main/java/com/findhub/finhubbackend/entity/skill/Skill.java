@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -15,6 +16,7 @@ import org.hibernate.annotations.Nationalized;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.project.Project;
+import com.findhub.finhubbackend.entity.projectSkillRequire.ProjectSkillRequire;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +39,7 @@ public class Skill extends MyEntity {
     private int id;
 
     @Nationalized
-    @Column(name = "Name",nullable = false)
+    @Column(name = "Name", nullable = false)
     private String name;
 
     @Default
@@ -46,4 +48,7 @@ public class Skill extends MyEntity {
 
     // @ManyToMany(mappedBy = "skillSet")
     // private Set<Project> projectSet;
+
+    @OneToMany(mappedBy = "skill")
+    private Set<ProjectSkillRequire> projectSkillRequires;
 }

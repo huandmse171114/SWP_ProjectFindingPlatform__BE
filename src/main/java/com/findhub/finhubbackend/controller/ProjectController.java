@@ -38,11 +38,7 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 	@Autowired
 	private ProjectSkillRequireService psrService;
 
-	@Autowired
-	private SkillService skillService;
-
-	@GetMapping("/detail-page/" + ApiPath.ID)
-	public ResponseEntity<ProjectResponseModel> getProjectForProjectDetailPage(@PathVariable(Var.ID) int id) {
+	private ProjectResponseModel getProjectById(int id) {
 		Project project = service.findById(id);
 
 		if (project == null)
@@ -52,88 +48,48 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		Date dueDate = Utils.addDate(project.getPublishDate(), project.getDeliverDays());
 
 		List<SkillRepsonseModel> skills = new ArrayList<>();
-		for (var psr : psrService.findAllByProjectId(id))
-			skills.add(
-					SkillRepsonseModel.builder()
-							.name(skillService.findById(id).getName())
-							.level(psr.getLevel())
-							.build());
+		List<ProjectSkillRequire> psrList = psrService.findAllByProjectId(id);
+		for (ProjectSkillRequire psr : psrList)
+			skills.add(SkillRepsonseModel.builder()
+					.name(psr.getSkill().getName())
+					.level(psr.getLevel())
+					.build());
 
 		List<String> categories = new ArrayList<>();
 		for (var c : project.getCategorySet())
 			categories.add(c.getName());
 
-		// List<String> deliverableTypes = new ArrayList<>();
-		// for (var dt : project.getDeliverableTypeSet())
-		// deliverableTypes.put(dt.getId(), dt.getName());
+		return ProjectResponseModel.builder()
+				.id(id)
+				.name(project.getName())
+				.publishDate(project.getPublishDate())
+				.deliverDays(project.getDeliverDays())
+				.wage(project.getWage())
+				.dueDate(dueDate)
+				.status(status)
+				.skills(skills)
+				.categories(categories)
+				.description(project.getDescription())
+				.build();
 
-		return new ResponseEntity<ProjectResponseModel>(
-				ProjectResponseModel.builder()
-						.id(id)
-						.name(project.getName())
-						.publishDate(project.getPublishDate())
-						.deliverDays(project.getDeliverDays())
-						.wage(project.getWage())
-						.dueDate(dueDate)
-						.status(status)
-						.skills(skills)
-						.categories(categories)
-						// .delivarableTypes(deliverableTypes)
-						.description(project.getDescription())
-						.build(),
-				HttpStatus.OK);
 	}
 
-	@GetMapping("/v3/all")
+	@GetMapping("/detail-page/" + ApiPath.ID)
+	public ResponseEntity<ProjectResponseModel> getProjectForProjectDetailPage(@PathVariable(Var.ID) int id) {
+		return new ResponseEntity<ProjectResponseModel>(getProjectById(id), HttpStatus.OK);
+	}
+
+	@GetMapping("/detail-page/all")
 	public List<ProjectResponseModel> getAllProject() {
 		List<Project> projects = service.getAll();
 
 		if (projects.isEmpty())
 			return null;
 
-		Project project;
-		List<ProjectResponseModel> retList = new ArrayList<>();
-		List<String> skills = new ArrayList<>();
-		List<String> categories = new ArrayList<String>();
-
-		skills.add("Git");
-		skills.add("Figma");
-		skills.add("Bash");
-		skills.add("C/C++");
-		skills.add("Java");
-
-		categories.add("WEEBOO");
-
-		for (int i = 0; i < projects.size(); i++) {
-			project = projects.get(i);
-			String status = ProjectStatus.nameOf(project.getStatus());
-			Date dueDate = Utils.addDate(project.getPublishDate(), project.getDeliverDays());
-			//
-			// for (var s : project.getSkillSet())
-			// skills.add(s.getName());
-			// for (var c : project.getCategorySet())
-			// categories.add(c.getName());
-
-			// List<String> deliverableTypes = new HashMap<>();
-			retList.add(ProjectResponseModel.builder()
-					.id(project.getId())
-					.name(project.getName())
-					.description(project.getDescription())
-					// .delivarableTypes(deliverableTypes)
-					// .skills(skills)
-					.publishDate(project.getPublishDate())
-					.deliverDays(project.getDeliverDays())
-					.wage(project.getWage())
-					.dueDate(dueDate)
-					.categories(categories)
-					.status(status)
-					.build());
-
-		}
-		// for (var dt : project.getDeliverableTypeSet())
-		// deliverableTypes.put(dt.getId(), dt.getName());
-
-		return retList;
+		List<ProjectResponseModel> prm = new ArrayList<>();
+		for (var p : projects)
+			prm.add(getProjectById(p.getId()));
+		return prm;
 	}
 
 	@PostMapping("/")
