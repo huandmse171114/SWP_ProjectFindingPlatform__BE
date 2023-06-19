@@ -76,9 +76,9 @@ public class Project extends MyEntity {
 	@Column(name = "Status", nullable = false)
 	private int status = ProjectStatus.ACTIVE.getValue();
 
-	@ManyToMany
-	@JoinTable(name = "ProjectSkillRequire", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "SkillId"))
-	private Set<Skill> skillSet;
+	// @ManyToMany
+	// @JoinTable(name = "ProjectSkillRequire", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "SkillId"))
+	// private Set<Skill> skillSet;
 
 	@ManyToMany
 	@JoinTable(name = "ProjectCategoryDetail", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "CategoryId"))

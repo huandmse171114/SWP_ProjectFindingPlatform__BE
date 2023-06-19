@@ -44,6 +44,6 @@ public class Skill extends MyEntity {
     @Column(name = "Status", nullable = false)
     private int status = SkillStatus.ACTIVE.getValue();
 
-    @ManyToMany(mappedBy = "skillSet")
-    private Set<Project> projectSet;
+    // @ManyToMany(mappedBy = "skillSet")
+    // private Set<Project> projectSet;
 }
