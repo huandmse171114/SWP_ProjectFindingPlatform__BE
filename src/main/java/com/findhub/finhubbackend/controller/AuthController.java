@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.account.Account;
-import com.findhub.finhubbackend.entity.account.AccountRole;
 import com.findhub.finhubbackend.entity.account.AccountStatus;
 import com.findhub.finhubbackend.model.AccountLoginModel;
 import com.findhub.finhubbackend.model.AccountRegisterModel;
@@ -66,7 +65,6 @@ public class AuthController {
 				new UsernamePasswordAuthenticationToken(
 						accountModel.getEmail(),
 						accountModel.getPassword()));
-		System.out.println(authentication.getAuthorities().toString().equals(AccountRole.ADMIN.toString()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String token = tokenProvider.generateToken(authentication);
 		return new ResponseEntity<AuthResponseModel>(new AuthResponseModel(token), HttpStatus.OK);

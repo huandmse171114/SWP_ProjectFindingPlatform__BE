@@ -1,7 +1,7 @@
 package com.findhub.finhubbackend.model;
 
 import java.sql.Date;
-import java.util.Map;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,12 +16,12 @@ public class ProjectResponseModel {
     private int id;
     private String name;
     private String description;
-    private Map<Integer, String> skills;
+    private List<String> skills;
     private Date publishDate;
     private int deliverDays;
     private float wage;
     private Date dueDate;
-    private Map<Integer, String> categories;
-    private Map<Integer, String> delivarableTypes;
+    private List<String> categories;
+    private List<String> delivarableTypes;
     private String status;
 }

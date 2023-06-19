@@ -104,6 +104,35 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-jxr-plugin</artifactId>
+	            <version>3.1.1</version>
+	            <executions>
+	                <execution>
+	                    <id>jxr</id>
+	                    <phase>verify</phase>
+	                    <goals>
+	                        <goal>jxr</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	        </plugin>
+			
+			<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-pmd-plugin</artifactId>
+	            <version>3.20.0</version>
+	            <configuration>
+					<format>html</format>
+					<outputDirectory>${project.basedir}/report</outputDirectory>
+					<linkXRef>false</linkXRef>
+					<rulesets>
+	                    <ruleset>src/main/resources/rulesets.xml</ruleset>
+	                </rulesets>
+	            </configuration>
+	        </plugin>
 		</plugins>
 	</build>
 
