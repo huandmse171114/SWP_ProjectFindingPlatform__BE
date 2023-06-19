@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -19,6 +20,7 @@ import org.hibernate.annotations.Nationalized;
 import com.findhub.finhubbackend.entity.category.Category;
 import com.findhub.finhubbackend.entity.deliverableType.DeliverableType;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
+import com.findhub.finhubbackend.entity.projectSkillRequire.ProjectSkillRequire;
 import com.findhub.finhubbackend.entity.skill.Skill;
 
 import lombok.AllArgsConstructor;
@@ -76,8 +78,12 @@ public class Project extends MyEntity {
 	@Column(name = "Status", nullable = false)
 	private int status = ProjectStatus.ACTIVE.getValue();
 
+	@OneToMany(mappedBy = "project")
+	private Set<ProjectSkillRequire> projectSkillRequires;
+
 	// @ManyToMany
-	// @JoinTable(name = "ProjectSkillRequire", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "SkillId"))
+	// @JoinTable(name = "ProjectSkillRequire", joinColumns = @JoinColumn(name =
+	// "ProjectId"), inverseJoinColumns = @JoinColumn(name = "SkillId"))
 	// private Set<Skill> skillSet;
 
 	@ManyToMany
