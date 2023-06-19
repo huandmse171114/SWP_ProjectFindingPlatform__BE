@@ -38,11 +38,11 @@ public class Application extends MyEntity {
 	@Column(name = "TeamId", nullable = false)
 	private int teamId;
 
-	@Column(name = "CreateDate", nullable = false)
 	@Default
+	@Column(name = "CreateDate", nullable = false)
 	private Date createDate = new Date(System.currentTimeMillis());
 
-	@Column(name = "Status", nullable = false)
 	@Default
+	@Column(name = "Status", nullable = false)
 	private int status = ApplicationStatus.PENDING.getValue();
 }

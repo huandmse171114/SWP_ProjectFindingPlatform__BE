@@ -1,15 +1,14 @@
-package com.findhub.finhubbackend.entity.entity;
+package com.findhub.finhubbackend.entity.member;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Status {
-    INACTIVE(0),
-    ACTIVE(1),
-    DELETED(99),
+public enum MemberRole {
+    MEMBER(2),
+    LEADER(3),
     ;
 
-    protected final int value;
+    private final int value;
     private static final Map<Integer, String> status = new HashMap<>();
 
     static {
@@ -23,11 +22,12 @@ public enum Status {
         return status.get(val);
     }
 
-    private Status(int value) {
+    MemberRole(int value) {
         this.value = value;
     }
 
     public int getValue() {
         return this.value;
     }
+
 }

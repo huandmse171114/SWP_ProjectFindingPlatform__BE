@@ -18,16 +18,6 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.MAJOR)
 public class MajorController extends ApiController<Major, MajorService, MajorStatus> {
 
-	// @PostMapping(ApiPath.ENABLE)
-	// public boolean enableEntity(@RequestBody int id) {
-	// return service.updateStatus(id, MajorStatus.ACTIVE);
-	// }
-
-	// @PostMapping(ApiPath.DISABLE)
-	// public boolean disableEntity(@RequestBody int id) {
-	// return service.updateStatus(id, MajorStatus.INACTIVE);
-	// }
-
 	@PostMapping("/")
 	public ResponseEntity<String> add(@RequestBody String code, @RequestBody String name) {
 		if (service.existsByCode(code))

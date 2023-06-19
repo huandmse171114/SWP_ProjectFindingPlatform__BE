@@ -11,6 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Nationalized;
+
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.project.Project;
 
@@ -34,13 +36,14 @@ public class Skill extends MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "Name", columnDefinition = "nvarchar", nullable = false)
+    @Nationalized
+    @Column(name = "Name",nullable = false)
     private String name;
 
-    @Column(name = "Status", nullable = false)
     @Default
+    @Column(name = "Status", nullable = false)
     private int status = SkillStatus.ACTIVE.getValue();
 
-    @ManyToMany(mappedBy = "skillSet")
-    private Set<Project> projectSet;
+    // @ManyToMany(mappedBy = "skillSet")
+    // private Set<Project> projectSet;
 }

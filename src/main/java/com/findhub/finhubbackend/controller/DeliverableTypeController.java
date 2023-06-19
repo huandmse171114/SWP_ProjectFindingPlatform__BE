@@ -19,15 +19,6 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 public class DeliverableTypeController
         extends ApiController<DeliverableType, DeliverableTypeService, DeliverableTypeStatus> {
 
-    // @PostMapping(ApiPath.ENABLE)
-    // public boolean enableEntity(@RequestBody int id) {
-    //     return service.updateStatus(id, DeliverableTypeStatus.ACTIVE);
-    // }
-
-    // @PostMapping(ApiPath.DISABLE)
-    // public boolean disableEntity(@RequestBody int id) {
-    //     return service.updateStatus(id, DeliverableTypeStatus.INACTIVE);
-    // }
 
     @PostMapping("/")
     public ResponseEntity<String> add(@RequestBody String name) {
