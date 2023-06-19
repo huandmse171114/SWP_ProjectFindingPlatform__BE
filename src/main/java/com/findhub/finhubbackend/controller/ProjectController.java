@@ -1,7 +1,10 @@
 package com.findhub.finhubbackend.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -38,15 +41,16 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		String status = ProjectStatus.nameOf(project.getStatus());
 		Date dueDate = Utils.addDate(project.getPublishDate(), project.getDeliverDays());
 
-		Map<Integer, String> skills = new HashMap<>();
+		List<String> skills = new ArrayList<>();
+		
 		for (var s : project.getSkillSet())
-			skills.put(s.getId(), s.getName());
+			skills.add(s.getName());
 
-		Map<Integer, String> categories = new HashMap<>();
+		List<String> categories = new ArrayList<>();
 		for (var c : project.getCategorySet())
-			categories.put(c.getId(), c.getName());
+			categories.add(c.getName());
 
-		Map<Integer, String> deliverableTypes = new HashMap<>();
+		List<String> deliverableTypes = new ArrayList<>();
 		// for (var dt : project.getDeliverableTypeSet())
 		// 	deliverableTypes.put(dt.getId(), dt.getName());
 
@@ -66,6 +70,60 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 						.build(),
 				HttpStatus.OK);
 	}
+	
+	@GetMapping("/v3/all")
+	public List<ProjectResponseModel> getAllProject() {
+		List<Project> projects = service.getAll();
+
+		if (projects.isEmpty())
+			return null;
+
+		Project project;
+		List<ProjectResponseModel> retList = new ArrayList<>();
+		List<String> skills = new ArrayList<>();
+		List<String> categories = new ArrayList<String>();
+		
+		skills.add("Git");
+		skills.add("Figma");
+		skills.add("Bash");
+		skills.add("C/C++");
+		skills.add("Java");
+		
+		categories.add("WEEBOO");
+		
+		for (int i = 0; i < projects.size(); i++) {
+			project = projects.get(i);
+			String status = ProjectStatus.nameOf(project.getStatus());
+			Date dueDate = Utils.addDate(project.getPublishDate(), project.getDeliverDays());
+//			
+//			for (var s : project.getSkillSet())
+//				skills.add(s.getName());
+//			for (var c : project.getCategorySet())
+//				categories.add(c.getName());
+			
+//			List<String> deliverableTypes = new HashMap<>();
+			retList.add(ProjectResponseModel.builder()
+						.id(project.getId())
+						.name(project.getName())
+						.description(project.getDescription())
+//						.delivarableTypes(deliverableTypes)
+						.skills(skills)
+						.publishDate(project.getPublishDate())
+						.deliverDays(project.getDeliverDays())
+						.wage(project.getWage())
+						.dueDate(dueDate)
+						.categories(categories)
+						.status(status)
+						.build());
+			
+		}
+		// for (var dt : project.getDeliverableTypeSet())
+		// 	deliverableTypes.put(dt.getId(), dt.getName());
+
+		return retList;
+	}
+	
+	
 
 	@PostMapping("/")
 	public ResponseEntity<String> add(@RequestBody ProjectCreateModel model) {

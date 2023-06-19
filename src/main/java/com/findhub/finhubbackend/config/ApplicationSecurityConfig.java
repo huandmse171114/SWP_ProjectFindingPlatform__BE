@@ -32,37 +32,38 @@ public class ApplicationSecurityConfig {
         http
         	.csrf().disable()
         	.exceptionHandling()
-        	.authenticationEntryPoint(jwtAuthEntryPoint)
+//        	.authenticationEntryPoint(jwtAuthEntryPoint)
         	.and()
         	.sessionManagement()
         	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         	.and()
             .authorizeHttpRequests()
-            .antMatchers(
-            		"/", 
-            		"/api/auth/**", 
-            		"/swagger-ui/**",
-            		"/swagger-resources/**",
-            		"/v2/api-docs"
-            ).permitAll()
-            .antMatchers(
-            		HttpMethod.GET,
-            		"/api/projects/**", 
-            		"/api/members/**"
-            ).permitAll()
-            .antMatchers(
-            		HttpMethod.PUT, 
-            		"/api/projects/**"
-            ).hasAnyAuthority(
-            		AccountRole.PUBLISHER.toString(),
-            		AccountRole.ADMIN.toString()
-            )
-            .antMatchers(
-            		"/api/accounts/**", 
-            		"/api/skills/**", 
-            		"/api/categories/**"
-            ).hasAuthority("ADMIN")
-            .anyRequest().authenticated()
+//            .antMatchers(
+//            		"/", 
+//            		"/api/auth/**", 
+//            		"/swagger-ui/**",
+//            		"/swagger-resources/**",
+//            		"/v2/api-docs"
+//            ).permitAll()
+//            .antMatchers(
+//            		HttpMethod.GET,
+//            		"/api/projects/**", 
+//            		"/api/members/**"
+//            ).permitAll()
+//            .antMatchers(
+//            		HttpMethod.PUT, 
+//            		"/api/projects/**"
+//            ).hasAnyAuthority(
+//            		AccountRole.PUBLISHER.toString(),
+//            		AccountRole.ADMIN.toString()
+//            )
+//            .antMatchers(
+//            		"/api/accounts/**", 
+//            		"/api/skills/**", 
+//            		"/api/categories/**"
+//            ).hasAuthority("ADMIN")
+//            .anyRequest().authenticated()
+            .anyRequest().permitAll()
             .and()
             .httpBasic();
         
