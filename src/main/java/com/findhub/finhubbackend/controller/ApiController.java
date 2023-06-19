@@ -84,8 +84,7 @@ public class ApiController<E, T extends Service<E, S>, S> {
             return new ResponseEntity<>(
                     "Failed to update "
                             + entity.getClass().getSimpleName() + ": "
-                            + entity.getClass().getSimpleName() + "[id=" + id
-                            + "] not found",
+                            + entity.getClass().getSimpleName() + "[id=" + id + "] not found",
                     HttpStatus.NOT_FOUND);
 
         if (entity == null)

@@ -24,16 +24,6 @@ public class ApplicationController extends ApiController<Application, Applicatio
 	@Autowired
 	private TeamService teamService;
 
-	// @PostMapping(ApiPath.ENABLE)
-	// public boolean enableEntity(@RequestBody int id) {
-	// return service.updateStatus(id, ApplicationStatus.PENDING);
-	// }
-
-	// @PostMapping(ApiPath.DISABLE)
-	// public boolean disableEntity(@RequestBody int id) {
-	// return service.updateStatus(id, ApplicationStatus.DELETED);
-	// }
-
 	@PostMapping("/")
 	public ResponseEntity<String> add(@RequestBody ApplicationCreateModel model) {
 		int teamId = model.getTeamId();

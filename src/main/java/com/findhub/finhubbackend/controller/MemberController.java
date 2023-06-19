@@ -18,16 +18,6 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.MEMBER)
 public class MemberController extends ApiController<Member, MemberService, MemberStatus> {
 
-	// @PostMapping(ApiPath.ENABLE)
-	// public boolean enableEntity(@RequestBody int id) {
-	// 	return service.updateStatus(id, MemberStatus.AVAILABLE);
-	// }
-
-	// @PostMapping(ApiPath.DISABLE)
-	// public boolean disableEntity(@RequestBody int id) {
-	// 	return service.updateStatus(id, MemberStatus.DELETED);
-	// }
-
 	@PostMapping("/")
 	public ResponseEntity<String> add(@RequestBody int sth) {
 		return new ResponseEntity<String>("not support yet", HttpStatus.OK);

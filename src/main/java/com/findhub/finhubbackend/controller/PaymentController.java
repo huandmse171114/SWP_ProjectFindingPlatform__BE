@@ -26,21 +26,12 @@ public class PaymentController extends ApiController<Payment, PaymentService, Pa
 
     @Autowired
     private ProjectService projectService;
+
     // @Autowired
     // private AccountService accountService;
 
     @Autowired
     private TeamService teamService;
-
-    // @PostMapping(ApiPath.ENABLE)
-    // public boolean enableEntity(@RequestBody int id) {
-    // return service.changeStatus(id, PaymentStatus.);
-    // }
-
-    // @PostMapping(ApiPath.DISABLE)
-    // public boolean disableEntity(@RequestBody int id) {
-    // return service.changeStatus(id, PaymentStatus);
-    // }
 
     @PostMapping("/")
     public ResponseEntity<String> add(@RequestBody PaymentCreateModel model) {

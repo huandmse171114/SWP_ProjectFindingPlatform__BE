@@ -18,16 +18,6 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.CATEGORY)
 public class CategoryController extends ApiController<Category, CategoryService, CategoryStatus> {
 
-    // @PostMapping(ApiPath.ENABLE)
-    // public boolean enableEntity(@RequestBody int id) {
-    //     return service.updateStatus(id, CategoryStatus.ACTIVE);
-    // }
-
-    // @PostMapping(ApiPath.DISABLE)
-    // public boolean restoreEntity(@RequestBody int id) {
-    //     return service.updateStatus(id, CategoryStatus.INACTIVE);
-    // }
-
     @PostMapping("/")
     public ResponseEntity<?> add(@RequestBody String name) {
         if (service.existsByName(name))

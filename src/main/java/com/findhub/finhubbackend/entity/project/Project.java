@@ -60,14 +60,6 @@ public class Project extends MyEntity {
 	@Column(name = "Description", nullable = true)
 	private String description;
 
-	@ManyToMany
-	@JoinTable(name = "ProjectSkillRequire", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "SkillId"))
-	private Set<Skill> skillSet;
-
-	@ManyToMany
-	@JoinTable(name = "ProjectCategoryDetail", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "CategoryId"))
-	private Set<Category> categorySet;
-
 	@Column(name = "Wage", nullable = true)
 	private float wage;
 
@@ -83,5 +75,13 @@ public class Project extends MyEntity {
 	@Default
 	@Column(name = "Status", nullable = false)
 	private int status = ProjectStatus.ACTIVE.getValue();
+
+	@ManyToMany
+	@JoinTable(name = "ProjectSkillRequire", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "SkillId"))
+	private Set<Skill> skillSet;
+
+	@ManyToMany
+	@JoinTable(name = "ProjectCategoryDetail", joinColumns = @JoinColumn(name = "ProjectId"), inverseJoinColumns = @JoinColumn(name = "CategoryId"))
+	private Set<Category> categorySet;
 
 }
