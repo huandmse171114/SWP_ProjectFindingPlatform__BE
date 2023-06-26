@@ -3,6 +3,8 @@ package com.findhub.finhubbackend.entity.project;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.findhub.finhubbackend.util.Utils;
+
 public enum ProjectStatus {
 	INACTIVE(0),
 	ACTIVE(1),
@@ -32,6 +34,15 @@ public enum ProjectStatus {
 	}
 
 	public static String nameOf(int val) {
-		return status.get(val);
+		return Utils.capitalize(status.get(val));
+	}
+
+	public static int nextStatus(int val) {
+		int next = val++;
+		return isExisted(next) ? next : 0;
+	}
+
+	public static boolean isExisted(int val) {
+		return status.get(val) != null;
 	}
 }

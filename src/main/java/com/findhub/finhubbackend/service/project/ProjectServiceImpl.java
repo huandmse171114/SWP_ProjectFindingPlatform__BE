@@ -1,19 +1,34 @@
 package com.findhub.finhubbackend.service.project;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.findhub.finhubbackend.dto.CategoryDTO;
+import com.findhub.finhubbackend.dto.ProjectDTO;
+import com.findhub.finhubbackend.dto.SkillDTO;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
+import com.findhub.finhubbackend.model.ProjectResponseModel;
 import com.findhub.finhubbackend.repository.ProjectRepository;
+import com.findhub.finhubbackend.service.category.CategoryService;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
+import com.findhub.finhubbackend.service.skill.SkillService;
+import com.findhub.finhubbackend.util.Utils;
 
 @Service
 public class ProjectServiceImpl extends ServiceImpl<Project, ProjectRepository, ProjectStatus>
 		implements ProjectService {
+
+	@Autowired
+	private SkillService skillService;
+
+	@Autowired
+	private CategoryService categoryService;
 
 	@Override
 	public List<Project> findAllByDeliverDays(int days) {
@@ -78,6 +93,41 @@ public class ProjectServiceImpl extends ServiceImpl<Project, ProjectRepository, 
 	@Override
 	public Optional<Project> findByName(String title) {
 		return repo.findByName(title);
+	}
+
+	@Override
+	public List<ProjectDTO> getAllByNameContainingOrIdLike(int id, String name) {
+		return repo.getAllByNameContainingOrIdLike(id, name);
+	}
+
+	@Override
+	public ProjectResponseModel getResponseModelById(int id) {
+		Project project = get(id);
+
+		if (project == null)
+			return null;
+
+		List<SkillDTO> skills = skillService.getNameAndLevelByProjectId(id);
+
+		String status = ProjectStatus.nameOf(project.getStatus());
+		Date dueDate = Utils.addDate(project.getPublishDate(), project.getDeliverDays());
+
+		List<CategoryDTO> categoriesObj = categoryService.getNameByProjectId(id);
+		List<String> categories = new ArrayList<>();
+		categoriesObj.forEach(each -> categories.add(each.getName()));
+
+		return ProjectResponseModel.builder()
+				.id(id)
+				.name(project.getName())
+				.publishDate(Utils.formatDate(project.getPublishDate()))
+				.deliverDays(project.getDeliverDays())
+				.wage(project.getWage())
+				.dueDate(Utils.formatDate(dueDate))
+				.status(status)
+				.skills(skills)
+				.categories(categories)
+				.description(project.getDescription())
+				.build();
 	}
 
 	// @Override

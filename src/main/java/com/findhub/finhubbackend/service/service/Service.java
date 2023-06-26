@@ -63,7 +63,7 @@ public interface Service<E, S> {
     /**
      * find T by id (exact id)
      */
-    public E findById(int id);
+    public E get(int id);
 
     public List<E> findAllById(int id);
 
@@ -75,7 +75,7 @@ public interface Service<E, S> {
     /**
      * tìm tất cả T có id gần đúng
      */
-    public List<E> findAllByIdStartingWith(int id);
+    public List<E> findAllByIdContaining(int id);
 
     /**
      * tìm tất cả T với status

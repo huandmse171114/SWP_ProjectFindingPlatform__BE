@@ -37,7 +37,7 @@ public class Major extends MyEntity {
 	@Column(name = "Name", nullable = false)
 	private String name;
 
-	@Column(name = "Status", nullable = false)
 	@Default
+	@Column(name = "Status", nullable = false)
 	private int status = MajorStatus.ACTIVE.getValue();
 }

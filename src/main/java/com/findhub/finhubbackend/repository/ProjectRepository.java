@@ -4,13 +4,14 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import com.findhub.finhubbackend.dto.ProjectDTO;
 import com.findhub.finhubbackend.entity.project.Project;
 
-@Repository
-public interface ProjectRepository extends JpaRepository<Project, Integer>, Repo<Project> {
+// @Repository
+public interface ProjectRepository extends Repo<Project> {
     Optional<Project> findByName(String name);
 
     List<Project> findAllByNameContaining(String name);
@@ -42,6 +43,18 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, Repo
     List<Project> findAllByPublishDateAfter(Date publishDate);
 
     List<Project> findAllByPublishDateBefore(Date publishDate);
+
+    @Query(value = """
+                SELECT *
+                FROM Project
+                WHERE
+                    Name LIKE %:name%
+                OR
+                    Id LIKE :id%
+            """, nativeQuery = true)
+    List<ProjectDTO> getAllByNameContainingOrIdLike(
+            @Param("id") int id,
+            @Param("name") String name);
 
     // boolean existsByTeamIdAndId(int teamId, int projectId);
 

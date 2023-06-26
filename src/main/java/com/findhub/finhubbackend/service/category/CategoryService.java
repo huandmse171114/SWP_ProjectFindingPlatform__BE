@@ -1,12 +1,12 @@
 package com.findhub.finhubbackend.service.category;
 
-import com.findhub.finhubbackend.entity.category.CategoryStatus;
-import com.findhub.finhubbackend.service.service.Service;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.findhub.finhubbackend.dto.CategoryDTO;
 import com.findhub.finhubbackend.entity.category.Category;
+import com.findhub.finhubbackend.entity.category.CategoryStatus;
+import com.findhub.finhubbackend.service.service.Service;
 
 public interface CategoryService extends Service<Category, CategoryStatus> {
 
@@ -19,6 +19,8 @@ public interface CategoryService extends Service<Category, CategoryStatus> {
      * tìm tất cả Category có chính xác
      */
     public List<Category> findAllByNameContaining(String name);
+
+    public List<CategoryDTO> getNameByProjectId(int id);
 
     public boolean existsByName(String name);
 

@@ -3,8 +3,6 @@ package com.findhub.finhubbackend.model;
 import java.sql.Date;
 import java.util.Set;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.findhub.finhubbackend.entity.category.Category;
 import com.findhub.finhubbackend.entity.deliverableType.DeliverableType;
 import com.findhub.finhubbackend.entity.skill.Skill;

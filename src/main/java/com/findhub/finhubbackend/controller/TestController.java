@@ -27,12 +27,12 @@ public class TestController {
 
     @GetMapping("/opt1/{id}")
     public Application findApplicationById(@PathVariable("id") int id) {
-        return applicationService.findById(id);
+        return applicationService.get(id);
     }
 
     @GetMapping("/opt2/{id}")
     public List<Application> findAllApplicationsByIdLike(@PathVariable("id") int id) {
-        return applicationService.findAllByIdStartingWith(id);
+        return applicationService.findAllByIdContaining(id);
     }
 
     @GetMapping("/opt3/{id}")
@@ -77,7 +77,7 @@ public class TestController {
 
     @GetMapping("/opt11/{id}")
     public Account findById(@PathVariable("id") int id) {
-        return accountService.findById(id);
+        return accountService.get(id);
     }
 
     @GetMapping("/opt12/{id}")
@@ -87,7 +87,7 @@ public class TestController {
 
     @GetMapping("/opt13/{id}")
     public List<Account> findAllByIdLike(@PathVariable("id") int id) {
-        return accountService.findAllByIdStartingWith(id);
+        return accountService.findAllByIdContaining(id);
     }
 
     @GetMapping("/opt14/{id}")

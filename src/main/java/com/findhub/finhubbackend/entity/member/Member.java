@@ -1,5 +1,7 @@
 package com.findhub.finhubbackend.entity.member;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Nationalized;
-import org.springframework.data.annotation.Transient;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 
@@ -37,25 +38,30 @@ public class Member extends MyEntity {
 	private String email;
 
 	@Nationalized
+	@Column(name = "Description", nullable = true)
+	private String description;
+
+	@Nationalized
 	@Column(name = "Name", nullable = true)
 	private String name;
 
 	@Column(name = "Phone", nullable = true)
 	private String phone;
 
-	@Column(name = "Balance", nullable = false)
+	// @Column(name = "Level", nullable = true)
+	// private int level;
+
+	@Column(name = "DOB", nullable = true)
+	private Date dob;
+
 	@Default
+	@Column(name = "Balance", nullable = false)
 	private float balance = 0;
 
-	@Column(name = "Status", nullable = false)
 	@Default
+	@Column(name = "Status", nullable = false)
 	private int status = MemberStatus.AVAILABLE.getValue();
 
 	@Column(name = "MajorId", nullable = true)
 	private int majorId;
-
-	// @Transient
-	// public String getMajorName() {
-	// return null;
-	// }
 }

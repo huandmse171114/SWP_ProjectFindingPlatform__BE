@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.findhub.finhubbackend.dto.MajorDTO;
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.major.MajorStatus;
 import com.findhub.finhubbackend.repository.MajorRepository;
@@ -22,6 +23,18 @@ public class MajorServiceImpl extends ServiceImpl<Major, MajorRepository, MajorS
 	@Override
 	public List<Major> findAllByNameContaining(String name) {
 		return repo.findAllByNameContaining(name);
+	}
+
+	@Override
+	public List<MajorDTO> getAllByNameLikeOrCodeLikeOrIdLike(String keyword) {
+		int id = Integer.parseInt(keyword);
+		String code = keyword;
+		return repo.getAllByNameLikeOrCodeLikeOrIdLike(id, code, keyword);
+	}
+
+	@Override
+	public List<MajorDTO> getAllByNameLikeOrCodeLike(String input) {
+		return repo.getAllByNameLikeOrCodeLike(input, input);
 	}
 
 	@Override

@@ -1,7 +1,8 @@
 package com.findhub.finhubbackend.model;
 
-import java.sql.Date;
 import java.util.List;
+
+import com.findhub.finhubbackend.dto.SkillDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +17,11 @@ public class ProjectResponseModel {
     private int id;
     private String name;
     private String description;
-    private List<SkillRepsonseModel> skills;
-    private Date publishDate;
+    private List<SkillDTO> skills;
+    private String publishDate;
     private int deliverDays;
     private float wage;
-    private Date dueDate;
+    private String dueDate;
     private List<String> categories;
     private List<String> delivarableTypes;
     private String status;

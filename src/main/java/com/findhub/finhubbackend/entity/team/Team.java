@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Nationalized;
+
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 
 import lombok.AllArgsConstructor;
@@ -29,11 +31,15 @@ public class Team extends MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "Balance", nullable = false)
+    @Nationalized
+    @Column(name = "Name", nullable = false)
+    private String Name;
+
     @Default
+    @Column(name = "Balance", nullable = false)
     private float balance = 0;
 
-    @Column(name = "Status", nullable = false)
     @Default
+    @Column(name = "Status", nullable = false)
     private int status = TeamStatus.ACTIVE.getValue();
 }

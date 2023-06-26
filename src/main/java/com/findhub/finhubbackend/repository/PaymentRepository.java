@@ -3,13 +3,10 @@ package com.findhub.finhubbackend.repository;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.findhub.finhubbackend.entity.payment.Payment;
 
-@Repository
-public interface PaymentRepository extends JpaRepository<Payment, Integer>, Repo<Payment> {
+// @Repository
+public interface PaymentRepository extends Repo<Payment> {
     /**
      * tìm tất cả payment có ProjectId chính xác
      */
