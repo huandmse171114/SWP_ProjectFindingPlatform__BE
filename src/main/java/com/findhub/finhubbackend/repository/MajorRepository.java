@@ -3,13 +3,14 @@ package com.findhub.finhubbackend.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import com.findhub.finhubbackend.dto.MajorDTO;
 import com.findhub.finhubbackend.entity.major.Major;
 
-@Repository
-public interface MajorRepository extends JpaRepository<Major, Integer>, Repo<Major> {
+// @Repository
+public interface MajorRepository extends Repo<Major> {
     /**
      * tìm chính xác name
      */
@@ -29,6 +30,33 @@ public interface MajorRepository extends JpaRepository<Major, Integer>, Repo<Maj
      * tìm tất cả major có Name chính xác
      */
     List<Major> findAllByCodeStartingWith(String code);
+
+    @Query(value = """
+                SELECT *
+                FROM Major
+                WHERE
+                    Name LIKE %:name%
+                OR
+                    Code LIKE :code%
+                OR
+                    Id LIKE :id%
+            """, nativeQuery = true)
+    List<MajorDTO> getAllByNameLikeOrCodeLikeOrIdLike(
+            @Param("id") int id,
+            @Param("code") String code,
+            @Param("name") String name);
+
+    @Query(value = """
+                SELECT *
+                FROM Major
+                WHERE
+                    Name LIKE %:name%
+                OR
+                    Code LIKE :code%
+            """, nativeQuery = true)
+    List<MajorDTO> getAllByNameLikeOrCodeLike(
+            @Param("code") String code,
+            @Param("name") String name);
 
     boolean existsByName(String name);
 

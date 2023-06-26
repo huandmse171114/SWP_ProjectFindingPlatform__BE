@@ -3,13 +3,14 @@ package com.findhub.finhubbackend.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import com.findhub.finhubbackend.dto.CategoryDTO;
 import com.findhub.finhubbackend.entity.category.Category;
 
-@Repository
-public interface CategoryRepository extends JpaRepository<Category, Integer>, Repo<Category> {
+// @Repository
+public interface CategoryRepository extends Repo<Category> {
     /**
      * tìm chính xác name
      */
@@ -19,6 +20,17 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>, Re
      * tìm tất cả Category có chính xác
      */
     List<Category> findAllByNameContaining(String name);
+
+    @Query(value = """
+            SELECT
+                c.Name
+            FROM
+                ProjectCategoryDetail pcd
+                INNER JOIN Category c ON pcd.CategoryId = c.Id
+            WHERE
+                pcd.ProjectId = :id
+			""", nativeQuery = true)
+    List<CategoryDTO> getNameByProjectId(@Param("id") int id);
 
     boolean existsByName(String name);
 

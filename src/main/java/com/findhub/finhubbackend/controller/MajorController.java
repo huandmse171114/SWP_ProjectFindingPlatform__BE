@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.major.MajorStatus;
+import com.findhub.finhubbackend.model.MajorCreateModel;
 import com.findhub.finhubbackend.service.major.MajorService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 
@@ -18,8 +19,11 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.MAJOR)
 public class MajorController extends ApiController<Major, MajorService, MajorStatus> {
 
-	@PostMapping("/")
-	public ResponseEntity<String> add(@RequestBody String code, @RequestBody String name) {
+	@PostMapping()
+	public ResponseEntity<?> add(@RequestBody MajorCreateModel model) {
+		String code = model.getCode();
+		String name = model.getName();
+
 		if (service.existsByCode(code))
 			return new ResponseEntity<>("Major[code=\'" + code + "\'] already existed", HttpStatus.FOUND);
 		if (service.existsByName(name))

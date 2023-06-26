@@ -1,6 +1,8 @@
 package com.findhub.finhubbackend.controller;
 
-import java.util.List;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,166 +12,222 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.entity.Status;
+import com.findhub.finhubbackend.model.ErrorResponseModel;
 import com.findhub.finhubbackend.service.service.Service;
-import com.findhub.finhubbackend.util.Config.ApiPath;
+import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
 
 @SuppressWarnings("null")
 public class ApiController<E, T extends Service<E, S>, S> {
 
-    // private E e;
-    // private String eName = e.getClass().getSimpleName();
-    // private String ePath = "com.findhub.finhubbackend.";
-    // private Class eService = Class.forName(ePath + "service." + eName + "." +
-    // eName + "Service");
-    // private Class eStatus = Class.forName(e.getClass().getName() + "Status");
-    // private Class eCreateModel = Class.forName(ePath + "model" + eName + "." +
-    // eName + "CreateModel");
-    // private Class eResponseModel = Class.forName(ePath + "model" + eName + "." +
-    // eName + "ResponseModel");
-
     @Autowired
     protected T service;
 
-    public boolean doGetEntities() {
-        return false;
+    @SuppressWarnings("unchecked")
+    private Class<E> getEntityClass() {
+        Type type = getClass().getGenericSuperclass();
+        ParameterizedType paramType = (ParameterizedType) type;
+        return (Class<E>) paramType.getActualTypeArguments()[0];
     }
 
-    @GetMapping(ApiPath.ALL)
-    public List<E> getEntities() {
-        return service.getAll();
+    public ResponseEntity<?> errorResponse(String errorMessage, HttpStatus status) {
+        return ResponseEntity
+                .status(status)
+                .body(ErrorResponseModel
+                        .builder()
+                        .status(status)
+                        .message(errorMessage)
+                        .build());
     }
 
-    public boolean doGet() {
-        return false;
+    public ResponseEntity<?> errorResponse(HttpStatus status) {
+        return errorResponse("Failed", status);
     }
 
-    @GetMapping(ApiPath.ID)
-    public E get(@PathVariable(Var.ID) int id) {
-        return service.findById(id);
+    private E getInstance() {
+        try {
+            return getEntityClass().getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public boolean doAdd() {
-        return false;
+    private E instance = getInstance();
+    protected String entityName = instance.getClass().getSimpleName();
+
+    @GetMapping(SubPath.ALL)
+    public ResponseEntity<?> getAll() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping(SubPath.ID)
+    public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
+        E entity = service.get(id);
+
+        return (entity == null)
+                ? ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(ErrorResponseModel
+                                .builder()
+                                .status(HttpStatus.NOT_FOUND)
+                                .message("Cannot find " + entityName + "[id=" + id + "]")
+                                .build())
+                : ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(entity);
     }
 
     // @PostMapping("/")
-    // @SuppressWarnings("unchecked")
-    public ResponseEntity<?> add(@RequestBody E entity) {
-
-        // if (entity instanceof E) {
-        // }
-
+    @SuppressWarnings("unchecked")
+    public ResponseEntity<?> create(@RequestBody Object entity) {
         if (entity == null)
-            return new ResponseEntity<>(
-                    "Failed to add " + entity.getClass().getSimpleName() + ": add content is NULL",
-                    HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(ErrorResponseModel
+                            .builder()
+                            .status(HttpStatus.NOT_FOUND)
+                            .message("Failed to add " + entityName + ": add content is NULL")
+                            .build());
 
-        service.save(entity);
-        return new ResponseEntity<>(
-                "Added new " + entity.getClass().getSimpleName() + " successfully",
-                HttpStatus.OK);
+        if (entity.getClass().isInstance(instance)) {
+            E created = service.save((E) entity);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(((MyEntity) created).getId())
+                    .toUri();
+
+            return ResponseEntity.created(location).body(created);
+
+        } else
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ErrorResponseModel
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST)
+                            .message("Request Object is not " + entityName)
+                            .build());
+
     }
 
-    @PutMapping(ApiPath.ID)
-    // @SuppressWarnings("unchecked")
+    @PutMapping(SubPath.ID)
     public ResponseEntity<?> update(@PathVariable(Var.ID) int id, @RequestBody E entity) {
-        // if(entity instanceof E){}
-        // E x = (E) entity;
 
-        if (service.findById(id) == null)
-            return new ResponseEntity<>(
-                    "Failed to update "
-                            + entity.getClass().getSimpleName() + ": "
-                            + entity.getClass().getSimpleName() + "[id=" + id + "] not found",
-                    HttpStatus.NOT_FOUND);
+        if (service.get(id) == null)
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(ErrorResponseModel
+                            .builder()
+                            .status(HttpStatus.NOT_FOUND)
+                            .message("Failed to update " + entityName + ": " + entityName + "[id=" + id + "] not found")
+                            .build());
 
         if (entity == null)
-            return new ResponseEntity<>(
-                    "Failed to update "
-                            + entity.getClass().getSimpleName()
-                            + ": update content is NULL",
-                    HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ErrorResponseModel
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST)
+                            .message("Failed to update " + entityName + ": update content is NULL")
+                            .build());
 
-        E updateE = service.update(id, entity);
-        return (updateE != null)
-                ? new ResponseEntity<>(
-                        "Updated " + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
-                        HttpStatus.OK)
-                : new ResponseEntity<>(
-                        "Failed to update " + entity.getClass().getSimpleName() + "[id=" + id + "]",
-                        HttpStatus.BAD_REQUEST);
+        if (entity.getClass().isInstance(instance)) {
+            E updateE = service.update(id, entity);
+            return (updateE != null)
+                    ? new ResponseEntity<>(
+                            "Updated " + entityName + "[id=" + id + "] successfully",
+                            HttpStatus.OK)
+                    : new ResponseEntity<>(
+                            "Failed to update " + entityName + "[id=" + id + "]",
+                            HttpStatus.BAD_REQUEST);
+        } else
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ErrorResponseModel
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST)
+                            .message("Request Object is not " + entityName)
+                            .build());
     }
 
-    @PutMapping(ApiPath.CHANGE_STATUS)
+    @PutMapping(SubPath.CHANGE_STATUS)
     public ResponseEntity<?> updateStatus(@PathVariable(Var.ID) int id, @RequestBody int status) {
 
-        E entity = service.findById(id);
+        E entity = service.get(id);
 
         if (entity == null)
-            return new ResponseEntity<>(
-                    "Failed to update"
-                            + entity.getClass().getSimpleName()
-                            + "[status=" + ((MyEntity) entity).getStatus() + "] to "
-                            + entity.getClass().getSimpleName() + "[status=" + status + "]: "
-                            + entity.getClass().getSimpleName() + "[id=" + id + "] not found",
-                    HttpStatus.NOT_FOUND);
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(ErrorResponseModel
+                            .builder()
+                            .status(HttpStatus.NOT_FOUND)
+                            .message("Failed to update"
+                                    + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
+                                    + entityName + "[status=" + status + "]: "
+                                    + entityName + "[id=" + id + "] not found")
+                            .build());
 
         return (service.updateStatus(id, status))
-                ? new ResponseEntity<>(
-                        "Updated"
-                                + entity.getClass().getSimpleName()
-                                + "[status=" + ((MyEntity) entity).getStatus() + "] to "
-                                + entity.getClass().getSimpleName() + "[status=" + status + "] successfully",
-                        HttpStatus.OK)
-                : new ResponseEntity<>(
-                        "Failed to update " + entity.getClass().getSimpleName() + "[id=" + id + "]",
-                        HttpStatus.BAD_REQUEST);
+                ? ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(ErrorResponseModel
+                                .builder()
+                                .status(HttpStatus.OK)
+                                .message("Updated"
+                                        + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
+                                        + entityName + "[status=" + status + "] successfully")
+                                .build())
+                : ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(ErrorResponseModel
+                                .builder()
+                                .status(HttpStatus.BAD_REQUEST)
+                                .message("Failed to update " + entityName + "[id=" + id + "]")
+                                .build());
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<String> delete(@RequestBody int id) {
+    @DeleteMapping(SubPath.ID)
+    public ResponseEntity<?> delete(@PathVariable(Var.ID) int id) {
 
-        E entity = service.findById(id);
+        E entity = service.get(id);
 
         if (entity == null)
-            return new ResponseEntity<>(
-                    "Failed to delete "
-                            + entity.getClass().getSimpleName() + ": "
-                            + entity.getClass().getSimpleName() + "[id=" + id + "] not found",
-                    HttpStatus.NOT_FOUND);
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(ErrorResponseModel
+                            .builder()
+                            .status(HttpStatus.NOT_FOUND)
+                            .message("Failed to delete "
+                                    + entityName + ": "
+                                    + entityName + "[id=" + id + "] not found")
+                            .build());
 
         return (service.delete(entity))
-                ? new ResponseEntity<>(
-                        "Deleted " + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
-                        HttpStatus.OK)
-                : new ResponseEntity<>(
-                        "Failed to delete " + entity.getClass().getSimpleName() + "[id=" + id + "]",
-                        HttpStatus.BAD_REQUEST);
+                ? ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(ErrorResponseModel
+                                .builder()
+                                .status(HttpStatus.OK)
+                                .message("Deleted " + entityName + "[id=" + id + "] successfully")
+                                .build())
+                : ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(ErrorResponseModel
+                                .builder()
+                                .status(HttpStatus.BAD_REQUEST)
+                                .message("Failed to delete " + entityName + "[id=" + id + "]")
+                                .build());
     }
 
     public ResponseEntity<?> enable(@RequestBody int id) {
-        E entity = service.findById(id);
-        return (service.updateStatus(id, Status.ACTIVE))
-                ? new ResponseEntity<>(
-                        "Enable " + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
-                        HttpStatus.OK)
-                : new ResponseEntity<>(
-                        "Failed to enable " + entity.getClass().getSimpleName() + "[id=" + id + "]",
-                        HttpStatus.BAD_REQUEST);
+        return updateStatus(id, Status.ACTIVE.getValue());
     }
 
     public ResponseEntity<?> disable(@RequestBody int id) {
-        E entity = service.findById(id);
-        return (service.updateStatus(id, Status.INACTIVE))
-                ? new ResponseEntity<>(
-                        "Disable" + entity.getClass().getSimpleName() + "[id=" + id + "] successfully",
-                        HttpStatus.OK)
-                : new ResponseEntity<>(
-                        "Failed to disable" + entity.getClass().getSimpleName() + "[id=" + id + "]",
-                        HttpStatus.BAD_REQUEST);
+        return updateStatus(id, Status.INACTIVE.getValue());
     }
 }

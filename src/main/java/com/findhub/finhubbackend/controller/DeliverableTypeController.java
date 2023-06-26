@@ -19,9 +19,8 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 public class DeliverableTypeController
         extends ApiController<DeliverableType, DeliverableTypeService, DeliverableTypeStatus> {
 
-
     @PostMapping("/")
-    public ResponseEntity<String> add(@RequestBody String name) {
+    public ResponseEntity<?> add(@RequestBody String name) {
         if (service.existsByName(name))
             return new ResponseEntity<>("DeliverableType[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 

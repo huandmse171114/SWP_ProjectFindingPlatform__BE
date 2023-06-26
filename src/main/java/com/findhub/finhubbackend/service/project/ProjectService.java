@@ -4,8 +4,10 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.findhub.finhubbackend.dto.ProjectDTO;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
+import com.findhub.finhubbackend.model.ProjectResponseModel;
 import com.findhub.finhubbackend.service.service.Service;
 
 public interface ProjectService extends Service<Project, ProjectStatus> {
@@ -41,6 +43,10 @@ public interface ProjectService extends Service<Project, ProjectStatus> {
     public List<Project> findAllByPublishDateAfter(Date publishDate);
 
     public List<Project> findAllByPublishDateBefore(Date publishDate);
+
+    public List<ProjectDTO> getAllByNameContainingOrIdLike(int id, String name);
+
+    public ProjectResponseModel getResponseModelById(int id);
 
     // public boolean existsByTeamIdAndProjectId(int teamId, int projectId);
 

@@ -2,15 +2,11 @@ package com.findhub.finhubbackend.repository;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import com.findhub.finhubbackend.entity.application.Application;
 
-@Repository
-public interface ApplicationRepository extends JpaRepository<Application, Integer>, Repo<Application> {
+// @Repository
+public interface ApplicationRepository extends Repo<Application> {
 
     /**
      * tìm tất cả category có ProjectId chính xác

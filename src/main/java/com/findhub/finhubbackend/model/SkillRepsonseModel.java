@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SkillRepsonseModel {
-    private int level;
     private String name;
+    private int level;
 }

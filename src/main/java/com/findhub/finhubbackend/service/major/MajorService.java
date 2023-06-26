@@ -3,6 +3,7 @@ package com.findhub.finhubbackend.service.major;
 import java.util.List;
 import java.util.Optional;
 
+import com.findhub.finhubbackend.dto.MajorDTO;
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.major.MajorStatus;
 import com.findhub.finhubbackend.service.service.Service;
@@ -28,6 +29,10 @@ public interface MajorService extends Service<Major, MajorStatus> {
      * tìm tất cả major có Name chính xác
      */
     public List<Major> findAllByCodeStartingWith(String code);
+
+    public List<MajorDTO> getAllByNameLikeOrCodeLikeOrIdLike(String input);
+
+    public List<MajorDTO> getAllByNameLikeOrCodeLike(String input);
 
     public boolean existsByName(String name);
 

@@ -24,11 +24,20 @@ public enum ApplicationStatus {
 		return status.get(val);
 	}
 
-	private ApplicationStatus(int value) {
-		this.value = value;
+	public static int nextStatus(int val) {
+		int next = val++;
+		return isExisted(next) ? next : 0;
+	}
+
+	public static boolean isExisted(int val) {
+		return status.get(val) != null;
 	}
 
 	public int getValue() {
 		return this.value;
+	}
+
+	private ApplicationStatus(int value) {
+		this.value = value;
 	}
 }

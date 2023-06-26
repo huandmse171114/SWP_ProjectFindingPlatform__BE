@@ -3,13 +3,14 @@ package com.findhub.finhubbackend.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import com.findhub.finhubbackend.dto.MemberDTO;
 import com.findhub.finhubbackend.entity.member.Member;
 
-@Repository
-public interface MemberRepository extends JpaRepository<Member, Integer>, Repo<Member> {
+// @Repository
+public interface MemberRepository extends Repo<Member> {
 
     /**
      * tìm chính xác name
@@ -37,6 +38,38 @@ public interface MemberRepository extends JpaRepository<Member, Integer>, Repo<M
     List<Member> findAllByMajorId(int id);
 
     List<Member> findAllByStatus(int status);
+
+    @Query(value = """
+            SELECT *
+            FROM
+                Member
+            WHERE
+                Name LIKE %:name%
+            OR
+                Email LIKE %:email%
+            OR
+                Phone LIKE %:phone%
+            OR
+                Id LIKE :id%
+			ORDER BY
+                Id ASC
+            """, nativeQuery = true)
+    List<MemberDTO> getAllByNameContainingOrEmailContainingOrPhoneContainingOrIdLike(
+            @Param("id") int id,
+            @Param("email") String email,
+            @Param("phone") String phone,
+            @Param("name") String name);
+
+    @Query(value = """
+            SELECT *
+            FROM
+                Member
+            WHERE
+                Name LIKE %:name%
+			ORDER BY
+                Id ASC
+            """, nativeQuery = true)
+    List<MemberDTO> getAllByNameContaining(@Param("name") String name);
 
     boolean existsByEmail(String email);
 }

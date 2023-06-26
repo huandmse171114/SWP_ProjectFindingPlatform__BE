@@ -1,22 +1,49 @@
 package com.findhub.finhubbackend.service.member;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.findhub.finhubbackend.dto.MemberDTO;
+import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberStatus;
+import com.findhub.finhubbackend.model.MajorResponseModel;
+import com.findhub.finhubbackend.model.MemberResponseModel;
+import com.findhub.finhubbackend.model.SkillRepsonseModel;
 import com.findhub.finhubbackend.repository.MemberRepository;
+import com.findhub.finhubbackend.service.major.MajorService;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
+import com.findhub.finhubbackend.service.skill.SkillService;
+import com.findhub.finhubbackend.util.Utils;
 
 @Service
 public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, MemberStatus>
         implements MemberService {
 
+    @Autowired
+    private SkillService skillService;
+
+    @Autowired
+    private MajorService majorService;
+
     @Override
     public List<Member> findAllByBalance(float balance) {
         return repo.findAllByBalance(balance);
+    }
+
+    @Override
+    public List<MemberDTO> getAllByNameContaining(String name) {
+        return repo.getAllByNameContaining(name);
+    }
+
+    @Override
+    public List<MemberDTO> getAllByNameContainingOrEmailContainingOrPhoneContainingOrIdLike(String input) {
+        int id = Integer.parseInt(input);
+        return repo.getAllByNameContainingOrEmailContainingOrPhoneContainingOrIdLike(id, input, input, input);
     }
 
     @Override
@@ -57,6 +84,42 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
     @Override
     public Optional<Member> findByPhone(String phone) {
         return repo.findByPhone(phone);
+    }
+
+    public MemberResponseModel getResponseModelById(int id) {
+        Member member = get(id);
+
+        if (member == null)
+            return null;
+
+        List<SkillRepsonseModel> skills = new ArrayList<>();
+        skillService.getNameAndLevelByMemberId(id)
+                .forEach(each -> skills.add(
+                        SkillRepsonseModel
+                                .builder()
+                                .name(each.getName())
+                                .level(each.getLevel())
+                                .build()));
+
+        String status = MemberStatus.nameOf(member.getStatus());
+        Major major = majorService.get(member.getMajorId());
+
+        return MemberResponseModel.builder()
+                .id(id)
+                .name(member.getName())
+                .email(member.getEmail())
+                .phone(member.getPhone())
+                .description(member.getDescription())
+                .balance(member.getBalance())
+                .DOB(member.getDob())
+                .major(MajorResponseModel
+                        .builder()
+                        .code(major.getCode())
+                        .name(major.getName())
+                        .build())
+                .skills(skills)
+                .status(Utils.capitalize(status))
+                .build();
     }
 
 }

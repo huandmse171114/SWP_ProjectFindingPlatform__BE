@@ -1,6 +1,5 @@
 package com.findhub.finhubbackend.service.service;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,15 +90,14 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
-    public E findById(int id) {
+    public E get(int id) {
         Optional<E> entity = repo.findById(id);
         return entity.isPresent() ? entity.get() : null;
     }
 
     @Override
-    public List<E> findAllByIdStartingWith(int id) {
+    public List<E> findAllByIdContaining(int id) {
         return repo.findAllByIdContaining(id);
-
     }
 
     @Override
