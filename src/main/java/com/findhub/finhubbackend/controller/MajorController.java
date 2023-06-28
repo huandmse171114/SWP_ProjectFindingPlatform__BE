@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.major.MajorStatus;
-import com.findhub.finhubbackend.model.MajorCreateModel;
+import com.findhub.finhubbackend.model.create.MajorCreateModel;
 import com.findhub.finhubbackend.service.major.MajorService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 

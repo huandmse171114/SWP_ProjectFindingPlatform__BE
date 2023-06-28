@@ -11,18 +11,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// import com.findhub.finhubbackend.controller.ProjectController;
-
 import com.findhub.finhubbackend.dto.MajorDTO;
 import com.findhub.finhubbackend.dto.MemberDTO;
 import com.findhub.finhubbackend.dto.PublisherDTO;
 import com.findhub.finhubbackend.dto.TeamDTO;
 import com.findhub.finhubbackend.entity.account.Account;
-import com.findhub.finhubbackend.model.ProjectResponseModel;
-import com.findhub.finhubbackend.model.SearchResponseModel;
+import com.findhub.finhubbackend.model.response.ProjectResponseModel;
+import com.findhub.finhubbackend.model.response.SearchResponseModel;
 import com.findhub.finhubbackend.service.category.CategoryService;
 import com.findhub.finhubbackend.service.major.MajorService;
 import com.findhub.finhubbackend.service.member.MemberService;
+import com.findhub.finhubbackend.service.project.ProjectService;
 import com.findhub.finhubbackend.service.publisher.PublisherService;
 import com.findhub.finhubbackend.service.search.SearchService;
 import com.findhub.finhubbackend.service.skill.SkillService;
@@ -37,10 +36,10 @@ import com.findhub.finhubbackend.util.Utils;
 public class SearchController {
 
     @Autowired
-    private SearchService filterService;
+    private SearchService searchService;
 
     @Autowired
-    private ProjectController projectController;
+    private ProjectService projectService;
 
     @Autowired
     private MajorService majorService;
@@ -62,18 +61,18 @@ public class SearchController {
 
     @GetMapping(SubPath.SEARCH_ACCOUNTS)
     public Account filterAccountById(@PathVariable("id") int id) {
-        return filterService.findAccountById(id);
+        return searchService.findAccountById(id);
     }
 
-    private List<ProjectResponseModel> getProjects(String keyword) {
+    private List<ProjectResponseModel> searchProjects(String keyword) {
         // List<ProjectResponseModel> projects;
 
         return (Utils.isNum(keyword))
-                ? projectController.getAllByNameContainingOrIdLike(keyword)
-                : projectController.findAllByNameContaining(keyword);
+                ? projectService.getAllByNameContainingOrIdLike(keyword)
+                : projectService.getAllByNameContaining(keyword);
     }
 
-    private List<MajorDTO> getMajors(String keyword) {
+    private List<MajorDTO> searchMajors(String keyword) {
         // List<MajorDTO> majors;
 
         return (Utils.isNum(keyword))
@@ -81,7 +80,7 @@ public class SearchController {
                 : majorService.getAllByNameLikeOrCodeLike(keyword);
     }
 
-    private List<MemberDTO> getMembers(String keyword) {
+    private List<MemberDTO> searchMembers(String keyword) {
         // List<MemberDTO> members;
 
         return (Utils.isNum(keyword))
@@ -90,7 +89,7 @@ public class SearchController {
 
     }
 
-    private List<TeamDTO> getTeams(String keyword) {
+    private List<TeamDTO> searchTeams(String keyword) {
         // List<TeamDTO> teams;
 
         return (Utils.isNum(keyword))
@@ -98,7 +97,7 @@ public class SearchController {
                 : teamService.getAllByNameContaining(keyword);
     }
 
-    private List<PublisherDTO> getPublishers(String keyword) {
+    private List<PublisherDTO> searchPublishers(String keyword) {
         // List<PublisherDTO> publishers;
 
         return (Utils.isNum(keyword))
@@ -106,7 +105,7 @@ public class SearchController {
                 : publisherService.getAllByNameContainingOrEmailContainingOrPhoneContaining(keyword);
     }
 
-    private List<String> getSkills(String keyword) {
+    private List<String> searchSkills(String keyword) {
         List<String> skills = new ArrayList<>();
 
         skillService.findAllByNameContaining(keyword)
@@ -115,7 +114,7 @@ public class SearchController {
         return skills;
     }
 
-    private List<String> getCategories(String keyword) {
+    private List<String> searchCategories(String keyword) {
         List<String> categories = new ArrayList<>();
 
         categoryService.findAllByNameContaining(keyword)
@@ -128,52 +127,52 @@ public class SearchController {
     public ResponseEntity<?> responseProjects(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(getProjects(keyword));
+                .body(searchProjects(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_MAJORS)
     public ResponseEntity<?> responseMajors(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(getMajors(keyword));
+                .body(searchMajors(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_MEMBERS)
     public ResponseEntity<?> responseMembers(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(getMembers(keyword));
+                .body(searchMembers(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_TEAMS)
     public ResponseEntity<?> responseTeams(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(getTeams(keyword));
+                .body(searchTeams(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_SKILLS)
     public ResponseEntity<?> responseSkills(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(getSkills(keyword));
+                .body(searchSkills(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_CATEGORIES)
     public ResponseEntity<?> responseCategories(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(getCategories(keyword));
+                .body(searchCategories(keyword));
     }
 
     @GetMapping(SubPath.KEYWORD)
     public ResponseEntity<?> getAllMatchResult(@PathVariable(Var.KEYWORD) String keyword) {
-        List<ProjectResponseModel> projects = getProjects(keyword);
-        List<MajorDTO> majors = getMajors(keyword);
-        List<MemberDTO> members = getMembers(keyword);
-        List<PublisherDTO> publishers = getPublishers(keyword);
-        List<TeamDTO> teams = getTeams(keyword);
-        List<String> skills = getSkills(keyword);
+        List<ProjectResponseModel> projects = searchProjects(keyword);
+        List<MajorDTO> majors = searchMajors(keyword);
+        List<MemberDTO> members = searchMembers(keyword);
+        List<PublisherDTO> publishers = searchPublishers(keyword);
+        List<TeamDTO> teams = searchTeams(keyword);
+        List<String> skills = searchSkills(keyword);
         List<String> categories = new ArrayList<>();
 
         categoryService.findAllByNameContaining(keyword)

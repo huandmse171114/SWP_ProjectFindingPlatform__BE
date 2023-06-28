@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.model;
+package com.findhub.finhubbackend.model.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SkillRepsonseModel {
+public class MajorCreateModel {
+    private String code;
     private String name;
-    private int level;
 }

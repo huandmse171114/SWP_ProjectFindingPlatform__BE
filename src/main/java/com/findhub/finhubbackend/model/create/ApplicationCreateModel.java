@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.model;
+package com.findhub.finhubbackend.model.create;
 
 public interface ApplicationCreateModel {
     int getLeaderId();

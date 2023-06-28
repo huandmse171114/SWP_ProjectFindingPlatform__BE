@@ -13,7 +13,7 @@ import com.findhub.finhubbackend.dto.ProjectDTO;
 import com.findhub.finhubbackend.dto.SkillDTO;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
-import com.findhub.finhubbackend.model.ProjectResponseModel;
+import com.findhub.finhubbackend.model.response.ProjectResponseModel;
 import com.findhub.finhubbackend.repository.ProjectRepository;
 import com.findhub.finhubbackend.service.category.CategoryService;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
@@ -101,7 +101,7 @@ public class ProjectServiceImpl extends ServiceImpl<Project, ProjectRepository, 
 	}
 
 	@Override
-	public ProjectResponseModel getResponseModelById(int id) {
+	public ProjectResponseModel getById(int id) {
 		Project project = get(id);
 
 		if (project == null)
@@ -128,6 +128,40 @@ public class ProjectServiceImpl extends ServiceImpl<Project, ProjectRepository, 
 				.categories(categories)
 				.description(project.getDescription())
 				.build();
+	}
+
+	public List<ProjectResponseModel> getAllByIdContaining(int id) {
+		List<ProjectResponseModel> result = new ArrayList<>();
+
+		findAllByIdContaining(id)
+				.forEach(each -> result.add(getById(each.getId())));
+
+		return result;
+	}
+
+	public List<ProjectResponseModel> getAllByNameContaining(String name) {
+		List<ProjectResponseModel> result = new ArrayList<>();
+
+		findAllByNameContaining(name)
+				.forEach(each -> result.add(getById(each.getId())));
+
+		return result;
+	}
+
+	public List<ProjectResponseModel> getAllByNameContainingOrIdLike(String input) {
+		List<ProjectResponseModel> result = new ArrayList<>();
+
+		if (Utils.isNum(input)) {
+			int id = Integer.parseInt(input);
+			getAllByNameContainingOrIdLike(id, input)
+					.forEach(each -> result.add(
+							getById(
+									each.getId())));
+
+		} else
+			getAllByNameContaining(input);
+
+		return result;
 	}
 
 	// @Override

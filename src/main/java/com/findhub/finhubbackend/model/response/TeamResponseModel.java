@@ -1,6 +1,6 @@
-package com.findhub.finhubbackend.model;
+package com.findhub.finhubbackend.model.response;
 
-import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PublisherResponseModel {
+public class TeamResponseModel {
     private int id;
-    private String email;
     private String name;
-    private Date DOB;
-    private String phone;
+    // private PublisherDTO publisher;
+    private List<?> members;
     private float balance;
     private String status;
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberStatus;
-import com.findhub.finhubbackend.model.MemberResponseModel;
+import com.findhub.finhubbackend.model.response.MemberResponseModel;
 import com.findhub.finhubbackend.service.member.MemberService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.Var;

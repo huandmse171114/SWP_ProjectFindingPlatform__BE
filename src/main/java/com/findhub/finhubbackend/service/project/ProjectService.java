@@ -7,7 +7,7 @@ import java.util.Optional;
 import com.findhub.finhubbackend.dto.ProjectDTO;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
-import com.findhub.finhubbackend.model.ProjectResponseModel;
+import com.findhub.finhubbackend.model.response.ProjectResponseModel;
 import com.findhub.finhubbackend.service.service.Service;
 
 public interface ProjectService extends Service<Project, ProjectStatus> {
@@ -46,7 +46,13 @@ public interface ProjectService extends Service<Project, ProjectStatus> {
 
     public List<ProjectDTO> getAllByNameContainingOrIdLike(int id, String name);
 
-    public ProjectResponseModel getResponseModelById(int id);
+    public ProjectResponseModel getById(int id);
+
+    public List<ProjectResponseModel> getAllByIdContaining(int id);
+
+    public List<ProjectResponseModel> getAllByNameContaining(String name);
+
+    public List<ProjectResponseModel> getAllByNameContainingOrIdLike(String input);
 
     // public boolean existsByTeamIdAndProjectId(int teamId, int projectId);
 

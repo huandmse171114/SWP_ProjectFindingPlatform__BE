@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.entity.publisher.PublisherStatus;
-import com.findhub.finhubbackend.model.PublisherResponseModel;
+import com.findhub.finhubbackend.model.response.PublisherResponseModel;
 import com.findhub.finhubbackend.service.publisher.PublisherService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.Var;

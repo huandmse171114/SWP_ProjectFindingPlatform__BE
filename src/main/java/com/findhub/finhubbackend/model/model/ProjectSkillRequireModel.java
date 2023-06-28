@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.model;
+package com.findhub.finhubbackend.model.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PaymentCreateModel {
+public class ProjectSkillRequireModel {
+    private int skillId;
     private int projectId;
-    private int teamId;
-    private float amount;
-    private String description;
+    private int level;
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.findhub.finhubbackend.dto.PublisherDTO;
 import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.entity.publisher.PublisherStatus;
-import com.findhub.finhubbackend.model.PublisherResponseModel;
+import com.findhub.finhubbackend.model.response.PublisherResponseModel;
 import com.findhub.finhubbackend.repository.PublisherRepository;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
 import com.findhub.finhubbackend.util.Utils;

@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.model;
+package com.findhub.finhubbackend.model.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MajorResponseModel {
-    private String code;
+public class CategoryModel {
+    private int id;
     private String name;
 }

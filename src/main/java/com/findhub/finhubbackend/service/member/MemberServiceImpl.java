@@ -11,9 +11,9 @@ import com.findhub.finhubbackend.dto.MemberDTO;
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberStatus;
-import com.findhub.finhubbackend.model.MajorResponseModel;
-import com.findhub.finhubbackend.model.MemberResponseModel;
-import com.findhub.finhubbackend.model.SkillRepsonseModel;
+import com.findhub.finhubbackend.model.model.SkillModel;
+import com.findhub.finhubbackend.model.response.MajorResponseModel;
+import com.findhub.finhubbackend.model.response.MemberResponseModel;
 import com.findhub.finhubbackend.repository.MemberRepository;
 import com.findhub.finhubbackend.service.major.MajorService;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
@@ -92,10 +92,10 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
         if (member == null)
             return null;
 
-        List<SkillRepsonseModel> skills = new ArrayList<>();
+        List<SkillModel> skills = new ArrayList<>();
         skillService.getNameAndLevelByMemberId(id)
                 .forEach(each -> skills.add(
-                        SkillRepsonseModel
+                        SkillModel
                                 .builder()
                                 .name(each.getName())
                                 .level(each.getLevel())

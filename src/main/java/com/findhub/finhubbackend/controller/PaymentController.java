@@ -13,7 +13,7 @@ import com.findhub.finhubbackend.entity.payment.Payment;
 import com.findhub.finhubbackend.entity.payment.PaymentStatus;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.team.Team;
-import com.findhub.finhubbackend.model.PaymentCreateModel;
+import com.findhub.finhubbackend.model.create.PaymentCreateModel;
 import com.findhub.finhubbackend.service.payment.PaymentService;
 import com.findhub.finhubbackend.service.project.ProjectService;
 import com.findhub.finhubbackend.service.team.TeamService;

@@ -28,6 +28,15 @@ public class CategoryController extends ApiController<Category, CategoryService,
                 .build();
 
         service.save(category);
-        return new ResponseEntity<>("Added new Category[name=\'" + name + "\'] successfully", HttpStatus.OK);
+        // return new ResponseEntity<>("Added new Category[name=\'" + name + "\'] successfully", HttpStatus.OK);
+
+        return super.create(category);
     }
+
+    @Override
+    public ResponseEntity<?> get(int id) {
+        // TODO Auto-generated method stub
+        return super.get(id);
+    }
+
 }

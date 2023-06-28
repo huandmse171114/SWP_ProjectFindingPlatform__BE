@@ -65,6 +65,9 @@ public class Project extends MyEntity {
 	@Column(name = "PublishDate", nullable = false)
 	private Date publishDate;
 
+	@Column(name = "DueDate", nullable = false)
+	private Date dueDate;
+
 	@Default
 	@Column(name = "Status", nullable = false)
 	private int status = ProjectStatus.ACTIVE.getValue();
