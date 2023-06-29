@@ -11,4 +11,6 @@ public interface MemberDTO {
 
     String getDescription();
 
+    int getRole();
+
 }

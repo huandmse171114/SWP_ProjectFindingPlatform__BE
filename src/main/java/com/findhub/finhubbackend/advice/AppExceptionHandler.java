@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.findhub.finhubbackend.exception.CreateEntityFailedException;
 import com.findhub.finhubbackend.exception.EntityCrudException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
+import com.findhub.finhubbackend.exception.StatusNotFoundException;
 import com.findhub.finhubbackend.model.model.ExceptionModel;
 
 @RestControllerAdvice
@@ -96,6 +97,18 @@ public class AppExceptionHandler {
                 .message(ex.getMessage())
                 // .cause(cause)
                 .build();
+    }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = { StatusNotFoundException.class })
+    public ExceptionModel handleStatusNotFound(StatusNotFoundException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        return ExceptionModel
+                .builder()
+                .status(status.value())
+                .message(ex.getMessage())
+                // .cause(cause)
+                .build();
     }
 }

@@ -62,8 +62,9 @@ public class Project extends MyEntity {
 	@Column(name = "DeliverDays", nullable = false)
 	private int deliverDays;
 
+	@Default
 	@Column(name = "PublishDate", nullable = false)
-	private Date publishDate;
+	private Date publishDate = new Date(System.currentTimeMillis());
 
 	@Column(name = "DueDate", nullable = false)
 	private Date dueDate;

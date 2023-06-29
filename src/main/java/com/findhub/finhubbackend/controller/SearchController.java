@@ -176,7 +176,11 @@ public class SearchController {
         List<String> categories = new ArrayList<>();
 
         categoryService.findAllByNameContaining(keyword)
-                .forEach(each -> categories.add(each.getName()));
+            .forEach(
+                each -> categories.add(
+                    each.getName()
+                )
+            );
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -34,11 +34,16 @@ public class PublisherController extends ApiController<Publisher, PublisherServi
         List<Publisher> publishers = service.getAll();
 
         if (publishers.isEmpty())
-            return errorResponse("No" + entityName + "found",
-                    HttpStatus.NOT_FOUND);
+            return errorResponse("No" + entityName + "found", HttpStatus.NOT_FOUND);
 
         List<PublisherResponseModel> prm = new ArrayList<>();
-        publishers.forEach(each -> prm.add(service.getResponseModelById(each.getId())));
+        publishers.forEach(
+            each -> prm.add(
+                service.getResponseModelById(
+                    each.getId()
+                )
+            )
+        );
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -26,6 +26,7 @@ public class MajorController extends ApiController<Major, MajorService, MajorSta
 
 		if (service.existsByCode(code))
 			return new ResponseEntity<>("Major[code=\'" + code + "\'] already existed", HttpStatus.FOUND);
+
 		if (service.existsByName(name))
 			return new ResponseEntity<>("Major[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 

@@ -18,7 +18,7 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.SKILL)
 public class SkillController extends ApiController<Skill, SkillService, SkillStatus> {
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<String> add(@RequestBody String name) {
         if (service.existsByName(name))
             return new ResponseEntity<>("Skill[name=\'" + name + "\'] already existed", HttpStatus.FOUND);

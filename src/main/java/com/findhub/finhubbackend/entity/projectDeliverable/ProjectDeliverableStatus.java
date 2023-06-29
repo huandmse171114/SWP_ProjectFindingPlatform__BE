@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.entity.project;
+package com.findhub.finhubbackend.entity.projectDeliverable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,17 +8,13 @@ import java.util.Map;
 import com.findhub.finhubbackend.model.model.StatusModel;
 import com.findhub.finhubbackend.util.Utils;
 
-public enum ProjectStatus {
-	INACTIVE(0),
+public enum ProjectDeliverableStatus {
+    INACTIVE(0),
 	ACTIVE(1),
-	DELETED(99),
+    DELETED(99),
+    ;
 
-	APPROVED(2),
-	ONGOING(3),
-	FINISHED(4),
-	;
-
-	private final int value;
+    private final int value;
 	private static final Map<Integer, String> status = new HashMap<>();
 	private static final List<StatusModel> model = new ArrayList<>();
 
@@ -40,7 +36,7 @@ public enum ProjectStatus {
 
 	}
 
-	private ProjectStatus(int value) {
+	private ProjectDeliverableStatus(int value) {
 		this.value = value;
 	}
 

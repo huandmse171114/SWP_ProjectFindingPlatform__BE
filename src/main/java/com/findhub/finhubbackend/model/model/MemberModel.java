@@ -1,9 +1,9 @@
-package com.findhub.finhubbackend.model.response;
+package com.findhub.finhubbackend.model.model;
 
 import java.sql.Date;
 import java.util.List;
 
-import com.findhub.finhubbackend.model.model.SkillModel;
+import com.findhub.finhubbackend.model.response.MajorResponseModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MemberResponseModel {
+public class MemberModel {
     private int id;
     private String email;
     private String name;
@@ -24,6 +24,7 @@ public class MemberResponseModel {
     private float balance;
     private MajorResponseModel major;
     private String status;
+    private String role;
 
     // extend infomation
     private List<SkillModel> skills;

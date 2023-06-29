@@ -69,7 +69,28 @@ public interface MemberRepository extends Repo<Member> {
 			ORDER BY
                 Id ASC
             """, nativeQuery = true)
-    List<MemberDTO> getAllByNameContaining(@Param("name") String name);
+            List<MemberDTO> getAllByNameContaining(@Param("name") String name);
+
+    @Query(value = """
+            SELECT
+                m.Id,
+                m.Phone,
+                m.Email,
+                m.Name,
+                m.Description,
+                m.Balance,
+                m.DOB,
+                td.Role
+            FROM
+                TeamDetail td
+            LEFT JOIN
+                Member m ON td.MemberId = m.Id
+            WHERE
+                td.TeamId = :id
+            ORDER BY
+                Id ASC
+            """, nativeQuery = true)
+    List<MemberDTO> getAllByTeamId(@Param("id") int id);
 
     boolean existsByEmail(String email);
 }

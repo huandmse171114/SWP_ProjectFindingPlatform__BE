@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,17 +23,19 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
 import com.findhub.finhubbackend.entity.projectCategoryDetail.ProjectCategoryDetail;
+import com.findhub.finhubbackend.entity.projectDeliverable.ProjectDeliverable;
 import com.findhub.finhubbackend.entity.projectSkillRequire.ProjectSkillRequire;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
 import com.findhub.finhubbackend.model.create.ProjectCreateModel;
 import com.findhub.finhubbackend.model.response.ProjectResponseModel;
 import com.findhub.finhubbackend.service.project.ProjectService;
 import com.findhub.finhubbackend.service.projectCategoryDetail.ProjectCategoryDetailService;
+import com.findhub.finhubbackend.service.projectDeliverable.ProjectDeliverableService;
 import com.findhub.finhubbackend.service.projectSkillRequire.ProjectSkillRequireService;
-import com.findhub.finhubbackend.util.Utils;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
+import com.findhub.finhubbackend.util.Utils;
 
 @RestController
 @CrossOrigin
@@ -44,6 +47,25 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 
 	@Autowired
 	private ProjectCategoryDetailService pcdServie;
+
+	@Autowired
+	private ProjectDeliverableService pdService;
+
+	private List<ProjectResponseModel> getList(List<Project> projects) {
+		if (projects.isEmpty())
+			throw new EntityNotFoundException("No projects found");
+
+		List<ProjectResponseModel> result = new ArrayList<>();
+		projects.forEach(
+			p -> result.add(
+				service.getById(
+					p.getId()
+				)
+			)
+		);
+
+		return result;
+	}
 
 	@Override
 	public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
@@ -59,54 +81,69 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 
 	@Override
 	public ResponseEntity<?> getAll() {
-		List<Project> projects = service.getAll();
-
-		if (projects.isEmpty())
-			throw new EntityNotFoundException("No projects found");
-
-		List<ProjectResponseModel> prm = new ArrayList<>();
-		for (var p : projects)
-			prm.add(service.getById(p.getId()));
-
 		return ResponseEntity
 				.status(HttpStatus.OK)
-				.body(prm);
+				.body(getList(service.getAll()));
 	}
 
-	@PostMapping("/x")
-	public ResponseEntity<?> x(@RequestBody ProjectCreateModel model) {
-		Date publishDate = Date.valueOf(model.getPublishDate());
-		Date dueDate = Utils.addDate(publishDate, model.getDeliverDays());
+	@GetMapping(SubPath.ACTIVE)
+	public ResponseEntity<?> getActive() {
+		List<Project> projects = service.findAllByStatus(ProjectStatus.ACTIVE);
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(projects);
 
-		Project project = Project.builder()
-				.name(model.getName())
-				.publisherId(model.getPublisherId())
-				.description(model.getDescription())
-				.wage(model.getWage())
-				.imageURL(model.getImageURL())
-				.deliverDays(model.getDeliverDays())
-				.publishDate(publishDate)
-				.dueDate(dueDate)
-				.build();
+	}
 
-		Project created = service.save(project);
-		int id = created.getId();
+	@GetMapping(SubPath.INACTIVE)
+	public ResponseEntity<?> getInActive() {
+		List<Project> projects = service.findAllByStatus(ProjectStatus.INACTIVE);
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(projects);
 
-		model.getCategories().forEach(
-				category -> pcdServie.save(
-						ProjectCategoryDetail.builder()
-								.projectId(id)
-								.categoryId(category)
-								.build()));
+	}
 
-		return new ResponseEntity<>(created, HttpStatus.OK);
+	@GetMapping(SubPath.STATUS_ALL)
+	public ResponseEntity<?> getStatusAll() {
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(ProjectStatus.getAll());
+	}
+
+	@GetMapping(SubPath.STATUS_KEYWORD)
+	public ResponseEntity<?> getStatusList(@PathVariable(Var.KEYWORD) String keyword) {
+
+		if (!ProjectStatus.isExisted(keyword))
+			throw new EntityNotFoundException(keyword + " not found in Status");
+
+		List<Project> projects;
+		if (Utils.isNum(keyword)) {
+			int id = Integer.parseInt(keyword);
+			projects = service.findAllByStatus(id);
+		} else {
+			int status = ProjectStatus.valOf(keyword);
+			projects = service.findAllByStatus(status);
+		}
+
+		List<ProjectResponseModel> result = getList(projects);
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(result);
+	}
+
+	// @GetMapping(SubPath.STATUS_ID)
+	public ResponseEntity<?> getStatusListById(@PathVariable(Var.ID) int statusId) {
+		List<Project> projects = service.findAllByStatus(statusId);
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(projects);
 	}
 
 	@PostMapping()
 	public ResponseEntity<?> create(@RequestBody ProjectCreateModel model) {
 
-		Date publishDate = Date.valueOf(model.getPublishDate());
-		Date dueDate = Utils.addDate(publishDate, model.getDeliverDays());
+		Date dueDate = Date.valueOf(model.getDueDate());
 
 		Project project = Project.builder()
 				.name(model.getName())
@@ -115,31 +152,48 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 				.wage(model.getWage())
 				.imageURL(model.getImageURL())
 				.deliverDays(model.getDeliverDays())
-				.publishDate(publishDate)
 				.dueDate(dueDate)
+				.status(model.getStatus())
 				.build();
 
 		Project created = service.save(project);
 		int id = created.getId();
 
 		// save skills
-		model.getSkills().forEach(
+		model.getSkills()
+			.forEach(
 				skill -> psrService.save(
-						ProjectSkillRequire.builder()
-								.projectId(id)
-								.skillId(skill.getId())
-								.level(skill.getLevel())
-								.build()));
+					ProjectSkillRequire.builder()
+						.projectId(id)
+						.skillId(skill.getId())
+						.level(skill.getLevel())
+						.build()
+				)
+			);
 
 		// save categories
-		model.getCategories().forEach(
+		model.getCategories()
+			.forEach(
 				category -> pcdServie.save(
-						ProjectCategoryDetail.builder()
-								.projectId(id)
-								.categoryId(category)
-								.build()));
+					ProjectCategoryDetail.builder()
+						.projectId(id)
+						.categoryId(category)
+						.build()
+				)
+			);
 
 		// save deliver output
+		model.getOutputs()
+			.forEach(
+				pd -> pdService.save(
+					ProjectDeliverable.builder()
+						.projectId(id)
+						.name(pd.getName())
+						.description(pd.getDescription())
+						.deliverableTypeId(pd.getDeliverableTypeId())
+						.build()
+				)
+			);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path(SubPath.ID)

@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberStatus;
-import com.findhub.finhubbackend.model.response.MemberResponseModel;
+import com.findhub.finhubbackend.exception.EntityNotFoundException;
+import com.findhub.finhubbackend.model.model.MemberModel;
 import com.findhub.finhubbackend.service.member.MemberService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.Var;
@@ -24,7 +25,7 @@ public class MemberController extends ApiController<Member, MemberService, Membe
 
     @Override
     public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
-        MemberResponseModel m = service.getResponseModelById(id);
+        MemberModel m = service.getById(id);
         return new ResponseEntity<>(m, HttpStatus.OK);
     }
 
@@ -33,12 +34,16 @@ public class MemberController extends ApiController<Member, MemberService, Membe
         List<Member> members = service.getAll();
 
         if (members.isEmpty())
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(members);
+            throw new EntityNotFoundException("No member found");
 
-        List<MemberResponseModel> mrm = new ArrayList<>();
-        members.forEach(each -> mrm.add(service.getResponseModelById(each.getId())));
+        List<MemberModel> mrm = new ArrayList<>();
+        members.forEach(
+            each -> mrm.add(
+                service.getById(
+                        each.getId()
+                )
+            )
+        );
 
         return ResponseEntity
                 .status(HttpStatus.OK)

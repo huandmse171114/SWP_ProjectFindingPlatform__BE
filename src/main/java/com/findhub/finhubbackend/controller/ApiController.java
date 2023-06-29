@@ -122,7 +122,7 @@ public class ApiController<E, T extends Service<E, S>, S> {
 
     }
 
-    @PutMapping(SubPath.CHANGE_STATUS)
+    @PutMapping(SubPath.STATUS_ID)
     public ResponseEntity<?> updateStatus(@PathVariable(Var.ID) int id, @RequestBody int status) {
 
         E entity = service.get(id);

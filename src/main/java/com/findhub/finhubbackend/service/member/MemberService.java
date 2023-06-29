@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.findhub.finhubbackend.dto.MemberDTO;
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberStatus;
-import com.findhub.finhubbackend.model.response.MemberResponseModel;
+import com.findhub.finhubbackend.model.model.MemberModel;
 import com.findhub.finhubbackend.service.service.Service;
 
 public interface MemberService extends Service<Member, MemberStatus> {
@@ -36,10 +36,12 @@ public interface MemberService extends Service<Member, MemberStatus> {
 
     public List<Member> findAllByMajorId(int id);
 
-    public MemberResponseModel getResponseModelById(int id);
+    public MemberModel getById(int id);
 
     public List<MemberDTO> getAllByNameContainingOrEmailContainingOrPhoneContainingOrIdLike(String input);
 
     public List<MemberDTO> getAllByNameContaining(String name);
+
+    public List<MemberDTO> getAllByTeamId(int id);
 
 }

@@ -3,6 +3,8 @@ package com.findhub.finhubbackend.entity.member;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.findhub.finhubbackend.util.Utils;
+
 public enum MemberRole {
     MEMBER(2),
     LEADER(3),
@@ -19,7 +21,15 @@ public enum MemberRole {
     }
 
     public static String nameOf(int val) {
-        return status.get(val);
+        return Utils.capitalize(status.get(val));
+    }
+
+    public static boolean isExisted(int val) {
+        return status.get(val) != null;
+    }
+
+    public static boolean isExisted(String val) {
+        return status.containsValue(val.toUpperCase());
     }
 
     MemberRole(int value) {
