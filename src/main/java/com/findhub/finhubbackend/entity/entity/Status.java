@@ -6,7 +6,7 @@ import java.util.Map;
 public enum Status {
     INACTIVE(0),
     ACTIVE(1),
-    DELETED(99),
+    DELETED(2),
     ;
 
     protected final int value;

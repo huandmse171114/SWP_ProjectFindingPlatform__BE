@@ -22,16 +22,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
-import com.findhub.finhubbackend.entity.projectCategoryDetail.ProjectCategoryDetail;
-import com.findhub.finhubbackend.entity.projectDeliverable.ProjectDeliverable;
-import com.findhub.finhubbackend.entity.projectSkillRequire.ProjectSkillRequire;
+import com.findhub.finhubbackend.entity.projectCategory.ProjectCategory;
+import com.findhub.finhubbackend.entity.projectOutput.ProjectOutput;
+import com.findhub.finhubbackend.entity.projectSkill.ProjectSkill;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
 import com.findhub.finhubbackend.model.create.ProjectCreateModel;
 import com.findhub.finhubbackend.model.response.ProjectResponseModel;
 import com.findhub.finhubbackend.service.project.ProjectService;
-import com.findhub.finhubbackend.service.projectCategoryDetail.ProjectCategoryDetailService;
-import com.findhub.finhubbackend.service.projectDeliverable.ProjectDeliverableService;
-import com.findhub.finhubbackend.service.projectSkillRequire.ProjectSkillRequireService;
+import com.findhub.finhubbackend.service.projectCategory.ProjectCategoryService;
+import com.findhub.finhubbackend.service.projectOutput.ProjectOutputService;
+import com.findhub.finhubbackend.service.projectSkill.ProjectSkillService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
@@ -43,15 +43,15 @@ import com.findhub.finhubbackend.util.Utils;
 public class ProjectController extends ApiController<Project, ProjectService, ProjectStatus> {
 
 	@Autowired
-	private ProjectSkillRequireService psrService;
+	private ProjectSkillService psrService;
 
 	@Autowired
-	private ProjectCategoryDetailService pcdServie;
+	private ProjectCategoryService pcdServie;
 
 	@Autowired
-	private ProjectDeliverableService pdService;
+	private ProjectOutputService pdService;
 
-	private List<ProjectResponseModel> getList(List<Project> projects) {
+	private List<ProjectResponseModel> getResponseModels(List<Project> projects) {
 		if (projects.isEmpty())
 			throw new EntityNotFoundException("No projects found");
 
@@ -83,36 +83,18 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 	public ResponseEntity<?> getAll() {
 		return ResponseEntity
 				.status(HttpStatus.OK)
-				.body(getList(service.getAll()));
+				.body(getResponseModels(service.getAll()));
 	}
 
-	@GetMapping(SubPath.ACTIVE)
-	public ResponseEntity<?> getActive() {
-		List<Project> projects = service.findAllByStatus(ProjectStatus.ACTIVE);
-		return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(projects);
-
-	}
-
-	@GetMapping(SubPath.INACTIVE)
-	public ResponseEntity<?> getInActive() {
-		List<Project> projects = service.findAllByStatus(ProjectStatus.INACTIVE);
-		return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(projects);
-
-	}
-
-	@GetMapping(SubPath.STATUS_ALL)
-	public ResponseEntity<?> getStatusAll() {
-		return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(ProjectStatus.getAll());
-	}
+	// @GetMapping(SubPath.STATUS_ALL)
+	// public ResponseEntity<?> getStatusAll() {
+	// 	return ResponseEntity
+	// 			.status(HttpStatus.OK)
+	// 			.body(ProjectStatus.getAll());
+	// }
 
 	@GetMapping(SubPath.STATUS_KEYWORD)
-	public ResponseEntity<?> getStatusList(@PathVariable(Var.KEYWORD) String keyword) {
+	public ResponseEntity<?> getByStatus(@PathVariable(Var.KEYWORD) String keyword) {
 
 		if (!ProjectStatus.isExisted(keyword))
 			throw new EntityNotFoundException(keyword + " not found in Status");
@@ -126,18 +108,10 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 			projects = service.findAllByStatus(status);
 		}
 
-		List<ProjectResponseModel> result = getList(projects);
+		List<ProjectResponseModel> result = getResponseModels(projects);
 		return ResponseEntity
 				.status(HttpStatus.OK)
 				.body(result);
-	}
-
-	// @GetMapping(SubPath.STATUS_ID)
-	public ResponseEntity<?> getStatusListById(@PathVariable(Var.ID) int statusId) {
-		List<Project> projects = service.findAllByStatus(statusId);
-		return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(projects);
 	}
 
 	@PostMapping()
@@ -163,7 +137,7 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		model.getSkills()
 			.forEach(
 				skill -> psrService.save(
-					ProjectSkillRequire.builder()
+					ProjectSkill.builder()
 						.projectId(id)
 						.skillId(skill.getId())
 						.level(skill.getLevel())
@@ -175,7 +149,7 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		model.getCategories()
 			.forEach(
 				category -> pcdServie.save(
-					ProjectCategoryDetail.builder()
+					ProjectCategory.builder()
 						.projectId(id)
 						.categoryId(category)
 						.build()
@@ -186,11 +160,11 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		model.getOutputs()
 			.forEach(
 				pd -> pdService.save(
-					ProjectDeliverable.builder()
+					ProjectOutput.builder()
 						.projectId(id)
 						.name(pd.getName())
 						.description(pd.getDescription())
-						.deliverableTypeId(pd.getDeliverableTypeId())
+						.outputId(pd.getOutputId())
 						.build()
 				)
 			);

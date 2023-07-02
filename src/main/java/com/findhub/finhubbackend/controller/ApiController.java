@@ -3,6 +3,9 @@ package com.findhub.finhubbackend.controller;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +23,14 @@ import com.findhub.finhubbackend.exception.CreateEntityFailedException;
 import com.findhub.finhubbackend.exception.EntityCrudException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
 import com.findhub.finhubbackend.model.model.ExceptionModel;
+import com.findhub.finhubbackend.model.model.StatusModel;
 import com.findhub.finhubbackend.service.service.Service;
 import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
+import com.findhub.finhubbackend.util.Utils;
 
 @SuppressWarnings("null")
-public class ApiController<E, T extends Service<E, S>, S> {
+public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
     @Autowired
     protected T service;
@@ -35,6 +40,13 @@ public class ApiController<E, T extends Service<E, S>, S> {
         Type type = getClass().getGenericSuperclass();
         ParameterizedType paramType = (ParameterizedType) type;
         return (Class<E>) paramType.getActualTypeArguments()[0];
+    }
+
+    @SuppressWarnings("unchecked")
+    private Class<S> getStatusClass() {
+        Type type = getClass().getGenericSuperclass();
+        ParameterizedType paramType = (ParameterizedType) type;
+        return (Class<S>) paramType.getActualTypeArguments()[2];
     }
 
     public ResponseEntity<?> errorResponse(String errorMessage, HttpStatus status) {
@@ -184,5 +196,43 @@ public class ApiController<E, T extends Service<E, S>, S> {
 
     public ResponseEntity<?> disable(@RequestBody int id) {
         return updateStatus(id, Status.INACTIVE.getValue());
+    }
+
+    @GetMapping(SubPath.STATUS_ALL)
+    public ResponseEntity<?> getStatusList() {
+        List<StatusModel> model = new ArrayList<>();
+        for (var s : EnumSet.allOf(getStatusClass())) {
+            // int id = s.getValue();
+
+            String name = Utils.capitalize(s.name());
+            model.add(
+                StatusModel.builder()
+                    .id(s.ordinal())
+                    .name(name)
+                    .build()
+            );
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(model);
+    }
+
+    @GetMapping(SubPath.ACTIVE)
+    public ResponseEntity<?> getActive() {
+        List<E> Es = service.findAllByStatus(Status.ACTIVE.getValue());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Es);
+
+    }
+
+    @GetMapping(SubPath.INACTIVE)
+    public ResponseEntity<?> getInActive() {
+        List<E> Es = service.findAllByStatus(Status.INACTIVE.getValue());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Es);
+
     }
 }

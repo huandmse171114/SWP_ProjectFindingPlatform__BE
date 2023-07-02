@@ -24,21 +24,38 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "Project", uniqueConstraints = @UniqueConstraint(columnNames = { "Name", "ImageURL" }))
+@Table(
+	name = "Project",
+	uniqueConstraints = @UniqueConstraint(
+		columnNames = {
+			"Name",
+			"ImageURL"
+		}
+	)
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Project extends MyEntity {
 	@Id
-	@Column(name = "Id", nullable = false)
+	@Column(
+		name = "Id",
+		nullable = false
+	)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Nationalized
-	@Column(name = "Name", nullable = false)
+	@Column(
+		name = "Name",
+		nullable = false
+	)
 	private String name;
 
-	@Column(name = "PublisherId", nullable = false)
+	@Column(
+		name = "PublisherId",
+		nullable = false
+	)
 	private int publisherId;
 
 	// @Nationalized

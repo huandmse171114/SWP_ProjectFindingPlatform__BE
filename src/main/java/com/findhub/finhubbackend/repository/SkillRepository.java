@@ -25,28 +25,28 @@ public interface SkillRepository extends Repo<Skill> {
     @Query(value = """
 			SELECT
 				s.Name AS name,
-				psr.Level AS level
+				ps.Level AS level
 			FROM
-                ProjectSkillRequire psr
+                Project_Skill ps
             LEFT JOIN
-                Skill s ON psr.SkillId = s.Id
+                Skill s ON ps.SkillId = s.Id
             WHERE
-                psr.ProjectId = :id
+                ps.ProjectId = :id
             ORDER BY
-                psr.Level ASC
+                ps.Level ASC
 			""", nativeQuery = true)
     List<SkillDTO> getNameAndLevelByProjectId(@Param("id") int id);
 
     @Query(value = """
             SELECT
                 s.Name,
-                msd.Level
+                ms.Level
             FROM
                 Skill s
             JOIN
-                MemberSkillDetail msd ON s.Id = msd.SkillId
+                Member_Skill ms ON s.Id = ms.SkillId
             WHERE
-                msd.MemberId = :id
+                ms.MemberId = :id
             ORDER BY
                 s.Id ASC
 			""", nativeQuery = true)

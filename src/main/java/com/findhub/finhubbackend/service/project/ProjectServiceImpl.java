@@ -21,7 +21,8 @@ import com.findhub.finhubbackend.service.skill.SkillService;
 import com.findhub.finhubbackend.util.Utils;
 
 @Service
-public class ProjectServiceImpl extends ServiceImpl<Project, ProjectRepository, ProjectStatus>
+public class ProjectServiceImpl
+		extends ServiceImpl<Project, ProjectRepository, ProjectStatus>
 		implements ProjectService {
 
 	@Autowired

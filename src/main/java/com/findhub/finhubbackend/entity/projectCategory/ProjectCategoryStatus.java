@@ -1,15 +1,15 @@
-package com.findhub.finhubbackend.entity.skill;
+package com.findhub.finhubbackend.entity.projectCategory;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum SkillStatus {
+public enum ProjectCategoryStatus {
     INACTIVE(0),
     ACTIVE(1),
     DELETED(2),
     ;
 
-    private final int value;
+    protected final int value;
     private static final Map<Integer, String> status = new HashMap<>();
 
     static {
@@ -23,7 +23,7 @@ public enum SkillStatus {
         return status.get(val);
     }
 
-    private SkillStatus(int value) {
+    private ProjectCategoryStatus(int value) {
         this.value = value;
     }
 

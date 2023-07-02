@@ -10,7 +10,8 @@ import com.findhub.finhubbackend.entity.project.ProjectStatus;
 import com.findhub.finhubbackend.model.response.ProjectResponseModel;
 import com.findhub.finhubbackend.service.service.Service;
 
-public interface ProjectService extends Service<Project, ProjectStatus> {
+public interface ProjectService
+        extends Service<Project, ProjectStatus> {
 
     public Optional<Project> findByName(String name);
 

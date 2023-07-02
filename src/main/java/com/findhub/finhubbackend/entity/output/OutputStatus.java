@@ -1,9 +1,9 @@
-package com.findhub.finhubbackend.entity.skill;
+package com.findhub.finhubbackend.entity.output;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum SkillStatus {
+public enum OutputStatus {
     INACTIVE(0),
     ACTIVE(1),
     DELETED(2),
@@ -23,7 +23,7 @@ public enum SkillStatus {
         return status.get(val);
     }
 
-    private SkillStatus(int value) {
+    private OutputStatus(int value) {
         this.value = value;
     }
 

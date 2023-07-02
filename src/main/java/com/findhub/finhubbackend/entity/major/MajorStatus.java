@@ -6,6 +6,7 @@ import java.util.Map;
 public enum MajorStatus {
 	INACTIVE(0),
 	ACTIVE(1),
+	DELETED(2),
 	;
 
 	private final int value;

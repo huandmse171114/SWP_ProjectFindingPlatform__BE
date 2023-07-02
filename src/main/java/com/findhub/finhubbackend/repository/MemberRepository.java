@@ -80,13 +80,13 @@ public interface MemberRepository extends Repo<Member> {
                 m.Description,
                 m.Balance,
                 m.DOB,
-                td.Role
+                tm.Role
             FROM
-                TeamDetail td
+                Team_Member tm
             LEFT JOIN
-                Member m ON td.MemberId = m.Id
+                Member m ON tm.MemberId = m.Id
             WHERE
-                td.TeamId = :id
+                tm.TeamId = :id
             ORDER BY
                 Id ASC
             """, nativeQuery = true)
