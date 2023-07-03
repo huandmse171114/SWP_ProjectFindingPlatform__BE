@@ -13,22 +13,22 @@ import com.findhub.finhubbackend.exception.CreateEntityFailedException;
 import com.findhub.finhubbackend.exception.EntityCrudException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
 import com.findhub.finhubbackend.exception.StatusNotFoundException;
-import com.findhub.finhubbackend.model.model.ExceptionModel;
+import com.findhub.finhubbackend.model.model.ResponseModel;
 
 @RestControllerAdvice
 public class AppExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionModel handleEntityExisted() {
+    public ResponseModel handleEntityExisted() {
         return null;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = { EntityNotFoundException.class })
-    public ExceptionModel handleEntityNotFound(EntityNotFoundException ex) {
+    public ResponseModel handleEntityNotFound(EntityNotFoundException ex) {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
-        return ExceptionModel
+        return ResponseModel
                 .builder()
                 .status(status.value())
                 .message(ex.getMessage())
@@ -40,10 +40,10 @@ public class AppExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = { EntityCrudException.class })
-    public ExceptionModel handleEntityCRUD(EntityCrudException ex) {
+    public ResponseModel handleEntityCRUD(EntityCrudException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        return ExceptionModel
+        return ResponseModel
                 .builder()
                 .status(status.value())
                 .message(ex.getMessage())
@@ -53,10 +53,10 @@ public class AppExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = { CreateEntityFailedException.class })
-    public ExceptionModel handleCreateEntityFailed(CreateEntityFailedException ex) {
+    public ResponseModel handleCreateEntityFailed(CreateEntityFailedException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        return ExceptionModel
+        return ResponseModel
                 .builder()
                 .status(status.value())
                 .message(ex.getMessage())
@@ -66,14 +66,14 @@ public class AppExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = { MethodArgumentNotValidException.class })
-    public ExceptionModel handleCreateEntityFailed(MethodArgumentNotValidException ex) {
+    public ResponseModel handleCreateEntityFailed(MethodArgumentNotValidException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         Map<String, Object> cause = new HashMap<>();
 
         ex.getBindingResult().getFieldErrors().forEach(
                 error -> cause.put(error.getField(), error.getDefaultMessage()));
 
-        return ExceptionModel
+        return ResponseModel
                 .builder()
                 .status(status.value())
                 .message(ex.getMessage())
@@ -84,14 +84,14 @@ public class AppExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = { IllegalArgumentException.class })
-    public ExceptionModel handleCreateEntityFailed(IllegalArgumentException ex) {
+    public ResponseModel handleCreateEntityFailed(IllegalArgumentException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         // Map<String, Object> cause = new HashMap<>();
 
         // ex.getBindingResult().getFieldErrors().forEach(
         // error -> cause.put(error.getField(), error.getDefaultMessage()));
 
-        return ExceptionModel
+        return ResponseModel
                 .builder()
                 .status(status.value())
                 .message(ex.getMessage())
@@ -101,10 +101,10 @@ public class AppExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = { StatusNotFoundException.class })
-    public ExceptionModel handleStatusNotFound(StatusNotFoundException ex) {
+    public ResponseModel handleStatusNotFound(StatusNotFoundException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        return ExceptionModel
+        return ResponseModel
                 .builder()
                 .status(status.value())
                 .message(ex.getMessage())

@@ -23,7 +23,7 @@ public class TestController {
     @Autowired
     private EmailService service;
 
-    // @PostMapping("/send-email")
+    @PostMapping("/send-email")
     public ResponseEntity<?> sendEmail(@RequestBody MailRequest request) {
         Map<String, Object> model = new HashMap<>();
         model.put("name", request.getName());

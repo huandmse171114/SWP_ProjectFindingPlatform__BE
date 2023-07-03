@@ -19,11 +19,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.entity.Status;
+import com.findhub.finhubbackend.entity.project.Project;
+import com.findhub.finhubbackend.entity.project.ProjectStatus;
 import com.findhub.finhubbackend.exception.CreateEntityFailedException;
 import com.findhub.finhubbackend.exception.EntityCrudException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
-import com.findhub.finhubbackend.model.model.ExceptionModel;
+import com.findhub.finhubbackend.model.model.ResponseModel;
 import com.findhub.finhubbackend.model.model.StatusModel;
+import com.findhub.finhubbackend.model.response.ProjectResponseModel;
 import com.findhub.finhubbackend.service.service.Service;
 import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
@@ -34,6 +37,20 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
     @Autowired
     protected T service;
+
+    public ResponseEntity<?> response(String errorMessage, HttpStatus status) {
+        return ResponseEntity
+                .status(status)
+                .body(ResponseModel
+                        .builder()
+                        // .status(status)
+                        .message(errorMessage)
+                        .build());
+    }
+
+    public ResponseEntity<?> response(HttpStatus status) {
+        return response("Failed", status);
+    }
 
     @SuppressWarnings("unchecked")
     private Class<E> getEntityClass() {
@@ -47,20 +64,6 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         Type type = getClass().getGenericSuperclass();
         ParameterizedType paramType = (ParameterizedType) type;
         return (Class<S>) paramType.getActualTypeArguments()[2];
-    }
-
-    public ResponseEntity<?> errorResponse(String errorMessage, HttpStatus status) {
-        return ResponseEntity
-                .status(status)
-                .body(ExceptionModel
-                        .builder()
-                        // .status(status)
-                        .message(errorMessage)
-                        .build());
-    }
-
-    public ResponseEntity<?> errorResponse(HttpStatus status) {
-        return errorResponse("Failed", status);
     }
 
     private E getInstance() {
@@ -103,7 +106,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
         E created = service.save((E) entity);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
+                .path(SubPath.ID)
                 .buildAndExpand(((MyEntity) created).getId())
                 .toUri();
 
@@ -149,7 +152,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return (service.updateStatus(id, status))
                 ? ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(ExceptionModel
+                        .body(ResponseModel
                                 .builder()
                                 // .status(HttpStatus.OK)
                                 .message("Updated"
@@ -158,7 +161,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
                                 .build())
                 : ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
-                        .body(ExceptionModel
+                        .body(ResponseModel
                                 .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to update " + entityName + "[id=" + id + "]")
@@ -176,14 +179,14 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return (service.delete(entity))
                 ? ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(ExceptionModel
+                        .body(ResponseModel
                                 .builder()
                                 // .status(HttpStatus.OK)
                                 .message("Deleted " + entityName + "[id=" + id + "] successfully")
                                 .build())
                 : ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
-                        .body(ExceptionModel
+                        .body(ResponseModel
                                 .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to delete " + entityName + "[id=" + id + "]")
@@ -198,12 +201,9 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return updateStatus(id, Status.INACTIVE.getValue());
     }
 
-    @GetMapping(SubPath.STATUS_ALL)
-    public ResponseEntity<?> getStatusList() {
+    private List<StatusModel> allStatus() {
         List<StatusModel> model = new ArrayList<>();
         for (var s : EnumSet.allOf(getStatusClass())) {
-            // int id = s.getValue();
-
             String name = Utils.capitalize(s.name());
             model.add(
                 StatusModel.builder()
@@ -212,10 +212,44 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
                     .build()
             );
         }
+        return model;
+    }
+
+    protected List<StatusModel> EStatus = allStatus();
+
+    private boolean isExisted(String str) {
+        for (var s : EStatus)
+            if (s.getName().equals(str.toUpperCase()))
+                return true;
+
+        return false;
+    }
+
+    @GetMapping(SubPath.STATUS_ALL)
+    public ResponseEntity<?> getAllStatus() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(EStatus);
+    }
+
+    @GetMapping(SubPath.STATUS_KEYWORD)
+    public ResponseEntity<?> getByStatus(@PathVariable(Var.KEYWORD) String keyword) {
+
+        if (!isExisted(keyword))
+            throw new EntityNotFoundException(keyword + " not found in Status");
+
+        List<E> Es;
+        if (Utils.isNum(keyword)) {
+            int id = Integer.parseInt(keyword);
+            Es = service.findAllByStatus(id);
+        } else {
+            int status = ProjectStatus.valOf(keyword);
+            Es = service.findAllByStatus(status);
+        }
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(model);
+                .body(Es);
     }
 
     @GetMapping(SubPath.ACTIVE)

@@ -43,13 +43,13 @@ import com.findhub.finhubbackend.util.Utils;
 public class ProjectController extends ApiController<Project, ProjectService, ProjectStatus> {
 
 	@Autowired
-	private ProjectSkillService psrService;
+	private ProjectSkillService psService;
 
 	@Autowired
-	private ProjectCategoryService pcdServie;
+	private ProjectCategoryService pcServie;
 
 	@Autowired
-	private ProjectOutputService pdService;
+	private ProjectOutputService poService;
 
 	private List<ProjectResponseModel> getResponseModels(List<Project> projects) {
 		if (projects.isEmpty())
@@ -93,26 +93,26 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 	// 			.body(ProjectStatus.getAll());
 	// }
 
-	@GetMapping(SubPath.STATUS_KEYWORD)
-	public ResponseEntity<?> getByStatus(@PathVariable(Var.KEYWORD) String keyword) {
+	// @GetMapping(SubPath.STATUS_KEYWORD)
+	// public ResponseEntity<?> getByStatus(@PathVariable(Var.KEYWORD) String keyword) {
 
-		if (!ProjectStatus.isExisted(keyword))
-			throw new EntityNotFoundException(keyword + " not found in Status");
+	// 	if (!ProjectStatus.isExisted(keyword))
+	// 		throw new EntityNotFoundException(keyword + " not found in Status");
 
-		List<Project> projects;
-		if (Utils.isNum(keyword)) {
-			int id = Integer.parseInt(keyword);
-			projects = service.findAllByStatus(id);
-		} else {
-			int status = ProjectStatus.valOf(keyword);
-			projects = service.findAllByStatus(status);
-		}
+	// 	List<Project> projects;
+	// 	if (Utils.isNum(keyword)) {
+	// 		int id = Integer.parseInt(keyword);
+	// 		projects = service.findAllByStatus(id);
+	// 	} else {
+	// 		int status = ProjectStatus.valOf(keyword);
+	// 		projects = service.findAllByStatus(status);
+	// 	}
 
-		List<ProjectResponseModel> result = getResponseModels(projects);
-		return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(result);
-	}
+	// 	List<ProjectResponseModel> result = getResponseModels(projects);
+	// 	return ResponseEntity
+	// 			.status(HttpStatus.OK)
+	// 			.body(result);
+	// }
 
 	@PostMapping()
 	public ResponseEntity<?> create(@RequestBody ProjectCreateModel model) {
@@ -136,7 +136,7 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		// save skills
 		model.getSkills()
 			.forEach(
-				skill -> psrService.save(
+				skill -> psService.save(
 					ProjectSkill.builder()
 						.projectId(id)
 						.skillId(skill.getId())
@@ -148,7 +148,7 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		// save categories
 		model.getCategories()
 			.forEach(
-				category -> pcdServie.save(
+				category -> pcServie.save(
 					ProjectCategory.builder()
 						.projectId(id)
 						.categoryId(category)
@@ -159,12 +159,12 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		// save deliver output
 		model.getOutputs()
 			.forEach(
-				pd -> pdService.save(
+				output -> poService.save(
 					ProjectOutput.builder()
 						.projectId(id)
-						.name(pd.getName())
-						.description(pd.getDescription())
-						.outputId(pd.getOutputId())
+						.name(output.getName())
+						.description(output.getDescription())
+						.outputId(output.getOutputId())
 						.build()
 				)
 			);

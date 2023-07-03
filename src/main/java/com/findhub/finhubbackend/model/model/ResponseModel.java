@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ExceptionModel {
+public class ResponseModel {
     private int status;
     private String message;
     private Map<String, Object> cause;
 
-    public ExceptionModel(int status, String message) {
+    public ResponseModel(int status, String message) {
         this.status = status;
         this.message = message;
     }
