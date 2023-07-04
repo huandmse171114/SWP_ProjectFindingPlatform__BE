@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.findhub.finhubbackend.entity.member.MemberRole;
 import com.findhub.finhubbackend.entity.team.Team;
 import com.findhub.finhubbackend.entity.team.TeamStatus;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
@@ -42,11 +43,14 @@ public class TeamController extends ApiController<Team, TeamService, TeamStatus>
         memberService.getAllByTeamId(id)
             .forEach(member ->
                 members.add(
-                    MemberTeamModel
-                    .builder()
-                        .id(member.getId())
-                        .name(member.getName())
-                    .build()
+                    MemberTeamModel  
+                        .builder()
+                            .id(member.getId())
+                            .name(member.getName())
+                            .role(
+                                MemberRole.nameOf(member.getRole())
+                            )
+                        .build()
                 )
             );
 
