@@ -1,9 +1,9 @@
-package com.findhub.finhubbackend.entity.output;
+package com.findhub.finhubbackend.entity.deliverableType;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum OutputStatus {
+public enum DeliverableStatus {
     INACTIVE(0),
     ACTIVE(1),
     DELETED(2),
@@ -23,7 +23,7 @@ public enum OutputStatus {
         return status.get(val);
     }
 
-    private OutputStatus(int value) {
+    private DeliverableStatus(int value) {
         this.value = value;
     }
 

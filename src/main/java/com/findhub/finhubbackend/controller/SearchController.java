@@ -109,7 +109,7 @@ public class SearchController {
         List<String> skills = new ArrayList<>();
 
         skillService.findAllByNameContaining(keyword)
-                .forEach(each -> skills.add(each.getName()));
+            .forEach(each -> skills.add(each.getName()));
 
         return skills;
     }
@@ -118,7 +118,7 @@ public class SearchController {
         List<String> categories = new ArrayList<>();
 
         categoryService.findAllByNameContaining(keyword)
-                .forEach(each -> categories.add(each.getName()));
+            .forEach(each -> categories.add(each.getName()));
 
         return categories;
     }
@@ -126,43 +126,43 @@ public class SearchController {
     @GetMapping(SubPath.SEARCH_PROJECTS)
     public ResponseEntity<?> responseProjects(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(searchProjects(keyword));
+            .status(HttpStatus.OK)
+            .body(searchProjects(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_MAJORS)
     public ResponseEntity<?> responseMajors(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(searchMajors(keyword));
+            .status(HttpStatus.OK)
+            .body(searchMajors(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_MEMBERS)
     public ResponseEntity<?> responseMembers(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(searchMembers(keyword));
+            .status(HttpStatus.OK)
+            .body(searchMembers(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_TEAMS)
     public ResponseEntity<?> responseTeams(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(searchTeams(keyword));
+            .status(HttpStatus.OK)
+            .body(searchTeams(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_SKILLS)
     public ResponseEntity<?> responseSkills(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(searchSkills(keyword));
+            .status(HttpStatus.OK)
+            .body(searchSkills(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_CATEGORIES)
     public ResponseEntity<?> responseCategories(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(searchCategories(keyword));
+            .status(HttpStatus.OK)
+            .body(searchCategories(keyword));
     }
 
     @GetMapping(SubPath.KEYWORD)
@@ -184,15 +184,17 @@ public class SearchController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(SearchResponseModel
+                .body(
+                    SearchResponseModel
                         .builder()
-                        .projects(projects)
-                        .skills(skills)
-                        .members(members)
-                        .publishers(publishers)
-                        .teams(teams)
-                        .categories(categories)
-                        .majors(majors)
-                        .build());
+                            .projects(projects)
+                            .skills(skills)
+                            .members(members)
+                            .publishers(publishers)
+                            .teams(teams)
+                            .categories(categories)
+                            .majors(majors)
+                        .build()
+                );
     }
 }

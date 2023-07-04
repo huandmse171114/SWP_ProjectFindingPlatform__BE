@@ -36,7 +36,7 @@ public interface MemberService extends Service<Member, MemberStatus> {
 
     public List<Member> findAllByMajorId(int id);
 
-    public MemberModel getById(int id);
+    public MemberModel getModel(int id);
 
     public List<MemberDTO> getAllByNameContainingOrEmailContainingOrPhoneContainingOrIdLike(String input);
 

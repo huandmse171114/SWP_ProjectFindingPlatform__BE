@@ -24,48 +24,51 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.PAYMENT)
 public class PaymentController extends ApiController<Payment, PaymentService, PaymentStatus> {
 
-        @Autowired
-        private ProjectService projectService;
+	@Autowired
+	private ProjectService projectService;
 
-        // @Autowired
-        // private AccountService accountService;
+	// @Autowired
+	// private AccountService accountService;
 
-        @Autowired
-        private TeamService teamService;
+	@Autowired
+	private TeamService teamService;
 
-        @PostMapping("/")
-        public ResponseEntity<String> add(@RequestBody PaymentCreateModel model) {
+	@PostMapping("/")
+	public ResponseEntity<String> add(@RequestBody PaymentCreateModel model) {
 
-                int projectId = model.getProjectId();
-                Project project = projectService.get(projectId);
-                if (project == null)
-                        return new ResponseEntity<String>(
-                                        "Failed to create Payment:"
-                                                        + " Project[id=" + projectId + "] not existed",
-                                        HttpStatus.BAD_REQUEST);
+		int projectId = model.getProjectId();
+		Project project = projectService.get(projectId);
+		if (project == null)
+			return new ResponseEntity<String>(
+				"Failed to create Payment:"
+						+ " Project[id=" + projectId + "] not existed",
+				HttpStatus.BAD_REQUEST
+			);
 
-                int teamId = model.getTeamId();
-                Team team = teamService.get(teamId);
-                if (team == null)
-                        return new ResponseEntity<String>(
-                                        "Failed to create Payment:"
-                                                        + " Team[id=" + teamId + "] not existed",
-                                        HttpStatus.BAD_REQUEST);
+		int teamId = model.getTeamId();
+		Team team = teamService.get(teamId);
+		if (team == null)
+			return new ResponseEntity<String>(
+				"Failed to create Payment:"
+						+ " Team[id=" + teamId + "] not existed",
+				HttpStatus.BAD_REQUEST
+			);
 
-                // if (!projectService.existsByTeamIdAndProjectId(teamId, projectId))
-                // return new ResponseEntity<String>(
-                // "Failed to create Payment"
-                // + "Project[id=" + projectId + "] does not have Team[id=" + teamId + "]",
-                // HttpStatus.BAD_REQUEST);
+		// if (!projectService.existsByTeamIdAndProjectId(teamId, projectId))
+		// return new ResponseEntity<String>(
+		// "Failed to create Payment"
+		// + "Project[id=" + projectId + "] does not have Team[id=" + teamId + "]",
+		// HttpStatus.BAD_REQUEST);
 
-                Payment payment = Payment.builder()
-                                .projectId(projectId)
-                                .teamId(teamId)
-                                .amount(model.getAmount())
-                                .description(model.getDescription())
-                                .build();
+		Payment payment = Payment
+			.builder()
+				.projectId(projectId)
+				.teamId(teamId)
+				.amount(model.getAmount())
+				.description(model.getDescription())
+			.build();
 
-                service.save(payment);
-                return new ResponseEntity<String>("not support yet", HttpStatus.OK);
-        }
+		service.save(payment);
+		return new ResponseEntity<String>("not support yet", HttpStatus.OK);
+	}
 }

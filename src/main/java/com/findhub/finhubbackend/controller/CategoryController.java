@@ -24,19 +24,12 @@ public class CategoryController extends ApiController<Category, CategoryService,
             return new ResponseEntity<>("Category[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 
         Category category = Category.builder()
-                .name(name)
-                .build();
+            .name(name)
+            .build();
 
         service.save(category);
         // return new ResponseEntity<>("Added new Category[name=\'" + name + "\'] successfully", HttpStatus.OK);
 
         return super.create(category);
     }
-
-    @Override
-    public ResponseEntity<?> get(int id) {
-        // TODO Auto-generated method stub
-        return super.get(id);
-    }
-
 }

@@ -82,14 +82,17 @@ public class PublisherServiceImpl extends ServiceImpl<Publisher, PublisherReposi
 
         String status = PublisherStatus.nameOf(publisher.getStatus());
 
-        return PublisherResponseModel.builder()
+        return PublisherResponseModel
+            .builder()
                 .id(id)
                 .name(publisher.getName())
                 .email(publisher.getEmail())
                 .phone(publisher.getPhone())
                 .DOB(publisher.getDob())
                 .balance(publisher.getBalance())
-                .status(Utils.capitalize(status))
-                .build();
+                .status(
+                    Utils.capitalize(status)
+                )
+            .build();
     }
 }

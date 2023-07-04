@@ -91,7 +91,7 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
         return repo.findByPhone(phone);
     }
 
-    public MemberModel getById(int id) {
+    public MemberModel getModel(int id) {
         Member member = get(id);
 
         if (member == null)
@@ -99,17 +99,20 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
 
         List<SkillModel> skills = new ArrayList<>();
         skillService.getNameAndLevelByMemberId(id)
-                .forEach(each -> skills.add(
-                        SkillModel
-                                .builder()
-                                .name(each.getName())
-                                .level(each.getLevel())
-                                .build()));
+            .forEach(each -> skills.add(
+                SkillModel
+                    .builder()
+                        .name(each.getName())
+                        .level(each.getLevel())
+                    .build()
+            )
+        );
 
         String status = MemberStatus.nameOf(member.getStatus());
         Major major = majorService.get(member.getMajorId());
 
-        return MemberModel.builder()
+        return MemberModel
+            .builder()
                 .id(id)
                 .name(member.getName())
                 .email(member.getEmail())
@@ -119,12 +122,14 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
                 .DOB(member.getDob())
                 .major(MajorResponseModel
                         .builder()
-                        .code(major.getCode())
-                        .name(major.getName())
+                            .code(major.getCode())
+                            .name(major.getName())
                         .build())
                 .skills(skills)
-                .status(Utils.capitalize(status))
-                .build();
+                .status(
+                    Utils.capitalize(status)
+                )
+            .build();
     }
 
 }

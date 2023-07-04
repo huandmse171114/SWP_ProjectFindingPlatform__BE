@@ -12,5 +12,6 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.ACCOUNT)
-public class AccountController extends ApiController<Account, AccountService, AccountStatus> {
+public class AccountController
+        extends ApiController<Account, AccountService, AccountStatus> {
 }

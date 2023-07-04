@@ -29,11 +29,11 @@ public class AppExceptionHandler {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
         return ResponseModel
-                .builder()
+            .builder()
                 .status(status.value())
                 .message(ex.getMessage())
                 // .cause(ex)
-                .build();
+            .build();
 
         // return response(ex, status);
     }
@@ -44,11 +44,11 @@ public class AppExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
         return ResponseModel
-                .builder()
+            .builder()
                 .status(status.value())
                 .message(ex.getMessage())
                 // .cause(cause)
-                .build();
+            .build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -57,11 +57,11 @@ public class AppExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
         return ResponseModel
-                .builder()
+            .builder()
                 .status(status.value())
                 .message(ex.getMessage())
                 // .cause(cause)
-                .build();
+            .build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -71,14 +71,14 @@ public class AppExceptionHandler {
         Map<String, Object> cause = new HashMap<>();
 
         ex.getBindingResult().getFieldErrors().forEach(
-                error -> cause.put(error.getField(), error.getDefaultMessage()));
+            error -> cause.put(error.getField(), error.getDefaultMessage()));
 
         return ResponseModel
-                .builder()
+            .builder()
                 .status(status.value())
                 .message(ex.getMessage())
                 .cause(cause)
-                .build();
+            .build();
 
     }
 
@@ -92,11 +92,11 @@ public class AppExceptionHandler {
         // error -> cause.put(error.getField(), error.getDefaultMessage()));
 
         return ResponseModel
-                .builder()
+            .builder()
                 .status(status.value())
                 .message(ex.getMessage())
                 // .cause(cause)
-                .build();
+            .build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -105,10 +105,10 @@ public class AppExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
         return ResponseModel
-                .builder()
+            .builder()
                 .status(status.value())
                 .message(ex.getMessage())
                 // .cause(cause)
-                .build();
+            .build();
     }
 }

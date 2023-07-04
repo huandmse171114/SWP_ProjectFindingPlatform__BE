@@ -27,19 +27,31 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Team extends MyEntity {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(
+        name = "Id",
+        nullable = false
+    )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Nationalized
-    @Column(name = "Name", nullable = false)
+    @Column(
+        name = "Name",
+        nullable = false
+    )
     private String Name;
 
     @Default
-    @Column(name = "Balance", nullable = false)
+    @Column(
+        name = "Balance",
+        nullable = false
+    )
     private float balance = 0;
 
     @Default
-    @Column(name = "Status", nullable = false)
+    @Column(
+        name = "Status",
+        nullable = false
+    )
     private int status = TeamStatus.ACTIVE.getValue();
 }

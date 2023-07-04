@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.entity.projectSkill;
+package com.findhub.finhubbackend.entity.projectDeliverable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,17 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.Nationalized;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.findhub.finhubbackend.entity.deliverableType.DeliverableType;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.project.Project;
-import com.findhub.finhubbackend.entity.skill.Skill;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -28,24 +30,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(
-    name = "Project_Skill",
-    uniqueConstraints = @UniqueConstraint(
-        columnNames = {
-            "SkillId",
-            "ProjectId"
-        }
-    )
-)
-@NoArgsConstructor
+@Table(name = "Project_Output")
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id"
-)
-public class ProjectSkill extends MyEntity {
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class ProjectDeliverable extends MyEntity {
     @Id
     @Column(
         name = "Id",
@@ -53,6 +43,32 @@ public class ProjectSkill extends MyEntity {
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Nationalized
+    @Column(
+        name = "Name",
+        nullable = false
+    )
+    private String name;
+
+    @Nationalized
+    @Column(
+        name = "Description",
+        nullable = false
+    )
+    private String description;
+
+    // @Column(
+    // name = "ProjectId",
+    // nullable = false
+    // )
+    // private int projectId;
+
+    // @Column(
+    // name = "DeliverableTypeId",
+    // nullable = false
+    // )
+    // private int outputId;
 
     @ManyToOne(
         fetch = FetchType.EAGER,
@@ -67,12 +83,14 @@ public class ProjectSkill extends MyEntity {
         cascade = CascadeType.ALL
     )
     @JsonBackReference
-    @JoinColumn(name = "SkillId")
-    private Skill skill;
+    @JoinColumn(name = "DeliverableTypeId")
+    private DeliverableType deliverableType;
 
+    @Default
     @Column(
-        name = "Level",
+        name = "Status",
         nullable = false
     )
-    private int level;
+    private int status = ProjectDeliverableStatus.ACTIVE.getValue();
+
 }

@@ -25,8 +25,8 @@ public class PublisherController extends ApiController<Publisher, PublisherServi
     @Override
     public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.getResponseModelById(id));
+            .status(HttpStatus.OK)
+            .body(service.getResponseModelById(id));
     }
 
     @Override
@@ -38,12 +38,15 @@ public class PublisherController extends ApiController<Publisher, PublisherServi
 
         List<PublisherResponseModel> prm = new ArrayList<>();
         publishers.forEach(
-                each -> prm.add(
-                        service.getResponseModelById(
-                                each.getId())));
+            each -> prm.add(
+                service.getResponseModelById(
+                    each.getId()
+                )
+            )
+        );
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(prm);
+            .status(HttpStatus.OK)
+            .body(prm);
     }
 }

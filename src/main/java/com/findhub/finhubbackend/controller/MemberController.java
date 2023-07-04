@@ -25,7 +25,7 @@ public class MemberController extends ApiController<Member, MemberService, Membe
 
     @Override
     public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
-        MemberModel m = service.getById(id);
+        MemberModel m = service.getModel(id);
         return new ResponseEntity<>(m, HttpStatus.OK);
     }
 
@@ -38,12 +38,9 @@ public class MemberController extends ApiController<Member, MemberService, Membe
 
         List<MemberModel> mrm = new ArrayList<>();
         members.forEach(
-            each -> mrm.add(
-                service.getById(
-                        each.getId()
-                )
-            )
-        );
+                each -> mrm.add(
+                        service.getModel(
+                                each.getId())));
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -24,8 +24,8 @@ public class SkillController extends ApiController<Skill, SkillService, SkillSta
             return new ResponseEntity<>("Skill[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 
         Skill skill = Skill.builder()
-                .name(name)
-                .build();
+            .name(name)
+            .build();
 
         service.save(skill);
         return new ResponseEntity<>("Added new Skill[name=\'" + name + "\'] successfully", HttpStatus.OK);

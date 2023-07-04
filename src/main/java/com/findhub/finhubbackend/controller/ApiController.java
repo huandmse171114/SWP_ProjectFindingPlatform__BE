@@ -19,14 +19,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.entity.Status;
-import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
 import com.findhub.finhubbackend.exception.CreateEntityFailedException;
 import com.findhub.finhubbackend.exception.EntityCrudException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
 import com.findhub.finhubbackend.model.model.ResponseModel;
 import com.findhub.finhubbackend.model.model.StatusModel;
-import com.findhub.finhubbackend.model.response.ProjectResponseModel;
 import com.findhub.finhubbackend.service.service.Service;
 import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
@@ -42,10 +40,10 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return ResponseEntity
                 .status(status)
                 .body(ResponseModel
-                        .builder()
+                    .builder()
                         // .status(status)
                         .message(errorMessage)
-                        .build());
+                    .build());
     }
 
     public ResponseEntity<?> response(HttpStatus status) {
@@ -91,8 +89,8 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
             throw new EntityNotFoundException(entityName, id);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(entity);
+            .status(HttpStatus.OK)
+            .body(entity);
     }
 
     // @PostMapping("/")
@@ -106,13 +104,13 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
         E created = service.save((E) entity);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(SubPath.ID)
-                .buildAndExpand(((MyEntity) created).getId())
-                .toUri();
+            .path(SubPath.ID)
+            .buildAndExpand(((MyEntity) created).getId())
+            .toUri();
 
         return ResponseEntity
-                .created(location)
-                .body(created);
+            .created(location)
+            .body(created);
 
     }
 
@@ -151,21 +149,21 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
         return (service.updateStatus(id, status))
                 ? ResponseEntity
-                        .status(HttpStatus.OK)
-                        .body(ResponseModel
-                                .builder()
+                    .status(HttpStatus.OK)
+                    .body(ResponseModel
+                            .builder()
                                 // .status(HttpStatus.OK)
                                 .message("Updated"
                                         + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
                                         + entityName + "[status=" + status + "] successfully")
-                                .build())
+                            .build())
                 : ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body(ResponseModel
-                                .builder()
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ResponseModel
+                            .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to update " + entityName + "[id=" + id + "]")
-                                .build());
+                            .build());
     }
 
     @DeleteMapping(SubPath.ID)
@@ -178,19 +176,19 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
         return (service.delete(entity))
                 ? ResponseEntity
-                        .status(HttpStatus.OK)
-                        .body(ResponseModel
-                                .builder()
+                    .status(HttpStatus.OK)
+                    .body(ResponseModel
+                            .builder()
                                 // .status(HttpStatus.OK)
                                 .message("Deleted " + entityName + "[id=" + id + "] successfully")
-                                .build())
+                            .build())
                 : ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body(ResponseModel
-                                .builder()
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ResponseModel
+                            .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to delete " + entityName + "[id=" + id + "]")
-                                .build());
+                            .build());
     }
 
     public ResponseEntity<?> enable(@RequestBody int id) {
@@ -206,9 +204,10 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         for (var s : EnumSet.allOf(getStatusClass())) {
             String name = Utils.capitalize(s.name());
             model.add(
-                StatusModel.builder()
-                    .id(s.ordinal())
-                    .name(name)
+                StatusModel
+                    .builder()
+                        .id(s.ordinal())
+                        .name(name)
                     .build()
             );
         }
@@ -228,8 +227,8 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     @GetMapping(SubPath.STATUS_ALL)
     public ResponseEntity<?> getAllStatus() {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(EStatus);
+            .status(HttpStatus.OK)
+            .body(EStatus);
     }
 
     @GetMapping(SubPath.STATUS_KEYWORD)
@@ -248,16 +247,16 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         }
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(Es);
+            .status(HttpStatus.OK)
+            .body(Es);
     }
 
     @GetMapping(SubPath.ACTIVE)
     public ResponseEntity<?> getActive() {
         List<E> Es = service.findAllByStatus(Status.ACTIVE.getValue());
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(Es);
+            .status(HttpStatus.OK)
+            .body(Es);
 
     }
 
@@ -265,8 +264,8 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     public ResponseEntity<?> getInActive() {
         List<E> Es = service.findAllByStatus(Status.INACTIVE.getValue());
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(Es);
+            .status(HttpStatus.OK)
+            .body(Es);
 
     }
 }

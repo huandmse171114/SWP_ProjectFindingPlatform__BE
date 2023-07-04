@@ -40,30 +40,32 @@ public class TeamController extends ApiController<Team, TeamService, TeamStatus>
 
         List<MemberTeamModel> members = new ArrayList<>();
         memberService.getAllByTeamId(id)
-                .forEach(member ->
-                    members.add(
-                        MemberTeamModel.builder()
+            .forEach(member ->
+                members.add(
+                    MemberTeamModel
+                    .builder()
                         .id(member.getId())
                         .name(member.getName())
-                        .build()
-                    )
-                );
+                    .build()
+                )
+            );
 
-        return TeamModel.builder()
+        return TeamModel
+            .builder()
                 .id(id)
                 .name(team.getName())
                 .balance(team.getBalance())
                 .status(status)
                 .members(members)
-                .build();
+            .build();
     }
 
     @Override
     public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(getTeam(id));
+            .status(HttpStatus.OK)
+            .body(getTeam(id));
     }
 
     @Override
@@ -81,8 +83,8 @@ public class TeamController extends ApiController<Team, TeamService, TeamStatus>
         );
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(result);
+            .status(HttpStatus.OK)
+            .body(result);
     }
 
     // public ResponseEntity<?>

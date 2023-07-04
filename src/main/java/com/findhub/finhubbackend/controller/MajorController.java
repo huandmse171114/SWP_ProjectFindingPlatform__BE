@@ -30,10 +30,11 @@ public class MajorController extends ApiController<Major, MajorService, MajorSta
 		if (service.existsByName(name))
 			return new ResponseEntity<>("Major[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 
-		Major major = Major.builder()
+		Major major = Major
+			.builder()
 				.code(code)
 				.name(name)
-				.build();
+			.build();
 
 		service.save(major);
 		return new ResponseEntity<>("Added new Major[code=" + code + "; name=\'" + name + "\'] successfully",

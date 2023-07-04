@@ -55,6 +55,9 @@ public interface ProjectService
 
     public List<ProjectResponseModel> getAllByNameContainingOrIdLike(String input);
 
+    public ProjectResponseModel getModel(int id);
+
+
     // public boolean existsByTeamIdAndProjectId(int teamId, int projectId);
 
 }
