@@ -27,6 +27,6 @@ public class ProjectResponseModel {
     private float wage;
     private String dueDate;
     private List<String> categories;
-    private List<DeliverableTypeModel> outputs;
+    private List<DeliverableTypeModel> deliverables;
     private String status;
 }

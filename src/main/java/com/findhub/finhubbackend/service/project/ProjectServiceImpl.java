@@ -261,7 +261,7 @@ public class ProjectServiceImpl
 				)
 				.skills(skills)
 				.categories(categoriesStr)
-				.outputs(deliverables)
+				.deliverables(deliverables)
 			.build();
 
 	}
