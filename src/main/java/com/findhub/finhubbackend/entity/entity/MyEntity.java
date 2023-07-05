@@ -12,11 +12,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MyEntity {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(
+        name = "Id",
+        nullable = false
+    )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 
-    @Column(name = "Status", nullable = false)
+    @Column(
+        name = "Status",
+        nullable = false
+    )
     protected int status;
 
     public int getId() {

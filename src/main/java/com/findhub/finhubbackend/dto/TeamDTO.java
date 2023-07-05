@@ -1,7 +1,8 @@
 package com.findhub.finhubbackend.dto;
 
 public interface TeamDTO {
-    int getId();
+
+    int getMemberId();
 
     String getName();
 }

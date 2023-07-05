@@ -25,10 +25,10 @@ public interface CategoryRepository extends Repo<Category> {
             SELECT
                 c.Name
             FROM
-                ProjectCategoryDetail pcd
-                INNER JOIN Category c ON pcd.CategoryId = c.Id
+                Project_Category pc
+                INNER JOIN Category c ON pc.CategoryId = c.Id
             WHERE
-                pcd.ProjectId = :id
+                pc.ProjectId = :id
 			""", nativeQuery = true)
     List<CategoryDTO> getNameByProjectId(@Param("id") int id);
 

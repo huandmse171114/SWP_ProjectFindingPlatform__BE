@@ -6,7 +6,7 @@ import java.util.Map;
 public enum MemberStatus {
 	NOT_AVAILABLE(0),
 	AVAILABLE(1),
-	DELETED(0),
+	DELETED(2),
 	;
 
 	private final int value;

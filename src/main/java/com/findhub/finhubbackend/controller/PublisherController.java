@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.entity.publisher.PublisherStatus;
-import com.findhub.finhubbackend.model.PublisherResponseModel;
+import com.findhub.finhubbackend.model.response.PublisherResponseModel;
 import com.findhub.finhubbackend.service.publisher.PublisherService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.Var;
@@ -25,8 +25,8 @@ public class PublisherController extends ApiController<Publisher, PublisherServi
     @Override
     public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.getResponseModelById(id));
+            .status(HttpStatus.OK)
+            .body(service.getResponseModelById(id));
     }
 
     @Override
@@ -34,14 +34,19 @@ public class PublisherController extends ApiController<Publisher, PublisherServi
         List<Publisher> publishers = service.getAll();
 
         if (publishers.isEmpty())
-            return errorResponse("No" + entityName + "found",
-                    HttpStatus.NOT_FOUND);
+            return response("No" + entityName + "found", HttpStatus.NOT_FOUND);
 
         List<PublisherResponseModel> prm = new ArrayList<>();
-        publishers.forEach(each -> prm.add(service.getResponseModelById(each.getId())));
+        publishers.forEach(
+            each -> prm.add(
+                service.getResponseModelById(
+                    each.getId()
+                )
+            )
+        );
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(prm);
+            .status(HttpStatus.OK)
+            .body(prm);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.application.ApplicationStatus;
-import com.findhub.finhubbackend.model.ApplicationCreateModel;
+import com.findhub.finhubbackend.model.create.ApplicationCreateModel;
 import com.findhub.finhubbackend.service.application.ApplicationService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 

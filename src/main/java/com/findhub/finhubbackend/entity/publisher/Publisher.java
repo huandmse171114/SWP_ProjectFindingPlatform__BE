@@ -25,34 +25,68 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "Publisher", uniqueConstraints = @UniqueConstraint(columnNames = "Email"))
+@Table(
+	name = "Publisher", 
+	uniqueConstraints = @UniqueConstraint(
+		columnNames = "Email"
+	)
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Publisher extends MyEntity {
 	@Id
-	@Column(name = "Id", nullable = false)
+	@Column(
+		name = "Id",
+		nullable = false
+	)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "Email", nullable = false)
+	@Column(
+		name = "Email",
+		nullable = false
+	)
 	private String email;
 
 	@Nationalized
-	@Column(name = "Name", nullable = true)
+	@Column(
+		name = "Name",
+		nullable = true
+	)
 	private String name;
 
-	@Column(name = "Phone", nullable = true)
+	@Column(
+		name = "Phone",
+		nullable = true
+	)
 	private String phone;
 
-	@Column(name = "DOB", nullable = true)
+	@Column(
+		name = "DOB",
+		nullable = true
+	)
 	private Date dob;
 
 	@Default
-	@Column(name = "Balance", nullable = false)
+	@Column(
+		name = "Balance",
+		nullable = false
+	)
 	private float balance = 0;
 
 	@Default
-	@Column(name = "Status", nullable = false)
+	@Column(
+		name = "Status",
+		nullable = false
+	)
 	private int status = MemberStatus.AVAILABLE.getValue();
+
+	// @OneToMany(
+    //     mappedBy = "publisher",
+    //     cascade = CascadeType.ALL,
+    //     fetch = FetchType.LAZY
+    // )
+    // @JsonManagedReference
+    // private List<Project> projects;
 }

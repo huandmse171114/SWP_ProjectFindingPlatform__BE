@@ -28,21 +28,36 @@ import lombok.NoArgsConstructor;
 public class Application extends MyEntity {
 
 	@Id
-	@Column(name = "Id", nullable = false)
+	@Column(
+		name = "Id",
+		nullable = false
+	)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "ProjectId", nullable = false)
+	@Column(
+		name = "ProjectId",
+		nullable = false
+	)
 	private int projectId;
 
-	@Column(name = "TeamId", nullable = false)
+	@Column(
+		name = "TeamId",
+		nullable = false
+	)
 	private int teamId;
 
 	@Default
-	@Column(name = "CreateDate", nullable = false)
+	@Column(
+		name = "CreateDate",
+		nullable = false
+	)
 	private Date createDate = new Date(System.currentTimeMillis());
 
 	@Default
-	@Column(name = "Status", nullable = false)
+	@Column(
+		name = "Status",
+		nullable = false
+	)
 	private int status = ApplicationStatus.PENDING.getValue();
 }

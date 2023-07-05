@@ -6,8 +6,8 @@ import java.util.Map;
 public enum ApplicationStatus {
 	APPROVED(0),
 	PENDING(1),
-	REJECTED(2),
-	DELETED(99),
+	DELETED(2),
+	REJECTED(3),
 	;
 
 	private final int value;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.major.MajorStatus;
-import com.findhub.finhubbackend.model.MajorCreateModel;
+import com.findhub.finhubbackend.model.create.MajorCreateModel;
 import com.findhub.finhubbackend.service.major.MajorService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 
@@ -26,13 +26,15 @@ public class MajorController extends ApiController<Major, MajorService, MajorSta
 
 		if (service.existsByCode(code))
 			return new ResponseEntity<>("Major[code=\'" + code + "\'] already existed", HttpStatus.FOUND);
+
 		if (service.existsByName(name))
 			return new ResponseEntity<>("Major[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 
-		Major major = Major.builder()
+		Major major = Major
+			.builder()
 				.code(code)
 				.name(name)
-				.build();
+			.build();
 
 		service.save(major);
 		return new ResponseEntity<>("Added new Major[code=" + code + "; name=\'" + name + "\'] successfully",

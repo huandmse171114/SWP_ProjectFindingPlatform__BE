@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.findhub.finhubbackend.dto.PublisherDTO;
 import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.entity.publisher.PublisherStatus;
-import com.findhub.finhubbackend.model.PublisherResponseModel;
+import com.findhub.finhubbackend.model.response.PublisherResponseModel;
 import com.findhub.finhubbackend.service.service.Service;
 
 public interface PublisherService extends Service<Publisher, PublisherStatus> {

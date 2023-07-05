@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.findhub.finhubbackend.dto.PublisherDTO;
 import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.entity.publisher.PublisherStatus;
-import com.findhub.finhubbackend.model.PublisherResponseModel;
+import com.findhub.finhubbackend.model.response.PublisherResponseModel;
 import com.findhub.finhubbackend.repository.PublisherRepository;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
 import com.findhub.finhubbackend.util.Utils;
@@ -82,14 +82,17 @@ public class PublisherServiceImpl extends ServiceImpl<Publisher, PublisherReposi
 
         String status = PublisherStatus.nameOf(publisher.getStatus());
 
-        return PublisherResponseModel.builder()
+        return PublisherResponseModel
+            .builder()
                 .id(id)
                 .name(publisher.getName())
                 .email(publisher.getEmail())
                 .phone(publisher.getPhone())
                 .DOB(publisher.getDob())
                 .balance(publisher.getBalance())
-                .status(Utils.capitalize(status))
-                .build();
+                .status(
+                    Utils.capitalize(status)
+                )
+            .build();
     }
 }

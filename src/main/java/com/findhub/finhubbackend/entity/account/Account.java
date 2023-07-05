@@ -20,28 +20,48 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "Account", uniqueConstraints = @UniqueConstraint(columnNames = "Email"))
+@Table(
+	name = "Account",
+	uniqueConstraints = @UniqueConstraint(
+		columnNames = "Email"
+	)
+)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Account extends MyEntity {
 
 	@Id
-	@Column(name = "Id", nullable = false)
+	@Column(
+		name = "Id",
+		nullable = false
+	)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "Email", nullable = false)
+	@Column(
+		name = "Email",
+		nullable = false
+	)
 	private String email;
 
-	@Column(name = "Password", nullable = false)
+	@Column(
+		name = "Password",
+		nullable = false
+	)
 	private String password;
 
-	@Column(name = "Status", nullable = false)
+	@Column(
+		name = "Status",
+		nullable = false
+	)
 	@Default
 	private int status = AccountStatus.ACTIVE.getValue();
 
-	@Column(name = "Role", nullable = false)
+	@Column(
+		name = "Role",
+		nullable = false
+	)
 	@Default
 	private int role = AccountRole.MEMBER.getValue();
 

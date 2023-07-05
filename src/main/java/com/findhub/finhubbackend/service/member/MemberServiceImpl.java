@@ -11,9 +11,9 @@ import com.findhub.finhubbackend.dto.MemberDTO;
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberStatus;
-import com.findhub.finhubbackend.model.MajorResponseModel;
-import com.findhub.finhubbackend.model.MemberResponseModel;
-import com.findhub.finhubbackend.model.SkillRepsonseModel;
+import com.findhub.finhubbackend.model.model.MemberModel;
+import com.findhub.finhubbackend.model.model.SkillModel;
+import com.findhub.finhubbackend.model.response.MajorResponseModel;
 import com.findhub.finhubbackend.repository.MemberRepository;
 import com.findhub.finhubbackend.service.major.MajorService;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
@@ -62,6 +62,11 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
     }
 
     @Override
+    public List<MemberDTO> getAllByTeamId(int id) {
+        return repo.getAllByTeamId(id);
+    }
+
+    @Override
     public List<Member> findAllByNameContaining(String name) {
         return repo.findAllByNameContaining(name);
     }
@@ -86,25 +91,28 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
         return repo.findByPhone(phone);
     }
 
-    public MemberResponseModel getResponseModelById(int id) {
+    public MemberModel getModel(int id) {
         Member member = get(id);
 
         if (member == null)
             return null;
 
-        List<SkillRepsonseModel> skills = new ArrayList<>();
+        List<SkillModel> skills = new ArrayList<>();
         skillService.getNameAndLevelByMemberId(id)
-                .forEach(each -> skills.add(
-                        SkillRepsonseModel
-                                .builder()
-                                .name(each.getName())
-                                .level(each.getLevel())
-                                .build()));
+            .forEach(each -> skills.add(
+                SkillModel
+                    .builder()
+                        .name(each.getName())
+                        .level(each.getLevel())
+                    .build()
+            )
+        );
 
         String status = MemberStatus.nameOf(member.getStatus());
         Major major = majorService.get(member.getMajorId());
 
-        return MemberResponseModel.builder()
+        return MemberModel
+            .builder()
                 .id(id)
                 .name(member.getName())
                 .email(member.getEmail())
@@ -114,12 +122,14 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
                 .DOB(member.getDob())
                 .major(MajorResponseModel
                         .builder()
-                        .code(major.getCode())
-                        .name(major.getName())
+                            .code(major.getCode())
+                            .name(major.getName())
                         .build())
                 .skills(skills)
-                .status(Utils.capitalize(status))
-                .build();
+                .status(
+                    Utils.capitalize(status)
+                )
+            .build();
     }
 
 }

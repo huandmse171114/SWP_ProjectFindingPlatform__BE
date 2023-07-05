@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum PublisherStatus {
-    APPROVED(0),
+	APPROVED(0),
 	PENDING(1),
-	REJECTED(2),
-	DELETED(99),
+	DELETED(2),
+	REJECTED(3),
 	;
 
 	private final int value;
@@ -25,7 +25,7 @@ public enum PublisherStatus {
 	}
 
 	public static int nextStatus(int val) {
-		int next = val++;
+		int next = (val == 1) ? val + 2 : val++;
 		return isExisted(next) ? next : 0;
 	}
 
@@ -33,14 +33,12 @@ public enum PublisherStatus {
 		return status.get(val) != null;
 	}
 
-    public int getValue() {
-        return this.value;
-    }
+	public int getValue() {
+		return this.value;
+	}
 
-    private PublisherStatus(int value) {
-        this.value = value;
-    }
-    
-    
+	private PublisherStatus(int value) {
+		this.value = value;
+	}
 
 }

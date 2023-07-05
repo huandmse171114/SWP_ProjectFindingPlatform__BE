@@ -20,24 +20,44 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "Major", uniqueConstraints = @UniqueConstraint(columnNames = { "Code", "Name" }))
+@Table(
+	name = "Major",
+	uniqueConstraints = @UniqueConstraint(
+		columnNames = {
+			"Code",
+			"Name"
+		}
+	)
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Major extends MyEntity {
 
 	@Id
-	@Column(name = "Id", nullable = false)
+	@Column(
+		name = "Id",
+		nullable = false
+	)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "Code", nullable = false)
+	@Column(
+		name = "Code",
+		nullable = false
+	)
 	private String code;
 
-	@Column(name = "Name", nullable = false)
+	@Column(
+		name = "Name",
+		nullable = false
+	)
 	private String name;
 
 	@Default
-	@Column(name = "Status", nullable = false)
+	@Column(
+		name = "Status",
+		nullable = false
+	)
 	private int status = MajorStatus.ACTIVE.getValue();
 }

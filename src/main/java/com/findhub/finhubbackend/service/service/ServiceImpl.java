@@ -127,12 +127,12 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
-    public E update(E oldT, E newT) {
-        if (newT != null && oldT != null) {
-            int id = oldT.getId();
-            newT.setId(id);
+    public E update(E oldE, E newE) {
+        if (newE != null && oldE != null) {
+            int id = oldE.getId();
+            newE.setId(id);
 
-            return repo.save(newT);
+            return repo.save(newE);
         }
 
         return null;
