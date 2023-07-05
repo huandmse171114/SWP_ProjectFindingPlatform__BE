@@ -15,6 +15,8 @@ public interface Service<E, S> {
      */
     public E update(int id, E entity);
 
+    public E update(E entity);
+
     /**
      * update T
      */

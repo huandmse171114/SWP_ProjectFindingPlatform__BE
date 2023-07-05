@@ -15,6 +15,7 @@ public class Config {
         public static final String PUBLISHER = "/publishers";
         public static final String APPLICATION = "/applications";
         public static final String OUTPUT = "/outputs";
+        public static final String MAIL = "/mail";
 
     }
 
@@ -32,7 +33,7 @@ public class Config {
 
         public static final String ALL = "/all";
 
-        private static final String STATUS = "/status";
+        public static final String STATUS = "/status";
         public static final String STATUS_ID = STATUS + ID;
         public static final String STATUS_KEYWORD = STATUS + KEYWORD;
         public static final String STATUS_ALL = STATUS + ALL;
@@ -66,6 +67,7 @@ public class Config {
         public static final String PAYMENT = API + EntityPath.PAYMENT;
         public static final String OUTPUT = API + EntityPath.OUTPUT;
         public static final String SEARCH = API + EntityPath.SEARCH;
+        public static final String MAIL = API + EntityPath.MAIL;
 
         private static final String FB_MEDIA = "/media";
         public static final String FB_PROJECT = FB_MEDIA + EntityPath.PROJECT + SubPath.IMG;

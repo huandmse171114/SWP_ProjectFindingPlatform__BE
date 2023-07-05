@@ -18,6 +18,11 @@ public class ProjectCategoryServiceImpl
     private ProjectCategoryRepository repo;
 
     @Override
+    public ProjectCategory update(ProjectCategory entity) {
+        return null;
+    }
+
+    @Override
     public ProjectCategory add(ProjectCategory entity) {
         return null;
     }

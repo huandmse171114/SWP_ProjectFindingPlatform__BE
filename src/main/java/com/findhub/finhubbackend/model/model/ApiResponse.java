@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResponseModel {
+public class ApiResponse {
     private int status;
     private String message;
     private Map<String, Object> cause;
 
-    public ResponseModel(int status, String message) {
+    public ApiResponse(int status, String message) {
         this.status = status;
         this.message = message;
     }

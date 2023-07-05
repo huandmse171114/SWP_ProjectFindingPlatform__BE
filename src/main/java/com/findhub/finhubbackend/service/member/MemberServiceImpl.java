@@ -119,12 +119,13 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
                 .phone(member.getPhone())
                 .description(member.getDescription())
                 .balance(member.getBalance())
-                .DOB(member.getDob())
+                .DOB(member.getDob().toString())
                 .major(MajorResponseModel
-                        .builder()
-                            .code(major.getCode())
-                            .name(major.getName())
-                        .build())
+                    .builder()
+                        .code(major.getCode())
+                        .name(major.getName())
+                    .build()
+                )
                 .skills(skills)
                 .status(
                     Utils.capitalize(status)

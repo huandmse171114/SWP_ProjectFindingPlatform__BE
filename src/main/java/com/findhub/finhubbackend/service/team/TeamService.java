@@ -7,8 +7,8 @@ import com.findhub.finhubbackend.entity.team.Team;
 import com.findhub.finhubbackend.entity.team.TeamStatus;
 import com.findhub.finhubbackend.service.service.Service;
 
-public interface TeamService extends Service<Team, TeamStatus> {
-    public List<Team> findAllById(int id);
+public interface TeamService
+        extends Service<Team, TeamStatus> {
 
     // balance: không cần tìm
     public List<Team> findAllByBalance(float balance);

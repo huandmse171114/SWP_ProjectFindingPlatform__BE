@@ -14,11 +14,6 @@ public interface AccountService extends Service<Account, AccountStatus> {
 	public Account findByEmail(String email);
 
 	/**
-	 * find accounts by id (approximate id)
-	 */
-	public List<Account> findAllByIdContaining(int id);
-
-	/**
 	 * find accounts by email (approximate Email)
 	 */
 	public List<Account> findAllByEmailContaining(String email);

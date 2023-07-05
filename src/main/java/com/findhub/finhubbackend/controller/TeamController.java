@@ -43,7 +43,7 @@ public class TeamController extends ApiController<Team, TeamService, TeamStatus>
         memberService.getAllByTeamId(id)
             .forEach(member ->
                 members.add(
-                    MemberTeamModel  
+                    MemberTeamModel
                         .builder()
                             .id(member.getId())
                             .name(member.getName())

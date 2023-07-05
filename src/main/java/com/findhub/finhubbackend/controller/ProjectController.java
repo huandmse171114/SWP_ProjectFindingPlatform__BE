@@ -156,7 +156,7 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 					ProjectDeliverable
 						.builder()
 							.project(created)
-							.name(deliverable.getName())
+							.value(deliverable.getValue())
 							.description(deliverable.getDescription())
 							.deliverableType(
 								deliverableTypeService.get(

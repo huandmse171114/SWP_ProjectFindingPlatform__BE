@@ -12,6 +12,7 @@ import com.findhub.finhubbackend.dto.CategoryDTO;
 import com.findhub.finhubbackend.dto.ProjectDTO;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
+import com.findhub.finhubbackend.entity.projectDeliverable.ProjectDeliverableStatus;
 import com.findhub.finhubbackend.model.model.CategoryModel;
 import com.findhub.finhubbackend.model.model.DeliverableTypeModel;
 import com.findhub.finhubbackend.model.model.SkillModel;
@@ -111,7 +112,7 @@ public class ProjectServiceImpl
 	 * bản cũ, chưa xài @manyToMany
 	 */
 	@Override
-	public ProjectResponseModel getById(int id) {
+	public ProjectResponseModel getById(int id){
 		Project project = get(id);
 
 		if (project == null)
@@ -159,7 +160,9 @@ public class ProjectServiceImpl
 		List<ProjectResponseModel> result = new ArrayList<>();
 
 		findAllByIdContaining(id)
-			.forEach(each -> result.add(getById(each.getId())));
+			.forEach(each ->
+					result.add(getById(each.getId()))
+			);
 
 		return result;
 	}
@@ -234,7 +237,13 @@ public class ProjectServiceImpl
 							.builder()
 								.id(deliverable.getDeliverableType().getId())
 								.name(deliverable.getDeliverableType().getName())
+								.value(deliverable.getValue())
 								.description(deliverable.getDescription())
+								.status(
+									ProjectDeliverableStatus.nameOf(
+										deliverable.getStatus()
+									)
+								)
 							.build());
 				}
 			);
