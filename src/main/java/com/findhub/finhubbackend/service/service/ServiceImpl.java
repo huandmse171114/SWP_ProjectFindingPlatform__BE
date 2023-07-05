@@ -53,6 +53,7 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     public boolean updateStatus(E entity, int status) {
         if (entity != null) {
             entity.setStatus(status);
+            update(entity);
             return true;
         }
         return false;
@@ -118,6 +119,11 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     @Override
     public E save(E entity) {
         return repo.save(entity);
+    }
+
+    @Override
+    public E update(E entity) {
+        return update(entity.getId(), entity);
     }
 
     @Override

@@ -23,7 +23,8 @@ import com.findhub.finhubbackend.entity.project.ProjectStatus;
 import com.findhub.finhubbackend.exception.CreateEntityFailedException;
 import com.findhub.finhubbackend.exception.EntityCrudException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
-import com.findhub.finhubbackend.model.model.ResponseModel;
+import com.findhub.finhubbackend.model.create.UpdateStatusModel;
+import com.findhub.finhubbackend.model.model.ApiResponse;
 import com.findhub.finhubbackend.model.model.StatusModel;
 import com.findhub.finhubbackend.service.service.Service;
 import com.findhub.finhubbackend.util.Config.SubPath;
@@ -39,7 +40,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     public ResponseEntity<?> response(String errorMessage, HttpStatus status) {
         return ResponseEntity
                 .status(status)
-                .body(ResponseModel
+                .body(ApiResponse
                     .builder()
                         // .status(status)
                         .message(errorMessage)
@@ -135,8 +136,11 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
     }
 
-    @PutMapping(SubPath.STATUS_ID)
-    public ResponseEntity<?> updateStatus(@PathVariable(Var.ID) int id, @RequestBody int status) {
+    @PutMapping(SubPath.STATUS)
+    public ResponseEntity<?> updateStatus(@RequestBody UpdateStatusModel u) {
+
+        int id = u.getId();
+        int status = u.getStatus();
 
         E entity = service.get(id);
 
@@ -150,7 +154,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return (service.updateStatus(id, status))
                 ? ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(ResponseModel
+                    .body(ApiResponse
                             .builder()
                                 // .status(HttpStatus.OK)
                                 .message("Updated"
@@ -159,7 +163,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
                             .build())
                 : ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseModel
+                    .body(ApiResponse
                             .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to update " + entityName + "[id=" + id + "]")
@@ -177,14 +181,14 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return (service.delete(entity))
                 ? ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(ResponseModel
+                    .body(ApiResponse
                             .builder()
                                 // .status(HttpStatus.OK)
                                 .message("Deleted " + entityName + "[id=" + id + "] successfully")
                             .build())
                 : ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseModel
+                    .body(ApiResponse
                             .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to delete " + entityName + "[id=" + id + "]")
@@ -192,11 +196,17 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     }
 
     public ResponseEntity<?> enable(@RequestBody int id) {
-        return updateStatus(id, Status.ACTIVE.getValue());
+        return updateStatus(UpdateStatusModel.builder()
+                .id(id)
+                .status(Status.ACTIVE.getValue())
+        .build());
     }
 
     public ResponseEntity<?> disable(@RequestBody int id) {
-        return updateStatus(id, Status.INACTIVE.getValue());
+        return updateStatus(UpdateStatusModel.builder()
+                .id(id)
+                .status(Status.INACTIVE.getValue())
+        .build());
     }
 
     private List<StatusModel> allStatus() {

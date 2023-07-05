@@ -15,6 +15,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.findhub.finhubbackend.entity.mail.MailRequest;
 import com.findhub.finhubbackend.entity.mail.MailResponse;
+import com.findhub.finhubbackend.entity.mail.MailType;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -29,10 +30,10 @@ public class EmailService {
 	@Autowired
 	private Configuration config;
 
-	public MailResponse sendEmail(MailRequest request, Map<String, Object> model) {
+	public MailResponse sendEmail(MailRequest request, Map<String, Object> model, MailType type) {
 		MailResponse response = new MailResponse();
 		MimeMessage message = sender.createMimeMessage();
-		String file = "ConfirmReceiveApplicationForm.html";
+		String file = type.getValue();
 		try {
 			// set mediaType
 			MimeMessageHelper helper = new MimeMessageHelper(
@@ -48,7 +49,7 @@ public class EmailService {
 			helper.setTo(request.getTo());
 			helper.setText(html, true);
 			helper.setSubject(request.getSubject());
-			helper.setFrom(request.getFrom());
+			helper.setFrom("lethucthanhtu@gmail.com");
 			sender.send(message);
 
 			response.setMessage("mail send to : " + request.getTo());

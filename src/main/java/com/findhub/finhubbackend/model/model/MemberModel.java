@@ -1,6 +1,5 @@
 package com.findhub.finhubbackend.model.model;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.findhub.finhubbackend.model.response.MajorResponseModel;
@@ -19,13 +18,13 @@ public class MemberModel {
     private String email;
     private String name;
     private String description;
-    private Date DOB;
+    private String DOB;
     private String phone;
     private float balance;
-    private MajorResponseModel major;
     private String status;
     private String role;
 
     // extend infomation
+    private MajorResponseModel major;
     private List<SkillModel> skills;
 }

@@ -73,6 +73,12 @@ public class ProjectSkillServiceImpl
     }
 
     @Override
+    public ProjectSkill update(ProjectSkill entity) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public ProjectSkill update(ProjectSkill oldT, ProjectSkill newT) {
         return null;
     }

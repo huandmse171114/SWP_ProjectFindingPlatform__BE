@@ -14,5 +14,6 @@ public class DeliverableTypeModel {
     private int id;
     private String name;
     private String description;
-    private int status;
+    private String value;
+    private String status;
 }
