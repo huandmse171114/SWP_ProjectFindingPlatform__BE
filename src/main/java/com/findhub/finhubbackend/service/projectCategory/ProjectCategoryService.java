@@ -7,4 +7,5 @@ import com.findhub.finhubbackend.service.service.Service;
 public interface ProjectCategoryService
         extends Service<ProjectCategory, ProjectCategoryStatus> {
 
+    void updateById(int id, int status, int categoryId, int projectId);
 }

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,10 @@ import com.findhub.finhubbackend.entity.projectSkill.ProjectSkill;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
 import com.findhub.finhubbackend.model.create.ProjectCreateModel;
 import com.findhub.finhubbackend.model.response.ProjectResponseModel;
+import com.findhub.finhubbackend.model.update.ProjectCategoryUpdateModel;
+import com.findhub.finhubbackend.model.update.ProjectDeliverableUpdateModel;
+import com.findhub.finhubbackend.model.update.ProjectSkillUpdateModel;
+import com.findhub.finhubbackend.model.update.ProjectUpdateModel;
 import com.findhub.finhubbackend.service.category.CategoryService;
 import com.findhub.finhubbackend.service.deliverable.DeliverableService;
 import com.findhub.finhubbackend.service.project.ProjectService;
@@ -37,6 +42,7 @@ import com.findhub.finhubbackend.service.skill.SkillService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
+import com.findhub.finhubbackend.util.Utils;
 
 @RestController
 @CrossOrigin
@@ -68,12 +74,9 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		List<ProjectResponseModel> result = new ArrayList<>();
 
 		projects.forEach(
-			p -> result.add(
-				service.getModel(
-					p.getId()
-				)
-			)
-		);
+				p -> result.add(
+						service.getModel(
+								p.getId())));
 
 		return result;
 	}
@@ -81,20 +84,22 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 	@Override
 	public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
 		ProjectResponseModel p = service.getModel(id);
+		Project pt = service.get(id);
 
 		if (p == null)
 			throw new EntityNotFoundException(entityName, id);
 
 		return ResponseEntity
-			.status(HttpStatus.OK)
-			.body(p);
+				.status(HttpStatus.OK)
+				// .body(p);
+				.body(pt);
 	}
 
 	@Override
 	public ResponseEntity<?> getAll() {
 		return ResponseEntity
-			.status(HttpStatus.OK)
-			.body(getResponseModels(service.getAll()));
+				.status(HttpStatus.OK)
+				.body(getResponseModels(service.getAll()));
 		// .body(service.getAll());
 	}
 
@@ -104,7 +109,7 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		Date dueDate = Date.valueOf(model.getDueDate());
 
 		Project project = Project
-			.builder()
+				.builder()
 				.name(model.getName())
 				.publisherId(model.getPublisherId())
 				.description(model.getDescription())
@@ -113,7 +118,7 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 				.deliverDays(model.getDeliverDays())
 				.dueDate(dueDate)
 				.status(model.getStatus())
-			.build();
+				.build();
 
 		Project created = service.save(project);
 		int id = created.getId();
@@ -168,14 +173,129 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 			);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-			.path(SubPath.ID)
-			.buildAndExpand(id)
-			.toUri();
+				.path(SubPath.ID)
+				.buildAndExpand(id)
+				.toUri();
 
 		return ResponseEntity
-			.created(location)
-			// .body(service.getModel(id));
-			.body(service.get(id));
+				.created(location)
+				// .body(service.getModel(id));
+				.body(service.get(id));
+	}
+
+	@PutMapping()
+	// @Override
+	public ResponseEntity<?> update(@RequestBody ProjectUpdateModel model) {
+		int projectId = model.getId();
+
+		Project old = service.get(projectId);
+
+		String name = model.getName();
+		if (!Utils.isNullOrEmpty(name))
+			old.setName(name);
+
+		old.setPublisherId(model.getPublisherId());
+
+		String des = model.getDescription();
+		if (!Utils.isNullOrEmpty(des))
+			old.setDescription(des);
+
+		old.setWage(model.getWage());
+
+		String img = model.getImageURL();
+		if (!Utils.isNullOrEmpty(img))
+			old.setImageURL(img);
+
+		old.setDeliverDays(model.getDeliverDays());
+
+		// old.setPublishDate();
+
+		String due = model.getDueDate();
+		if (!Utils.isNullOrEmpty(due))
+			old.setDueDate(
+				Date.valueOf(due)
+			);
+
+		old.setStatus(model.getStatus());
+
+		//update project
+		service.update(old);
+
+		// update skill
+		model.getSkills()
+			.forEach(
+				skill -> psService.updateById(
+					skill.getId(),
+					skill.getSkillId(),
+					skill.getStatus(),
+					skill.getLevel(),
+					projectId
+				)
+			);
+
+		// update deliverable
+		model.getDeliverables()
+			.forEach(
+				d -> pdService.updateById(
+					d.getId(),
+					d.getDeliverableId(),
+					d.getValue(),
+					d.getStatus(),
+					d.getDescription(),
+					projectId
+				)
+			);
+
+		//update category
+		model.getCategories()
+			.forEach(
+				category -> pcServie.updateById(
+					category.getId(),
+					category.getStatus(),
+					category.getCategoryId(),
+					projectId
+				)
+			);
+
+		return new ResponseEntity<>(service.getModel(projectId), HttpStatus.OK);
+	}
+
+	@PutMapping("/skills")
+	public ResponseEntity<?> updateSkill(@RequestBody ProjectSkillUpdateModel entity) {
+		psService.updateById(
+			entity.getId(),
+			entity.getSkillId(),
+			entity.getStatus(),
+			entity.getLevel(),
+			entity.getProjectId()
+		);
+		return ResponseEntity.ok().body("update success");
+		// return ResponseEntity.ok().body("update success");
+	}
+
+	@PutMapping("/deliverables")
+	public ResponseEntity<?> updateDelvierable(@RequestBody ProjectDeliverableUpdateModel entity) {
+		pdService.updateById(
+			entity.getId(),
+			entity.getDeliverableId(),
+			entity.getValue(),
+			entity.getStatus(),
+			entity.getDescription(),
+			entity.getProjectId()
+		);
+		return ResponseEntity.ok().body("update success");
+	}
+
+	@PutMapping("/categories")
+	public ResponseEntity<?> updateCategory(@RequestBody ProjectCategoryUpdateModel entity) {
+		pcServie.updateById(
+			entity.getId(),
+			entity.getStatus(),
+			entity.getCategoryId(),
+			entity.getProjectId()
+		);
+
+		return ResponseEntity.ok().body("update success");
 	}
 
 }

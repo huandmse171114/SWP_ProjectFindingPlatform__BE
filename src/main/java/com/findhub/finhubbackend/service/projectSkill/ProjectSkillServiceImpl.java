@@ -1,6 +1,7 @@
 package com.findhub.finhubbackend.service.projectSkill;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import com.findhub.finhubbackend.entity.entity.Status;
 import com.findhub.finhubbackend.entity.projectSkill.ProjectSkill;
 import com.findhub.finhubbackend.entity.projectSkill.ProjectSkillStatus;
 import com.findhub.finhubbackend.repository.ProjectSkillRepository;
+import com.findhub.finhubbackend.service.project.ProjectService;
+import com.findhub.finhubbackend.service.skill.SkillService;
 
 @Service
 public class ProjectSkillServiceImpl
@@ -16,6 +19,12 @@ public class ProjectSkillServiceImpl
 
     @Autowired
     private ProjectSkillRepository repo;
+
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private SkillService skillService;
 
     @Override
     public ProjectSkill add(ProjectSkill entity) {
@@ -54,7 +63,26 @@ public class ProjectSkillServiceImpl
 
     @Override
     public ProjectSkill get(int id) {
-        return null;
+        Optional<ProjectSkill> ps = repo.findById(id);
+        return (ps.isPresent()) ? ps.get() : null;
+    }
+
+    @Override
+    public void updateById(int id, int skillId, int status, int level, int projectId) {
+        if(get(id) != null)
+            repo.updateById(id, skillId, status, level);
+        else
+            save(
+                ProjectSkill
+                    .builder()
+                        .project(
+                            projectService.get(projectId)
+                            )
+                        .skill(
+                            skillService.get(skillId)
+                        )
+                    .build()
+        );
     }
 
     @Override
@@ -69,12 +97,12 @@ public class ProjectSkillServiceImpl
 
     @Override
     public ProjectSkill update(int id, ProjectSkill entity) {
-        return null;
+        entity.setId(id);
+        return repo.save(entity);
     }
 
     @Override
     public ProjectSkill update(ProjectSkill entity) {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.model.model;
+package com.findhub.finhubbackend.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryModel {
+public class ProjectCategoryResponseModel {
     private int id;
     private String name;
+    private int status;
 }

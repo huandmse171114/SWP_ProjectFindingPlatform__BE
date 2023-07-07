@@ -47,14 +47,14 @@ public class ProjectDeliverable extends MyEntity {
     @Nationalized
     @Column(
         name = "Value",
-        nullable = false
+        nullable = true
     )
     private String value;
 
     @Nationalized
     @Column(
         name = "Description",
-        nullable = false
+        nullable = true
     )
     private String description;
 

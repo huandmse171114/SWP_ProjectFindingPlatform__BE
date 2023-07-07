@@ -16,7 +16,8 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.APPLICATION)
-public class ApplicationController extends ApiController<Application, ApplicationService, ApplicationStatus> {
+public class ApplicationController
+		extends ApiController<Application, ApplicationService, ApplicationStatus> {
 
 	// @Autowired
 	// private TeamService teamService;

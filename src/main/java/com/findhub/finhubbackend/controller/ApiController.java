@@ -115,14 +115,16 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
     }
 
-    @PutMapping(SubPath.ID)
-    public ResponseEntity<?> update(@PathVariable(Var.ID) int id, @RequestBody E entity) {
-
-        if (service.get(id) == null)
-            throw new EntityNotFoundException(entityName, id);
+    // @PutMapping()
+    public ResponseEntity<?> update(@RequestBody E entity) {
 
         if (entity == null)
             throw new EntityCrudException("Failed to update " + entityName + ": update content is NULL");
+
+        int id = ((MyEntity) entity).getId();
+
+        if (service.get(id) == null)
+            throw new EntityNotFoundException(entityName, id);
 
         if (!entity.getClass().isInstance(instance))
             throw new EntityCrudException("Request Object is not " + entityName);
@@ -160,14 +162,16 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
                                 .message("Updated"
                                         + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
                                         + entityName + "[status=" + status + "] successfully")
-                            .build())
+                            .build()
+                    )
                 : ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(ApiResponse
                             .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to update " + entityName + "[id=" + id + "]")
-                            .build());
+                            .build()
+                    );
     }
 
     @DeleteMapping(SubPath.ID)
@@ -185,28 +189,36 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
                             .builder()
                                 // .status(HttpStatus.OK)
                                 .message("Deleted " + entityName + "[id=" + id + "] successfully")
-                            .build())
+                            .build()
+                    )
                 : ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(ApiResponse
                             .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to delete " + entityName + "[id=" + id + "]")
-                            .build());
+                            .build()
+                    );
     }
 
     public ResponseEntity<?> enable(@RequestBody int id) {
-        return updateStatus(UpdateStatusModel.builder()
-                .id(id)
-                .status(Status.ACTIVE.getValue())
-        .build());
+        return updateStatus(
+            UpdateStatusModel
+                .builder()
+                        .id(id)
+                        .status(Status.ACTIVE.getValue())
+                .build()
+        );
     }
 
     public ResponseEntity<?> disable(@RequestBody int id) {
-        return updateStatus(UpdateStatusModel.builder()
-                .id(id)
-                .status(Status.INACTIVE.getValue())
-        .build());
+        return updateStatus(
+            UpdateStatusModel
+                .builder()
+                    .id(id)
+                    .status(Status.INACTIVE.getValue())
+                .build()
+        );
     }
 
     private List<StatusModel> allStatus() {

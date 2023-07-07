@@ -48,4 +48,9 @@ public class Utils {
 
 		return true;
 	}
+
+	public static boolean isNullOrEmpty(String input) {
+		if(input == null) return true;
+		return (input.isEmpty()) ? true : false;
+	}
 }
