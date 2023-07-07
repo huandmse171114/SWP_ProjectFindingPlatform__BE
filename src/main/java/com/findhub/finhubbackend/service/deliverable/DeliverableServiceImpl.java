@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.findhub.finhubbackend.entity.deliverableType.DeliverableType;
 import com.findhub.finhubbackend.entity.deliverableType.DeliverableStatus;
-import com.findhub.finhubbackend.repository.OutputRepository;
+import com.findhub.finhubbackend.repository.DeliverableTypeRepository;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
 
 @Service
 public class DeliverableServiceImpl
-        extends ServiceImpl<DeliverableType, OutputRepository, DeliverableStatus>
+        extends ServiceImpl<DeliverableType, DeliverableTypeRepository, DeliverableStatus>
         implements DeliverableService {
 
     @Override

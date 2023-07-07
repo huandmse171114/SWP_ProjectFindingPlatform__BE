@@ -74,9 +74,12 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		List<ProjectResponseModel> result = new ArrayList<>();
 
 		projects.forEach(
-				p -> result.add(
-						service.getModel(
-								p.getId())));
+			p -> result.add(
+				service.getModel(
+					p.getId()
+				)
+			)
+		);
 
 		return result;
 	}
@@ -84,15 +87,15 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 	@Override
 	public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
 		ProjectResponseModel p = service.getModel(id);
-		Project pt = service.get(id);
+		// Project pt = service.get(id);
 
 		if (p == null)
 			throw new EntityNotFoundException(entityName, id);
 
 		return ResponseEntity
 				.status(HttpStatus.OK)
-				// .body(p);
-				.body(pt);
+				.body(p);
+				// .body(pt);
 	}
 
 	@Override
@@ -110,14 +113,14 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 
 		Project project = Project
 				.builder()
-				.name(model.getName())
-				.publisherId(model.getPublisherId())
-				.description(model.getDescription())
-				.wage(model.getWage())
-				.imageURL(model.getImageURL())
-				.deliverDays(model.getDeliverDays())
-				.dueDate(dueDate)
-				.status(model.getStatus())
+					.name(model.getName())
+					.publisherId(model.getPublisherId())
+					.description(model.getDescription())
+					.wage(model.getWage())
+					.imageURL(model.getImageURL())
+					.deliverDays(model.getDeliverDays())
+					.dueDate(dueDate)
+					.status(model.getStatus())
 				.build();
 
 		Project created = service.save(project);

@@ -77,10 +77,13 @@ public class PublisherServiceImpl extends ServiceImpl<Publisher, PublisherReposi
     public PublisherResponseModel getResponseModelById(int id) {
         Publisher publisher = get(id);
 
-        if (publisher == null)
-            return null;
+        if (publisher == null) return null;
 
-        String status = PublisherStatus.nameOf(publisher.getStatus());
+        String status =  Utils.capitalize(
+            PublisherStatus.nameOf(
+                publisher.getStatus()
+            )
+        );
 
         return PublisherResponseModel
             .builder()
@@ -90,9 +93,7 @@ public class PublisherServiceImpl extends ServiceImpl<Publisher, PublisherReposi
                 .phone(publisher.getPhone())
                 .DOB(publisher.getDob())
                 .balance(publisher.getBalance())
-                .status(
-                    Utils.capitalize(status)
-                )
+                .status(status)
             .build();
     }
 }

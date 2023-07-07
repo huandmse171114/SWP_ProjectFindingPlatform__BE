@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProjectCategoryResponseModel {
+public class ProjectSkillResponseModel {
     private int id;
-    private int projectCategoryId;
+    private int projectSkillId;
     private String name;
+    private int level;
     private String status;
 }

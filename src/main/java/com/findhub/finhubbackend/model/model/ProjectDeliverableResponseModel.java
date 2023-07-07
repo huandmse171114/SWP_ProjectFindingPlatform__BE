@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DeliverableTypeModel {
-    // private int projectId;
+public class ProjectDeliverableResponseModel {
     private int id;
+    private int projectDeliverableId;
     private String name;
     private String description;
     private String value;

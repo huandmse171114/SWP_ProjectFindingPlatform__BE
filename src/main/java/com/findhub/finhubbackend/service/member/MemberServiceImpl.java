@@ -94,21 +94,25 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
     public MemberModel getModel(int id) {
         Member member = get(id);
 
-        if (member == null)
-            return null;
+        if (member == null) return null;
 
         List<SkillModel> skills = new ArrayList<>();
         skillService.getNameAndLevelByMemberId(id)
             .forEach(each -> skills.add(
                 SkillModel
                     .builder()
+                        .id(each.getId())
                         .name(each.getName())
                         .level(each.getLevel())
                     .build()
             )
         );
 
-        String status = MemberStatus.nameOf(member.getStatus());
+        String status = Utils.capitalize(
+            MemberStatus.nameOf(
+                member.getStatus()
+            )
+        );
         Major major = majorService.get(member.getMajorId());
 
         return MemberModel
@@ -122,14 +126,13 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
                 .DOB(member.getDob().toString())
                 .major(MajorResponseModel
                     .builder()
+                        .id(major.getId())
                         .code(major.getCode())
                         .name(major.getName())
                     .build()
                 )
                 .skills(skills)
-                .status(
-                    Utils.capitalize(status)
-                )
+                .status(status)
             .build();
     }
 

@@ -24,6 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
 
 @Entity
 @Data
@@ -75,4 +76,11 @@ public class ProjectSkill extends MyEntity {
         nullable = false
     )
     private int level;
+
+    @Default
+    @Column(
+        name = "Status",
+        nullable = false
+    )
+    private int status = ProjectSkillStatus.ACTIVE.getValue();
 }

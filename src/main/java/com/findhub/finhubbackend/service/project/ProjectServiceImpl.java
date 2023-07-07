@@ -12,11 +12,14 @@ import com.findhub.finhubbackend.dto.CategoryDTO;
 import com.findhub.finhubbackend.dto.ProjectDTO;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
+import com.findhub.finhubbackend.entity.projectCategory.ProjectCategoryStatus;
 import com.findhub.finhubbackend.entity.projectDeliverable.ProjectDeliverableStatus;
-import com.findhub.finhubbackend.model.model.DeliverableTypeModel;
+import com.findhub.finhubbackend.entity.projectSkill.ProjectSkillStatus;
+import com.findhub.finhubbackend.model.model.ProjectDeliverableResponseModel;
 import com.findhub.finhubbackend.model.model.SkillModel;
 import com.findhub.finhubbackend.model.response.ProjectCategoryResponseModel;
 import com.findhub.finhubbackend.model.response.ProjectResponseModel;
+import com.findhub.finhubbackend.model.response.ProjectSkillResponseModel;
 import com.findhub.finhubbackend.repository.ProjectRepository;
 import com.findhub.finhubbackend.service.category.CategoryService;
 import com.findhub.finhubbackend.service.publisher.PublisherService;
@@ -115,17 +118,18 @@ public class ProjectServiceImpl
 	public ProjectResponseModel getById(int id) {
 		Project project = get(id);
 
-		if (project == null)
-			return null;
+		if (project == null) return null;
 
 		List<SkillModel> skills = new ArrayList<>();
 		skillService.getNameAndLevelByProjectId(id)
-				.forEach(skill -> skills.add(
-						SkillModel
-								.builder()
-								.name(skill.getName())
-								.level(skill.getLevel())
-								.build()));
+			.forEach(skill -> skills.add(
+					SkillModel
+						.builder()
+							.name(skill.getName())
+							.level(skill.getLevel())
+						.build()
+				)
+			);
 
 		String status = ProjectStatus.nameOf(project.getStatus());
 		Date dueDate = Utils.addDate(project.getPublishDate(), project.getDeliverDays());
@@ -136,19 +140,21 @@ public class ProjectServiceImpl
 
 		return ProjectResponseModel
 				.builder()
-				.id(id)
-				.name(project.getName())
-				.publishDate(project.getPublishDate().toString())
-				.deliverDays(project.getDeliverDays())
-				.publisher(
+					.id(id)
+					.name(project.getName())
+					.publishDate(project.getPublishDate().toString())
+					.deliverDays(project.getDeliverDays())
+					.publisher(
 						publisherService.get(
-								project.getPublisherId()))
-				.wage(project.getWage())
-				.dueDate(dueDate.toString())
-				.status(status)
-				.skills(skills)
-				.categories(categories)
-				.description(project.getDescription())
+							project.getPublisherId()
+						)
+					)
+					.wage(project.getWage())
+					.dueDate(dueDate.toString())
+					.status(status)
+					// .skills(skills)
+					// .categories(categories)
+					.description(project.getDescription())
 				.build();
 	}
 
@@ -156,7 +162,10 @@ public class ProjectServiceImpl
 		List<ProjectResponseModel> result = new ArrayList<>();
 
 		findAllByIdContaining(id)
-				.forEach(each -> result.add(getById(each.getId())));
+			.forEach(each -> result.add(
+					getById(each.getId())
+				)
+			);
 
 		return result;
 	}
@@ -165,7 +174,10 @@ public class ProjectServiceImpl
 		List<ProjectResponseModel> result = new ArrayList<>();
 
 		findAllByNameContaining(name)
-				.forEach(each -> result.add(getById(each.getId())));
+			.forEach(each -> result.add(
+					getById(each.getId())
+				)
+			);
 
 		return result;
 	}
@@ -176,9 +188,10 @@ public class ProjectServiceImpl
 		if (Utils.isNum(input)) {
 			int id = Integer.parseInt(input);
 			getAllByNameContainingOrIdLike(id, input)
-					.forEach(each -> result.add(
-							getById(
-									each.getId())));
+				.forEach(each -> result.add(
+						getById(each.getId())
+					)
+				);
 
 		} else
 			getAllByNameContaining(input);
@@ -189,68 +202,92 @@ public class ProjectServiceImpl
 	@Override
 	public ProjectResponseModel getModel(int id) {
 		Project p = get(id);
-		List<SkillModel> skills = new ArrayList<>();
-		(p.getSkills())
-				.forEach(
-						skill -> skills.add(
-								SkillModel
-										.builder()
-										.id(skill.getSkill().getId())
-										.name(skill.getSkill().getName())
-										.level(skill.getLevel())
-										.build()));
+
+		if (p == null) return null;
+
+		List<ProjectSkillResponseModel> skills = new ArrayList<>();
+		(p.getSkills()).forEach(
+			skill -> skills.add(
+				ProjectSkillResponseModel
+					.builder()
+						.id(skill.getSkill().getId())
+						.projectSkillId(skill.getId())
+						.name(skill.getSkill().getName())
+						.level(skill.getLevel())
+						.status(
+							ProjectSkillStatus.nameOf(
+								skill.getStatus()
+							)
+						)
+					.build()
+			)
+		);
 
 		List<ProjectCategoryResponseModel> categories = new ArrayList<>();
 		List<String> categoriesStr = new ArrayList<>();
-		(p.getCategories())
-				.forEach(
-						category -> {
-							String name = category.getCategory().getName();
-							categories.add(
-									ProjectCategoryResponseModel
-											.builder()
-											.id(category.getCategory().getId())
-											.name(name)
-											.build());
-							categoriesStr.add(name);
-						});
+		(p.getCategories()).forEach(
+			category -> {
+				String name = category.getCategory().getName();
+				categories.add(
+					ProjectCategoryResponseModel
+						.builder()
+							.id(category.getCategory().getId())
+							.projectCategoryId(category.getId())
+							.name(name)
+							.status(
+								ProjectCategoryStatus.nameOf(
+									category.getStatus()
+								)
+							)
+						.build());
+				categoriesStr.add(name);
+			}
+		);
 
-		List<DeliverableTypeModel> deliverables = new ArrayList<>();
-		(p.getDeliverables())
-				.forEach(
-						deliverable -> {
-							deliverables.add(
-									DeliverableTypeModel
-											.builder()
-											.id(deliverable.getDeliverableType().getId())
-											.name(deliverable.getDeliverableType().getName())
-											.value(deliverable.getValue())
-											.description(deliverable.getDescription())
-											.status(
-													ProjectDeliverableStatus.nameOf(
-															deliverable.getStatus()))
-											.build());
-						});
+		List<ProjectDeliverableResponseModel> deliverables = new ArrayList<>();
+		(p.getDeliverables()).forEach(
+			deliverable -> {
+				deliverables.add(
+					ProjectDeliverableResponseModel
+						.builder()
+							.id(deliverable.getDeliverableType().getId())
+							.projectDeliverableId(deliverable.getId())
+							.name(deliverable.getDeliverableType().getName())
+							.value(deliverable.getValue())
+							.description(deliverable.getDescription())
+							.status(
+								ProjectDeliverableStatus.nameOf(
+									deliverable.getStatus()
+								)
+							)
+						.build()
+				);
+			}
+		);
 
 		return ProjectResponseModel
 				.builder()
-				.id(p.getId())
-				.name(p.getName())
-				.publisher(
+					.id(p.getId())
+					.name(p.getName())
+					.publisher(
 						publisherService.get(
-								p.getPublisherId()))
-				.description(p.getDescription())
-				.wage(p.getWage())
-				.imageURL(p.getImageURL())
-				.deliverDays(p.getDeliverDays())
-				.publishDate(p.getPublishDate().toString())
-				.dueDate(p.getDueDate().toString())
-				.status(
+							p.getPublisherId()
+						)
+					)
+					.description(p.getDescription())
+					.wage(p.getWage())
+					.imageURL(p.getImageURL())
+					.deliverDays(p.getDeliverDays())
+					.publishDate(p.getPublishDate().toString())
+					.dueDate(p.getDueDate().toString())
+					.status(
 						ProjectStatus.nameOf(
-								p.getStatus()))
-				.skills(skills)
-				.categories(categoriesStr)
-				.deliverables(deliverables)
+							p.getStatus()
+						)
+					)
+					.skills(skills)
+					.categories(categories)
+					.deliverables(deliverables)
 				.build();
 
 	}

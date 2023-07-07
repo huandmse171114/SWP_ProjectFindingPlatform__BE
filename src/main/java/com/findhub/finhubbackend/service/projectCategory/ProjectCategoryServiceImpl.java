@@ -32,8 +32,7 @@ public class ProjectCategoryServiceImpl
 
     @Override
     public void updateById(int id, int status, int categoryId, int projectId) {
-        if (get(id) != null)
-            repo.updateById(id, status, categoryId);
+        if (get(id) != null) repo.updateById(id, status, categoryId);
         else
             save(
                 ProjectCategory

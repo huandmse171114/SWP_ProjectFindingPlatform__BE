@@ -47,7 +47,7 @@ public class MemberController
         );
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(mrm);
+            .status(HttpStatus.OK)
+            .body(mrm);
     }
 }

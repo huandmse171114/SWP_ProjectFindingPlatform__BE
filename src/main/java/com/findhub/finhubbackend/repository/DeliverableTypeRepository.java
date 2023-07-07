@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.findhub.finhubbackend.entity.deliverableType.DeliverableType;
 
 // @Repository
-public interface OutputRepository extends Repo<DeliverableType> {
+public interface DeliverableTypeRepository extends Repo<DeliverableType> {
     /**
      * tìm chính xác name
      */

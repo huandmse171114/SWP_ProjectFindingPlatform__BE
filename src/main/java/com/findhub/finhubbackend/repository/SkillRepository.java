@@ -23,7 +23,8 @@ public interface SkillRepository extends Repo<Skill> {
     List<Skill> findAllByNameContaining(String name);
 
     @Query(value = """
-			SELECT
+            SELECT
+                s.Id,
 				s.Name AS name,
 				ps.Level AS level
 			FROM
@@ -39,6 +40,7 @@ public interface SkillRepository extends Repo<Skill> {
 
     @Query(value = """
             SELECT
+                s.Id,
                 s.Name,
                 ms.Level
             FROM
@@ -54,6 +56,7 @@ public interface SkillRepository extends Repo<Skill> {
 
     @Query(value = """
             SELECT
+                Id,
                 Name
             FROM
                 Skill
@@ -70,6 +73,7 @@ public interface SkillRepository extends Repo<Skill> {
 
     @Query(value = """
             SELECT
+                Id,
                 Name
             FROM
                 Skill

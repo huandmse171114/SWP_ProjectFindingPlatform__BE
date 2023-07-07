@@ -3,8 +3,7 @@ package com.findhub.finhubbackend.model.response;
 import java.util.List;
 
 import com.findhub.finhubbackend.entity.publisher.Publisher;
-import com.findhub.finhubbackend.model.model.DeliverableTypeModel;
-import com.findhub.finhubbackend.model.model.SkillModel;
+import com.findhub.finhubbackend.model.model.ProjectDeliverableResponseModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,13 +19,13 @@ public class ProjectResponseModel {
     private String name;
     private String description;
     private Publisher publisher;
-    private List<SkillModel> skills;
+    private List<ProjectSkillResponseModel> skills;
     private String publishDate;
     private String imageURL;
     private int deliverDays;
     private float wage;
     private String dueDate;
-    private List<String> categories;
-    private List<DeliverableTypeModel> deliverables;
+    private List<ProjectCategoryResponseModel> categories;
+    private List<ProjectDeliverableResponseModel> deliverables;
     private String status;
 }

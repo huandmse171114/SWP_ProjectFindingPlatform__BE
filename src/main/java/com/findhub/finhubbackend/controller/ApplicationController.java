@@ -32,19 +32,20 @@ public class ApplicationController
 
 		if (service.existsByTeamIdAndProjectId(teamId, projectId))
 			return new ResponseEntity<String>(
-					"Failed to add "
-							+ "Application[team=" + teamId + "; project=" + projectId + "]: "
-							+ "already existed",
-					HttpStatus.FOUND);
+				"Failed to add "
+						+ "Application[team=" + teamId + "; project=" + projectId + "]: "
+						+ "already existed",
+				HttpStatus.FOUND);
 
-		Application application = Application.builder()
+		Application application = Application
+			.builder()
 				.teamId(teamId)
 				.projectId(projectId)
-				.build();
+			.build();
 
 		service.save(application);
 		return new ResponseEntity<String>(
-				"Added new Application[teamId=" + teamId + "; projectId=" + projectId + "] successfully",
-				HttpStatus.OK);
+			"Added new Application[teamId=" + teamId + "; projectId=" + projectId + "] successfully",
+			HttpStatus.OK);
 	}
 }

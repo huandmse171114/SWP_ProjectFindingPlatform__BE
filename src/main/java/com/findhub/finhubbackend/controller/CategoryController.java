@@ -23,8 +23,9 @@ public class CategoryController extends ApiController<Category, CategoryService,
         if (service.existsByName(name))
             return new ResponseEntity<>("Category[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 
-        Category category = Category.builder()
-            .name(name)
+        Category category = Category
+            .builder()
+                .name(name)
             .build();
 
         service.save(category);

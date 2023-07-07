@@ -44,7 +44,8 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
                     .builder()
                         // .status(status)
                         .message(errorMessage)
-                    .build());
+                    .build()
+                );
     }
 
     public ResponseEntity<?> response(HttpStatus status) {
@@ -148,25 +149,30 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
         if (entity == null)
             throw new EntityCrudException(
-                    "Failed to update"
-                            + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
-                            + entityName + "[status=" + status + "]: "
-                            + entityName + "[id=" + id + "] not found");
+                "Failed to update"
+                        + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
+                        + entityName + "[status=" + status + "]: "
+                        + entityName + "[id=" + id + "] not found"
+            );
 
         return (service.updateStatus(id, status))
                 ? ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(ApiResponse
+                    .body(
+                        ApiResponse
                             .builder()
                                 // .status(HttpStatus.OK)
-                                .message("Updated"
+                                .message(
+                                    "Updated"
                                         + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
-                                        + entityName + "[status=" + status + "] successfully")
+                                        + entityName + "[status=" + status + "] successfully"
+                                )
                             .build()
                     )
                 : ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse
+                    .body(
+                        ApiResponse
                             .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to update " + entityName + "[id=" + id + "]")
@@ -185,7 +191,8 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return (service.delete(entity))
                 ? ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(ApiResponse
+                    .body(
+                        ApiResponse
                             .builder()
                                 // .status(HttpStatus.OK)
                                 .message("Deleted " + entityName + "[id=" + id + "] successfully")
@@ -193,7 +200,8 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
                     )
                 : ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse
+                    .body(
+                        ApiResponse
                             .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to delete " + entityName + "[id=" + id + "]")
@@ -205,8 +213,8 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return updateStatus(
             UpdateStatusModel
                 .builder()
-                        .id(id)
-                        .status(Status.ACTIVE.getValue())
+                    .id(id)
+                    .status(Status.ACTIVE.getValue())
                 .build()
         );
     }

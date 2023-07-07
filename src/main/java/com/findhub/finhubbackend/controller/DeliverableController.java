@@ -24,8 +24,9 @@ public class DeliverableController
         if (service.existsByName(name))
             return new ResponseEntity<>("DeliverableType[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 
-        DeliverableType output = DeliverableType.builder()
-            .name(name)
+        DeliverableType output = DeliverableType
+            .builder()
+                .name(name)
             .build();
 
         service.save(output);

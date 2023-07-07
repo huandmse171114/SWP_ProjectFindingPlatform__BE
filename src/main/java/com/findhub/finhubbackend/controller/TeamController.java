@@ -41,8 +41,7 @@ public class TeamController extends ApiController<Team, TeamService, TeamStatus>
 
         List<MemberTeamModel> members = new ArrayList<>();
         memberService.getAllByTeamId(id)
-            .forEach(member ->
-                members.add(
+            .forEach(member -> members.add(
                     MemberTeamModel
                         .builder()
                             .id(member.getId())

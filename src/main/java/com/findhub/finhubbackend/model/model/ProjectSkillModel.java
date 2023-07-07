@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProjectSkillRequireModel {
+public class ProjectSkillModel {
     private int skillId;
     private int projectId;
     private int level;
