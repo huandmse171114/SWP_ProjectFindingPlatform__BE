@@ -67,6 +67,8 @@ public class AuthController {
 						accountModel.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String token = tokenProvider.generateToken(authentication);
-		return new ResponseEntity<AuthResponseModel>(new AuthResponseModel(token), HttpStatus.OK);
+		String role = authentication.getAuthorities().toArray()[0].toString();
+		int id = accountService.findByEmail(accountModel.getEmail()).getId();
+		return new ResponseEntity<AuthResponseModel>(new AuthResponseModel(token, role, id), HttpStatus.OK);
 	}
 }
