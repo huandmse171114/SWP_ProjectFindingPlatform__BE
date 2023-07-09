@@ -24,7 +24,7 @@ public enum AccountRole {
 		for (var ps : values()) {
 
 			int id = ps.getValue();
-			String name = Utils.capitalize(ps.name());
+			String name = ps.name();
 
 			status.put(id, name);
 			model.add(
@@ -57,6 +57,12 @@ public enum AccountRole {
 			if (s.name().equals(val))
 				return s.getValue();
 		return -1;
+	}
+
+	public static AccountRole getRole(int val){
+		for(var s : values())
+			if(val == s.value) return s;
+		return null;
 	}
 
 	public static boolean isExisted(int val) {

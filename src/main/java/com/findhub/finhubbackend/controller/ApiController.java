@@ -37,19 +37,19 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     @Autowired
     protected T service;
 
-    public ResponseEntity<?> response(String errorMessage, HttpStatus status) {
+    public ResponseEntity<?> response(String message, HttpStatus status) {
         return ResponseEntity
                 .status(status)
                 .body(ApiResponse
                     .builder()
                         // .status(status)
-                        .message(errorMessage)
+                        .message(message)
                     .build()
                 );
     }
 
     public ResponseEntity<?> response(HttpStatus status) {
-        return response("Failed", status);
+        return response("Status[" + status + "]", status);
     }
 
     @SuppressWarnings("unchecked")
