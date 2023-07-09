@@ -23,9 +23,9 @@ import com.findhub.finhubbackend.entity.project.ProjectStatus;
 import com.findhub.finhubbackend.exception.CreateEntityFailedException;
 import com.findhub.finhubbackend.exception.EntityCrudException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
-import com.findhub.finhubbackend.model.create.UpdateStatusModel;
 import com.findhub.finhubbackend.model.model.ApiResponse;
 import com.findhub.finhubbackend.model.model.StatusModel;
+import com.findhub.finhubbackend.model.update.StatusUpdateModel;
 import com.findhub.finhubbackend.service.service.Service;
 import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
@@ -117,7 +117,8 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     }
 
     // @PutMapping()
-    public ResponseEntity<?> update(@RequestBody E entity) {
+    @SuppressWarnings("unchecked")
+    public ResponseEntity<?> update(@RequestBody Object entity) {
 
         if (entity == null)
             throw new EntityCrudException("Failed to update " + entityName + ": update content is NULL");
@@ -130,7 +131,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         if (!entity.getClass().isInstance(instance))
             throw new EntityCrudException("Request Object is not " + entityName);
 
-        E updateE = service.update(id, entity);
+        E updateE = service.update(id,(E) entity);
 
         if (updateE == null)
             throw new EntityCrudException("Failed to update " + entityName + "[id=" + id + "]");
@@ -140,7 +141,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     }
 
     @PutMapping(SubPath.STATUS)
-    public ResponseEntity<?> updateStatus(@RequestBody UpdateStatusModel u) {
+    public ResponseEntity<?> updateStatus(@RequestBody StatusUpdateModel u) {
 
         int id = u.getId();
         int status = u.getStatus();
@@ -150,9 +151,9 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         if (entity == null)
             throw new EntityCrudException(
                 "Failed to update"
-                        + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
-                        + entityName + "[status=" + status + "]: "
-                        + entityName + "[id=" + id + "] not found"
+                    + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
+                    + entityName + "[status=" + status + "]: "
+                    + entityName + "[id=" + id + "] not found"
             );
 
         return (service.updateStatus(id, status))
@@ -211,7 +212,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
     public ResponseEntity<?> enable(@RequestBody int id) {
         return updateStatus(
-            UpdateStatusModel
+            StatusUpdateModel
                 .builder()
                     .id(id)
                     .status(Status.ACTIVE.getValue())
@@ -221,7 +222,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
     public ResponseEntity<?> disable(@RequestBody int id) {
         return updateStatus(
-            UpdateStatusModel
+            StatusUpdateModel
                 .builder()
                     .id(id)
                     .status(Status.INACTIVE.getValue())

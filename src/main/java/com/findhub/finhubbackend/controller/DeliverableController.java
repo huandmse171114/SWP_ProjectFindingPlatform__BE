@@ -20,7 +20,7 @@ public class DeliverableController
         extends ApiController<DeliverableType, DeliverableService, DeliverableStatus> {
 
     @PostMapping()
-    public ResponseEntity<?> add(@RequestBody String name) {
+    public ResponseEntity<?> create(@RequestBody String name) {
         if (service.existsByName(name))
             return new ResponseEntity<>("DeliverableType[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 

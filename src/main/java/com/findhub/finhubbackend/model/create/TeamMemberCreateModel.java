@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateStatusModel {
+public class TeamMemberCreateModel {
     private int id;
+    // private String name;
+    private int role;
     private int status;
 }

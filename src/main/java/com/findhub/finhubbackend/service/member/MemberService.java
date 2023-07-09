@@ -44,4 +44,6 @@ public interface MemberService extends Service<Member, MemberStatus> {
 
     public List<MemberDTO> getAllByTeamId(int id);
 
+    public boolean isExistedInMember(int skillId, int memberId);
+
 }

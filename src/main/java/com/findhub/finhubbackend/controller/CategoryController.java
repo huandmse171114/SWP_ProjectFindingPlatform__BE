@@ -19,7 +19,7 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 public class CategoryController extends ApiController<Category, CategoryService, CategoryStatus> {
 
     @PostMapping()
-    public ResponseEntity<?> add(@RequestBody String name) {
+    public ResponseEntity<?> create(@RequestBody String name) {
         if (service.existsByName(name))
             return new ResponseEntity<>("Category[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 

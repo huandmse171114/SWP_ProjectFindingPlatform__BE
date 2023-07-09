@@ -1,6 +1,4 @@
-package com.findhub.finhubbackend.entity.skill;
-
-import java.util.List;
+package com.findhub.finhubbackend.entity.memberSkill;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,18 +7,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.Nationalized;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
-import com.findhub.finhubbackend.entity.memberSkill.MemberSkill;
-import com.findhub.finhubbackend.entity.projectSkill.ProjectSkill;
+import com.findhub.finhubbackend.entity.member.Member;
+import com.findhub.finhubbackend.entity.skill.Skill;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,9 +30,12 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(
-    name = "Skill",
+    name = "Member_Skill",
     uniqueConstraints = @UniqueConstraint(
-        columnNames = "Name"
+        columnNames = {
+            "SkillId",
+            "MemberId"
+        }
     )
 )
 @NoArgsConstructor
@@ -45,7 +45,8 @@ import lombok.NoArgsConstructor;
     generator = ObjectIdGenerators.PropertyGenerator.class,
     property = "id"
 )
-public class Skill extends MyEntity {
+public class MemberSkill extends MyEntity{
+
     @Id
     @Column(
         name = "Id",
@@ -54,33 +55,33 @@ public class Skill extends MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Nationalized
+    @ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+    )
+    @JsonBackReference
+    @JoinColumn(name = "MemberId")
+    private Member member;
+
+    @ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+    )
+    @JsonBackReference
+    @JoinColumn(name = "SkillId")
+    private Skill skill;
+
+    @Default
     @Column(
-        name = "Name",
+        name = "Level",
         nullable = false
     )
-    private String name;
+    private int level = 0;
 
     @Default
     @Column(
         name = "Status",
         nullable = false
     )
-    private int status = SkillStatus.ACTIVE.getValue();
-
-    @OneToMany(
-        mappedBy = "skill",
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY
-    )
-    @JsonManagedReference
-    private List<ProjectSkill> projects;
-
-    @OneToMany(
-        mappedBy = "member",
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY
-    )
-    @JsonManagedReference
-    private List<MemberSkill> members;
+    private int status = MemberSkillStatus.ACTIVE.getValue();
 }

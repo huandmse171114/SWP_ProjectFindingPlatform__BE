@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -126,42 +125,42 @@ public class SearchController {
     @GetMapping(SubPath.SEARCH_PROJECTS)
     public ResponseEntity<?> responseProjects(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-            .status(HttpStatus.OK)
+            .ok()
             .body(searchProjects(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_MAJORS)
     public ResponseEntity<?> responseMajors(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-            .status(HttpStatus.OK)
+            .ok()
             .body(searchMajors(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_MEMBERS)
     public ResponseEntity<?> responseMembers(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-            .status(HttpStatus.OK)
+            .ok()
             .body(searchMembers(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_TEAMS)
     public ResponseEntity<?> responseTeams(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-            .status(HttpStatus.OK)
+            .ok()
             .body(searchTeams(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_SKILLS)
     public ResponseEntity<?> responseSkills(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-            .status(HttpStatus.OK)
+            .ok()
             .body(searchSkills(keyword));
     }
 
     @GetMapping(SubPath.SEARCH_CATEGORIES)
     public ResponseEntity<?> responseCategories(@PathVariable(Var.KEYWORD) String keyword) {
         return ResponseEntity
-            .status(HttpStatus.OK)
+            .ok()
             .body(searchCategories(keyword));
     }
 
@@ -183,7 +182,7 @@ public class SearchController {
             );
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .ok()
                 .body(
                     SearchResponseModel
                         .builder()

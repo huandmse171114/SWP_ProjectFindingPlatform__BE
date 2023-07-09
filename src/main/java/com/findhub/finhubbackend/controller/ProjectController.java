@@ -194,20 +194,17 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		Project old = service.get(projectId);
 
 		String name = model.getName();
-		if (!Utils.isNullOrEmpty(name))
-			old.setName(name);
+		if (!Utils.isNullOrEmpty(name)) old.setName(name);
 
 		old.setPublisherId(model.getPublisherId());
 
 		String des = model.getDescription();
-		if (!Utils.isNullOrEmpty(des))
-			old.setDescription(des);
+		if (!Utils.isNullOrEmpty(des)) old.setDescription(des);
 
 		old.setWage(model.getWage());
 
 		String img = model.getImageURL();
-		if (!Utils.isNullOrEmpty(img))
-			old.setImageURL(img);
+		if (!Utils.isNullOrEmpty(img)) old.setImageURL(img);
 
 		old.setDeliverDays(model.getDeliverDays());
 
@@ -264,38 +261,83 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 	}
 
 	@PutMapping("/skills")
-	public ResponseEntity<?> updateSkill(@RequestBody ProjectSkillUpdateModel entity) {
-		psService.updateById(
-			entity.getId(),
-			entity.getSkillId(),
-			entity.getStatus(),
-			entity.getLevel(),
-			entity.getProjectId()
-		);
+	public ResponseEntity<?> updateSkill(@RequestBody ProjectSkillUpdateModel model) {
+
+		int projectId = model.getProjectId();
+		int skillId = model.getSkillId();
+
+		Project p = service.get(projectId);
+
+		if(p == null) throw new EntityNotFoundException(entityName, projectId);
+
+		for(var s : p.getSkills())
+			if(skillId == s.getSkill().getId()){
+				s.setStatus(model.getStatus());
+				s.setLevel(model.getLevel());
+				psService.update(s);
+				break;
+			}
+
+		// psService.updateById(
+		// 	model.getId(),
+		// 	skillId,
+		// 	model.getStatus(),
+		// 	model.getLevel(),
+		// 	projectId
+		// );
 		return ResponseEntity.ok().body("update success");
 		// return ResponseEntity.ok().body("update success");
 	}
 
 	@PutMapping("/deliverables")
-	public ResponseEntity<?> updateDelvierable(@RequestBody ProjectDeliverableUpdateModel entity) {
+	public ResponseEntity<?> updateDelvierable(@RequestBody ProjectDeliverableUpdateModel model) {
+
+		int projectId = model.getProjectId();
+		int delverableId = model.getDeliverableId();
+
+		Project p = service.get(projectId);
+
+		if(p == null) throw new EntityNotFoundException(entityName, projectId);
+
+		for(var dts : p.getDeliverables())
+			if(delverableId == dts.getDeliverableType().getId()){
+				dts.setDeliverableType(
+					deliverableTypeService.get(delverableId)
+				);
+				dts.setValue(model.getValue());
+				dts.setDescription(model.getDescription());
+				dts.setStatus(model.getStatus());
+				pdService.update(dts);
+				break;
+			}
+
 		pdService.updateById(
-			entity.getId(),
-			entity.getDeliverableId(),
-			entity.getValue(),
-			entity.getStatus(),
-			entity.getDescription(),
-			entity.getProjectId()
+			model.getId(),
+			model.getDeliverableId(),
+			model.getValue(),
+			model.getStatus(),
+			model.getDescription(),
+			model.getProjectId()
 		);
+
 		return ResponseEntity.ok().body("update success");
 	}
 
 	@PutMapping("/categories")
-	public ResponseEntity<?> updateCategory(@RequestBody ProjectCategoryUpdateModel entity) {
+	public ResponseEntity<?> updateCategory(@RequestBody ProjectCategoryUpdateModel model) {
+
+		int projectId = model.getProjectId();
+		int cateId = model.getCategoryId();
+
+		Project p = service.get(projectId);
+
+		if(p == null) throw new EntityNotFoundException(entityName, projectId);
+
 		pcServie.updateById(
-			entity.getId(),
-			entity.getStatus(),
-			entity.getCategoryId(),
-			entity.getProjectId()
+			model.getId(),
+			model.getStatus(),
+			cateId,
+			projectId
 		);
 
 		return ResponseEntity.ok().body("update success");

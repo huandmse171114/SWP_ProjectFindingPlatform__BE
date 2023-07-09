@@ -1,6 +1,4 @@
-package com.findhub.finhubbackend.entity.skill;
-
-import java.util.List;
+package com.findhub.finhubbackend.entity.teamMember;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,33 +7,37 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.Nationalized;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
-import com.findhub.finhubbackend.entity.memberSkill.MemberSkill;
-import com.findhub.finhubbackend.entity.projectSkill.ProjectSkill;
+import com.findhub.finhubbackend.entity.entity.Status;
+import com.findhub.finhubbackend.entity.member.Member;
+import com.findhub.finhubbackend.entity.member.MemberRole;
+import com.findhub.finhubbackend.entity.team.Team;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Builder.Default;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(
-    name = "Skill",
+    name = "Team_Member",
     uniqueConstraints = @UniqueConstraint(
-        columnNames = "Name"
+        columnNames = {
+            "MemberId",
+            "TeamId"
+        }
     )
 )
 @NoArgsConstructor
@@ -45,7 +47,8 @@ import lombok.NoArgsConstructor;
     generator = ObjectIdGenerators.PropertyGenerator.class,
     property = "id"
 )
-public class Skill extends MyEntity {
+public class TeamMember extends MyEntity{
+
     @Id
     @Column(
         name = "Id",
@@ -54,33 +57,33 @@ public class Skill extends MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Nationalized
+    @ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+    )
+    @JsonBackReference
+    @JoinColumn(name = "TeamId")
+    private Team team;
+
+    @ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+    )
+    @JsonBackReference
+    @JoinColumn(name = "MemberId")
+    private Member member;
+
+    @Default
     @Column(
-        name = "Name",
+        name = "Role",
         nullable = false
     )
-    private String name;
+    private int role = MemberRole.MEMBER.getValue();
 
     @Default
     @Column(
         name = "Status",
         nullable = false
     )
-    private int status = SkillStatus.ACTIVE.getValue();
-
-    @OneToMany(
-        mappedBy = "skill",
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY
-    )
-    @JsonManagedReference
-    private List<ProjectSkill> projects;
-
-    @OneToMany(
-        mappedBy = "member",
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY
-    )
-    @JsonManagedReference
-    private List<MemberSkill> members;
+    private int status = Status.ACTIVE.getValue();
 }

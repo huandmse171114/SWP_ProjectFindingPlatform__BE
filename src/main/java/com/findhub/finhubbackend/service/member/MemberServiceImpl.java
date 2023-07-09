@@ -24,6 +24,14 @@ import com.findhub.finhubbackend.util.Utils;
 public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, MemberStatus>
         implements MemberService {
 
+    @Override
+    public boolean isExistedInMember(int skillId, int memberId) {
+        Member m = get(memberId);
+        for(var s : m.getSkills())
+            if(skillId == s.getSkill().getId()) return true;
+        return false;
+    }
+
     @Autowired
     private SkillService skillService;
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.account.Account;
 import com.findhub.finhubbackend.entity.account.AccountStatus;
-import com.findhub.finhubbackend.model.create.UpdateStatusModel;
+import com.findhub.finhubbackend.model.update.StatusUpdateModel;
 import com.findhub.finhubbackend.service.account.AccountService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 
@@ -31,7 +31,7 @@ public class AccountController
 
     @PutMapping("/role")
     public ResponseEntity<?> setRole(
-            @RequestBody UpdateStatusModel u) {
+            @RequestBody StatusUpdateModel u) {
         int id = u.getId();
         int role = u.getStatus();
         Account a = service.get(id);

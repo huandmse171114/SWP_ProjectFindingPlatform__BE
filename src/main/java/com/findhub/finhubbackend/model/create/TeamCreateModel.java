@@ -1,4 +1,6 @@
-package com.findhub.finhubbackend.model.model;
+package com.findhub.finhubbackend.model.create;
+
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MemberTeamModel {
-    private int id;
+public class TeamCreateModel {
     private String name;
-    private String role;
-    private int status;
+    private List<TeamMemberCreateModel> members;
 }
