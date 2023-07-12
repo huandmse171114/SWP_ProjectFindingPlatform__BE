@@ -7,4 +7,5 @@ import com.findhub.finhubbackend.service.service.Service;
 public interface ProjectSkillService
         extends Service<ProjectSkill, ProjectSkillStatus> {
 
+    void updateById(int id, int skillId, int status, int level, int projectId);
 }

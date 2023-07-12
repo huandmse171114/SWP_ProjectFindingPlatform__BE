@@ -27,10 +27,12 @@ public enum ProjectDeliverableStatus {
 
 			status.put(id, name);
 			model.add(
-					StatusModel.builder()
-							.id(id)
-							.name(name)
-							.build());
+				StatusModel
+					.builder()
+						.id(id)
+						.name(name)
+					.build()
+			);
 		}
 
 	}

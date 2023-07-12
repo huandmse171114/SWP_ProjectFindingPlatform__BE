@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
+import com.findhub.finhubbackend.entity.memberSkill.MemberSkill;
 import com.findhub.finhubbackend.entity.projectSkill.ProjectSkill;
 
 import lombok.AllArgsConstructor;
@@ -74,4 +75,12 @@ public class Skill extends MyEntity {
     )
     @JsonManagedReference
     private List<ProjectSkill> projects;
+
+    @OneToMany(
+        mappedBy = "member",
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY
+    )
+    @JsonManagedReference
+    private List<MemberSkill> members;
 }

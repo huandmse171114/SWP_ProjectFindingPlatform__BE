@@ -20,24 +20,32 @@ import com.findhub.finhubbackend.repository.AccountRepository;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {
-	
+
 	@Autowired
 	private AccountRepository accountRepository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account userAccount = accountRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Email not found"));
-		return new User(userAccount.getEmail(), userAccount.getPassword(), mapRolesToAuthorities(userAccount.getRole()));
+		Account userAccount =
+			accountRepository.findByEmail(username)
+				.orElseThrow(
+					() -> new UsernameNotFoundException("Email not found")
+				);
+		return new User(
+			userAccount.getEmail(),
+			userAccount.getPassword(),
+			mapRolesToAuthorities(userAccount.getRole())
+		);
 	}
-	
+
 	private Collection<GrantedAuthority> mapRolesToAuthorities(int role) {
 		List<SimpleGrantedAuthority> roles = new ArrayList<>();
 		if (role == AccountRole.ADMIN.getValue()) {
 			roles.add(new SimpleGrantedAuthority(AccountRole.ADMIN.toString()));
-		}else if (role == AccountRole.MEMBER.getValue()) {
+		} else if (role == AccountRole.MEMBER.getValue()) {
 			roles.add(new SimpleGrantedAuthority(AccountRole.MEMBER.toString()));
-		}else roles.add(new SimpleGrantedAuthority(AccountRole.PUBLISHER.toString()));
-		
+		} else roles.add(new SimpleGrantedAuthority(AccountRole.PUBLISHER.toString()));
+
 		return roles.stream().collect(Collectors.toList());
 	}
 

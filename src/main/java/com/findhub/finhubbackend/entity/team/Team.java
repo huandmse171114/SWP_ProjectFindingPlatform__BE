@@ -1,15 +1,24 @@
 package com.findhub.finhubbackend.entity.team;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
+import com.findhub.finhubbackend.entity.teamMember.TeamMember;
+import com.findhub.finhubbackend.entity.teamProject.TeamProject;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,7 +48,7 @@ public class Team extends MyEntity {
         name = "Name",
         nullable = false
     )
-    private String Name;
+    private String name;
 
     @Default
     @Column(
@@ -54,4 +63,28 @@ public class Team extends MyEntity {
         nullable = false
     )
     private int status = TeamStatus.ACTIVE.getValue();
+
+    @OneToMany(
+		mappedBy = "team",
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY
+	)
+	@JsonManagedReference
+	private List<TeamMember> members;
+
+    @OneToMany(
+		mappedBy = "team",
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY
+	)
+	@JsonManagedReference
+	private List<TeamProject> projects;
+
+    @OneToMany(
+		mappedBy = "team",
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY
+	)
+	@JsonManagedReference
+	private List<Application> applications;
 }

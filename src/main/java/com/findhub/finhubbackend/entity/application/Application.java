@@ -2,14 +2,23 @@ package com.findhub.finhubbackend.entity.application;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Nationalized;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
+import com.findhub.finhubbackend.entity.project.Project;
+import com.findhub.finhubbackend.entity.team.Team;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,17 +44,28 @@ public class Application extends MyEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(
-		name = "ProjectId",
-		nullable = false
-	)
-	private int projectId;
+	@ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+    )
+    @JsonBackReference
+    @JoinColumn(name = "ProjectId")
+    private Project project;
 
+	@ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+    )
+    @JsonBackReference
+    @JoinColumn(name = "TeamId")
+    private Team team;
+
+	@Nationalized
 	@Column(
-		name = "TeamId",
-		nullable = false
+		name = "Message",
+		nullable = true
 	)
-	private int teamId;
+	private String message;
 
 	@Default
 	@Column(

@@ -23,9 +23,9 @@ import com.findhub.finhubbackend.entity.project.ProjectStatus;
 import com.findhub.finhubbackend.exception.CreateEntityFailedException;
 import com.findhub.finhubbackend.exception.EntityCrudException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
-import com.findhub.finhubbackend.model.create.UpdateStatusModel;
 import com.findhub.finhubbackend.model.model.ApiResponse;
 import com.findhub.finhubbackend.model.model.StatusModel;
+import com.findhub.finhubbackend.model.update.StatusUpdateModel;
 import com.findhub.finhubbackend.service.service.Service;
 import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
@@ -37,18 +37,19 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     @Autowired
     protected T service;
 
-    public ResponseEntity<?> response(String errorMessage, HttpStatus status) {
+    public ResponseEntity<?> response(String message, HttpStatus status) {
         return ResponseEntity
                 .status(status)
                 .body(ApiResponse
                     .builder()
                         // .status(status)
-                        .message(errorMessage)
-                    .build());
+                        .message(message)
+                    .build()
+                );
     }
 
     public ResponseEntity<?> response(HttpStatus status) {
-        return response("Failed", status);
+        return response("Status[" + status + "]", status);
     }
 
     @SuppressWarnings("unchecked")
@@ -80,6 +81,19 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     @GetMapping(SubPath.ALL)
     public ResponseEntity<?> getAll() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/paging/{offset}/{pageSize}")
+    public ResponseEntity<?> getAll(
+        @PathVariable int offset,
+        @PathVariable int pageSize
+    ){
+        // Page<E> Es = service.getAll(offset, pageSize);
+        return ResponseEntity
+                    .ok()
+                    .body(
+                        service.getAll(offset, pageSize)
+                    );
     }
 
     @GetMapping(SubPath.ID)
@@ -115,19 +129,22 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
     }
 
-    @PutMapping(SubPath.ID)
-    public ResponseEntity<?> update(@PathVariable(Var.ID) int id, @RequestBody E entity) {
-
-        if (service.get(id) == null)
-            throw new EntityNotFoundException(entityName, id);
+    // @PutMapping()
+    @SuppressWarnings("unchecked")
+    public ResponseEntity<?> update(@RequestBody Object entity) {
 
         if (entity == null)
             throw new EntityCrudException("Failed to update " + entityName + ": update content is NULL");
 
+        int id = ((MyEntity) entity).getId();
+
+        if (service.get(id) == null)
+            throw new EntityNotFoundException(entityName, id);
+
         if (!entity.getClass().isInstance(instance))
             throw new EntityCrudException("Request Object is not " + entityName);
 
-        E updateE = service.update(id, entity);
+        E updateE = service.update(id,(E) entity);
 
         if (updateE == null)
             throw new EntityCrudException("Failed to update " + entityName + "[id=" + id + "]");
@@ -137,7 +154,7 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
     }
 
     @PutMapping(SubPath.STATUS)
-    public ResponseEntity<?> updateStatus(@RequestBody UpdateStatusModel u) {
+    public ResponseEntity<?> updateStatus(@RequestBody StatusUpdateModel u) {
 
         int id = u.getId();
         int status = u.getStatus();
@@ -146,28 +163,35 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
 
         if (entity == null)
             throw new EntityCrudException(
-                    "Failed to update"
-                            + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
-                            + entityName + "[status=" + status + "]: "
-                            + entityName + "[id=" + id + "] not found");
+                "Failed to update"
+                    + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
+                    + entityName + "[status=" + status + "]: "
+                    + entityName + "[id=" + id + "] not found"
+            );
 
         return (service.updateStatus(id, status))
                 ? ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(ApiResponse
+                    .body(
+                        ApiResponse
                             .builder()
                                 // .status(HttpStatus.OK)
-                                .message("Updated"
+                                .message(
+                                    "Updated"
                                         + entityName + "[status=" + ((MyEntity) entity).getStatus() + "] to "
-                                        + entityName + "[status=" + status + "] successfully")
-                            .build())
+                                        + entityName + "[status=" + status + "] successfully"
+                                )
+                            .build()
+                    )
                 : ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse
+                    .body(
+                        ApiResponse
                             .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to update " + entityName + "[id=" + id + "]")
-                            .build());
+                            .build()
+                    );
     }
 
     @DeleteMapping(SubPath.ID)
@@ -181,32 +205,42 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return (service.delete(entity))
                 ? ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(ApiResponse
+                    .body(
+                        ApiResponse
                             .builder()
                                 // .status(HttpStatus.OK)
                                 .message("Deleted " + entityName + "[id=" + id + "] successfully")
-                            .build())
+                            .build()
+                    )
                 : ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse
+                    .body(
+                        ApiResponse
                             .builder()
                                 // .status(HttpStatus.BAD_REQUEST)
                                 .message("Failed to delete " + entityName + "[id=" + id + "]")
-                            .build());
+                            .build()
+                    );
     }
 
     public ResponseEntity<?> enable(@RequestBody int id) {
-        return updateStatus(UpdateStatusModel.builder()
-                .id(id)
-                .status(Status.ACTIVE.getValue())
-        .build());
+        return updateStatus(
+            StatusUpdateModel
+                .builder()
+                    .id(id)
+                    .status(Status.ACTIVE.getValue())
+                .build()
+        );
     }
 
     public ResponseEntity<?> disable(@RequestBody int id) {
-        return updateStatus(UpdateStatusModel.builder()
-                .id(id)
-                .status(Status.INACTIVE.getValue())
-        .build());
+        return updateStatus(
+            StatusUpdateModel
+                .builder()
+                    .id(id)
+                    .status(Status.INACTIVE.getValue())
+                .build()
+        );
     }
 
     private List<StatusModel> allStatus() {

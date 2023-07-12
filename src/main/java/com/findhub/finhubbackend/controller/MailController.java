@@ -31,8 +31,8 @@ public class MailController {
         model.put("name", request.getName());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.sendEmail(request, model, MailType.CONFRIM_RECEIVE_APPLICATION));
+            .status(HttpStatus.OK)
+            .body(service.sendEmail(request, model, MailType.CONFRIM_RECEIVE_APPLICATION));
     }
 
     public ResponseEntity<?> sendConfirmReceivedApplicationFormEmail(@RequestBody MailRequest request) {
@@ -40,8 +40,8 @@ public class MailController {
         model.put("name", request.getName());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.sendEmail(request, model, MailType.CONFRIM_RECEIVE_APPLICATION));
+            .status(HttpStatus.OK)
+            .body(service.sendEmail(request, model, MailType.CONFRIM_RECEIVE_APPLICATION));
     }
 
     public ResponseEntity<?> sendJoinRequestEmail(@RequestBody MailRequest request) {
@@ -49,8 +49,8 @@ public class MailController {
         model.put("name", request.getName());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.sendEmail(request, model, MailType.JOIN));
+            .status(HttpStatus.OK)
+            .body(service.sendEmail(request, model, MailType.JOIN));
     }
 
     public ResponseEntity<?> sendInviteRequestEmail(@RequestBody MailRequest request) {
@@ -58,8 +58,8 @@ public class MailController {
         model.put("name", request.getName());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.sendEmail(request, model, MailType.INVITE));
+            .status(HttpStatus.OK)
+            .body(service.sendEmail(request, model, MailType.INVITE));
     }
 
     public ResponseEntity<?> sendRejectEmail(@RequestBody MailRequest request) {
@@ -67,8 +67,8 @@ public class MailController {
         model.put("name", request.getName());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.sendEmail(request, model, MailType.REJECTED));
+            .status(HttpStatus.OK)
+            .body(service.sendEmail(request, model, MailType.REJECTED));
     }
 
     public ResponseEntity<?> sendApproveEmail(@RequestBody MailRequest request) {
@@ -76,7 +76,7 @@ public class MailController {
         model.put("name", request.getName());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.sendEmail(request, model, MailType.APPROVED));
+            .status(HttpStatus.OK)
+            .body(service.sendEmail(request, model, MailType.APPROVED));
     }
 }

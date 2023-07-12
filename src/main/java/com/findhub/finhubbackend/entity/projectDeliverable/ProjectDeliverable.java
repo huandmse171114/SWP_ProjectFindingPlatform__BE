@@ -34,7 +34,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id"
+)
 public class ProjectDeliverable extends MyEntity {
     @Id
     @Column(
@@ -47,14 +50,14 @@ public class ProjectDeliverable extends MyEntity {
     @Nationalized
     @Column(
         name = "Value",
-        nullable = false
+        nullable = true
     )
     private String value;
 
     @Nationalized
     @Column(
         name = "Description",
-        nullable = false
+        nullable = true
     )
     private String description;
 

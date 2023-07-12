@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.model.model;
+package com.findhub.finhubbackend.model.update;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DeliverableTypeModel {
-    // private int projectId;
+public class ProjectDeliverableUpdateModel {
     private int id;
-    private String name;
+    private int projectId;
+    private int deliverableId;
     private String description;
     private String value;
-    private String status;
+    private int status;
 }

@@ -21,6 +21,7 @@ import com.findhub.finhubbackend.entity.project.Project;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -69,5 +70,12 @@ public class ProjectCategory extends MyEntity {
     @JsonBackReference
     @JoinColumn(name = "CategoryId")
     private Category category;
+
+    @Default
+    @Column(
+        name = "Status",
+        nullable = false
+    )
+    private int status = ProjectCategoryStatus.ACTIVE.getValue();
 
 }

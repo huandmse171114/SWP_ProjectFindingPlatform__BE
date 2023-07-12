@@ -23,8 +23,9 @@ public class SkillController extends ApiController<Skill, SkillService, SkillSta
         if (service.existsByName(name))
             return new ResponseEntity<>("Skill[name=\'" + name + "\'] already existed", HttpStatus.FOUND);
 
-        Skill skill = Skill.builder()
-            .name(name)
+        Skill skill = Skill
+            .builder()
+                .name(name)
             .build();
 
         service.save(skill);

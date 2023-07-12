@@ -1,5 +1,6 @@
 package com.findhub.finhubbackend.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,15 +12,21 @@ import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.application.ApplicationStatus;
 import com.findhub.finhubbackend.model.create.ApplicationCreateModel;
 import com.findhub.finhubbackend.service.application.ApplicationService;
+import com.findhub.finhubbackend.service.project.ProjectService;
+import com.findhub.finhubbackend.service.team.TeamService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 
 @RestController
 @CrossOrigin
 @RequestMapping(path = ApiPath.APPLICATION)
-public class ApplicationController extends ApiController<Application, ApplicationService, ApplicationStatus> {
+public class ApplicationController
+		extends ApiController<Application, ApplicationService, ApplicationStatus> {
 
-	// @Autowired
-	// private TeamService teamService;
+	@Autowired
+	private TeamService teamService;
+
+	@Autowired
+	private ProjectService projectService;
 
 	// @PostMapping("/")
 	@Override
@@ -31,19 +38,24 @@ public class ApplicationController extends ApiController<Application, Applicatio
 
 		if (service.existsByTeamIdAndProjectId(teamId, projectId))
 			return new ResponseEntity<String>(
-					"Failed to add "
-							+ "Application[team=" + teamId + "; project=" + projectId + "]: "
-							+ "already existed",
-					HttpStatus.FOUND);
+				"Failed to add "
+						+ "Application[team=" + teamId + "; project=" + projectId + "]: "
+						+ "already existed",
+				HttpStatus.FOUND);
 
-		Application application = Application.builder()
-				.teamId(teamId)
-				.projectId(projectId)
-				.build();
+		Application application = Application
+			.builder()
+				.team(
+					teamService.get(teamId)
+				)
+				.project(
+					projectService.get(projectId)
+				)
+			.build();
 
 		service.save(application);
 		return new ResponseEntity<String>(
-				"Added new Application[teamId=" + teamId + "; projectId=" + projectId + "] successfully",
-				HttpStatus.OK);
+			"Added new Application[teamId=" + teamId + "; projectId=" + projectId + "] successfully",
+			HttpStatus.OK);
 	}
 }

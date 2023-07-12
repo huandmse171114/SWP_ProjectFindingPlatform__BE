@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.model.model;
+package com.findhub.finhubbackend.model.update;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProjectSkillRequireModel {
-    private int skillId;
+public class ProjectCategoryUpdateModel {
+    private int id;
+    private int categoryId;
     private int projectId;
-    private int level;
+    private int status;
 }

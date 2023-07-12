@@ -11,12 +11,21 @@ import com.findhub.finhubbackend.repository.TeamRepository;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
 
 @Service
-public class TeamServiceImpl extends ServiceImpl<Team, TeamRepository, TeamStatus>
+public class TeamServiceImpl
+        extends ServiceImpl<Team, TeamRepository, TeamStatus>
         implements TeamService {
 
     @Override
     public List<Team> findAllByBalance(float balance) {
         return repo.findAllByBalance(balance);
+    }
+
+    @Override
+    public boolean isExistedInTeam(int memberId, int teamId) {
+        Team team = get(teamId);
+        for(var m : team.getMembers())
+            if(memberId == m.getMember().getId()) return true;
+        return false;
     }
 
     @Override

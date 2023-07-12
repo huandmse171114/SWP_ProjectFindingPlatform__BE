@@ -3,6 +3,8 @@ package com.findhub.finhubbackend.entity.team;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.findhub.finhubbackend.util.Utils;
+
 public enum TeamStatus {
     INACTIVE(0),
     ACTIVE(1),
@@ -16,11 +18,12 @@ public enum TeamStatus {
         // only java 10+
         for (var ps : values())
             status.put(ps.getValue(), ps.name());
-
     }
 
     public static String nameOf(int val) {
-        return status.get(val);
+        return  Utils.capitalize(
+            status.get(val)
+        );
     }
 
     private TeamStatus(int value) {

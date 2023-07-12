@@ -3,6 +3,8 @@ package com.findhub.finhubbackend.entity.projectSkill;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.findhub.finhubbackend.util.Utils;
+
 public enum ProjectSkillStatus {
     INACTIVE(0),
     ACTIVE(1),
@@ -20,7 +22,9 @@ public enum ProjectSkillStatus {
     }
 
     public static String nameOf(int val) {
-        return status.get(val);
+        return Utils.capitalize(
+            status.get(val)
+        );
     }
 
     private ProjectSkillStatus(int value) {

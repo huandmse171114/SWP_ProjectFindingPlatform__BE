@@ -12,7 +12,8 @@ import com.findhub.finhubbackend.repository.SkillRepository;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
 
 @Service
-public class SkillServiceImpl extends ServiceImpl<Skill, SkillRepository, SkillStatus>
+public class SkillServiceImpl
+        extends ServiceImpl<Skill, SkillRepository, SkillStatus>
         implements SkillService {
 
     @Override

@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.model.model;
+package com.findhub.finhubbackend.model.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryModel {
+public class TeamMemberCreateModel {
     private int id;
-    private String name;
+    // private String name;
+    private int role;
+    private int status;
 }

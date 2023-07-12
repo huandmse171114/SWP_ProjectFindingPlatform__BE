@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.findhub.finhubbackend.model.model.DeliverableTypeModel;
+import com.findhub.finhubbackend.model.model.ProjectDeliverableResponseModel;
 import com.findhub.finhubbackend.model.model.SkillModel;
 
 import lombok.AllArgsConstructor;
@@ -43,5 +43,5 @@ public class ProjectCreateModel {
 
     private Set<Integer> categories;
 
-    private Set<DeliverableTypeModel> deliverableTypes;
+    private Set<ProjectDeliverableResponseModel> deliverableTypes;
 }

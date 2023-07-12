@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.entity.Status;
@@ -17,8 +19,8 @@ import com.findhub.finhubbackend.repository.Repo;
  * E: status
  * <p>
  */
-@SuppressWarnings("rawtypes")
-public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
+// @SuppressWarnings("rawtypes")
+public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum<S>>
         implements Service<E, S> {
 
     private int getValue(S e) {
@@ -35,28 +37,9 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
 
     @Override
     public E add(E entity) {
-        return (entity != null) ? repo.save(entity) : null;
-    }
-
-    @Override
-    public boolean updateStatus(int id, int status) {
-        Optional<E> entity = repo.findById(id);
-        return updateStatus(entity.isPresent() ? entity.get() : null, status);
-    }
-
-    @Override
-    public boolean updateStatus(int id, S status) {
-        return updateStatus(id, getValue(status));
-    }
-
-    @Override
-    public boolean updateStatus(E entity, int status) {
-        if (entity != null) {
-            entity.setStatus(status);
-            update(entity);
-            return true;
-        }
-        return false;
+        return (entity != null)
+                ? repo.save(entity)
+                : null;
     }
 
     @Override
@@ -75,25 +58,53 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
+    public boolean updateStatus(int id, S status) {
+        return updateStatus(id, getValue(status));
+    }
+
+    @Override
+    public boolean updateStatus(int id, int status) {
+        Optional<E> entity = repo.findById(id);
+        return updateStatus(
+            entity.isPresent()
+                ? entity.get()
+                : null,
+            status
+        );
+    }
+
+    @Override
+    public boolean updateStatus(E entity, int status) {
+        if (entity == null) return false;
+        entity.setStatus(status);
+        update(entity);
+        return true;
+    }
+
+    @Override
     public boolean delete(int id) {
         Optional<E> entity = repo.findById(id);
-        return delete(entity.isPresent() ? entity.get() : null);
+        return delete(
+            entity.isPresent()
+                ? entity.get()
+                : null
+        );
     }
 
     @Override
     public boolean delete(E entity) {
-        if (entity != null) {
-            repo.delete(entity);
-            return true;
-        }
+        if (entity == null) return false;
 
-        return false;
+        repo.delete(entity);
+        return true;
     }
 
     @Override
     public E get(int id) {
         Optional<E> entity = repo.findById(id);
-        return entity.isPresent() ? entity.get() : null;
+        return entity.isPresent()
+                ? entity.get()
+                : null;
     }
 
     @Override
@@ -108,7 +119,9 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
 
     @Override
     public List<E> findAllByStatus(S status) {
-        return repo.findAllByStatus(getValue(status));
+        return repo.findAllByStatus(
+            getValue(status)
+        );
     }
 
     @Override
@@ -117,19 +130,38 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
     }
 
     @Override
+    public List<E> getAll(int offset, int pageSize){
+        return repo.findAll(
+            PageRequest.of(offset, pageSize).withSort(Sort.by("Id"))
+        ).getContent();
+    }
+
+    @Override
     public E save(E entity) {
-        return repo.save(entity);
+        return (entity == null)
+                ? null
+                : repo.save(entity);
     }
 
     @Override
     public E update(E entity) {
-        return update(entity.getId(), entity);
+        return (entity == null)
+                ? null
+                : update(
+                    entity.getId(),
+                    entity
+                );
     }
 
     @Override
     public E update(int id, E entity) {
         Optional<E> old = repo.findById(id);
-        return update(old.isPresent() ? old.get() : null, entity);
+        return update(
+                old.isPresent()
+                    ? old.get()
+                    : null,
+                entity
+        );
     }
 
     @Override
@@ -138,7 +170,7 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum>
             int id = oldE.getId();
             newE.setId(id);
 
-            return repo.save(newE);
+            return save(newE);
         }
 
         return null;

@@ -17,7 +17,6 @@ public enum PublisherStatus {
 		// only java 10+
 		for (var ps : values())
 			status.put(ps.getValue(), ps.name());
-
 	}
 
 	public static String nameOf(int val) {

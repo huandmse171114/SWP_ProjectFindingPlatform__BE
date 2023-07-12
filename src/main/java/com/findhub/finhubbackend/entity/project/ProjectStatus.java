@@ -31,9 +31,10 @@ public enum ProjectStatus {
 
 			status.put(id, name);
 			model.add(
-				StatusModel.builder()
-					.id(id)
-					.name(name)
+				StatusModel
+					.builder()
+						.id(id)
+						.name(name)
 					.build()
 			);
 		}
@@ -49,7 +50,9 @@ public enum ProjectStatus {
 	}
 
 	public static String nameOf(int val) {
-		return Utils.capitalize(status.get(val));
+		return Utils.capitalize(
+			status.get(val)
+		);
 	}
 
 	public static int valOf(String val) {

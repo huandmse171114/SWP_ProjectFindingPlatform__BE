@@ -1,8 +1,8 @@
 #!/bin/bash
-FILE=./target/finhub-backend-0.0.1-SNAPSHOT
+FILE = ./target/finhub-backend-swp
 if test -f "$FILE"; then
   echo "file exists"
-  rm -rf ./target/finhub-backend-0.0.1-SNAPSHOT
+  rm -rf ./target/finhub-backend-swp
   docker container stop my-backend
   docker container prune -f
 else

@@ -19,14 +19,16 @@ public class Utils {
 	public static Date addDate(Date date, int days) {
 		return (date == null)
 				? date
-				: new Date(date.getTime() + 1000 * 60 * 60 * 24 * days);
+				: new Date(
+					date.getTime() + 1000 * 60 * 60 * 24 * days
+				);
 	}
 
 	public static String capitalize(String str) {
-		return (str == null || str.isEmpty())
+		return isNullOrEmpty(str)
 				? str
 				: str.substring(0, 1).toUpperCase()
-						+ str.substring(1).toLowerCase();
+					+ str.substring(1).toLowerCase();
 	}
 
 	public static String formatDate(Date date) {
@@ -35,8 +37,7 @@ public class Utils {
 	}
 
 	public static boolean isNum(String input) {
-		if (input.isEmpty())
-			return false;
+		if (isNullOrEmpty(input)) return false;
 		else
 			try {
 				Double.parseDouble(input);
@@ -47,5 +48,10 @@ public class Utils {
 			}
 
 		return true;
+	}
+
+	public static boolean isNullOrEmpty(String input) {
+		if(input == null) return true;
+		return (input.isEmpty()) ? true : false;
 	}
 }

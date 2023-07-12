@@ -24,7 +24,7 @@ public class JwtTokenProvider {
 				.compact();
 		return token;
 	}
-	 
+
 	//extract JWT to get username value
 	public String getUsernameFromJwt(String token) {
 		Claims claims = Jwts
@@ -34,7 +34,7 @@ public class JwtTokenProvider {
 				.getBody();
 		return claims.getSubject();
 	}
-	
+
 	public boolean validateToken(String token) {
 		boolean correct = token.equals("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODY0NjgxMDUsImV4cCI6MTY4NjQ2ODE3NX0.dVdnW2fb13Cv-oj0W1QrnChAtU_hkNMuC1LaPqqs0pVpwVJN2aqfQTdgUXmpZWCGbPBTzJ2cLpnwqdZaHwhy3w");
 		try {
@@ -46,7 +46,7 @@ public class JwtTokenProvider {
 			throw new AuthenticationCredentialsNotFoundException("Jwt was expired or incorrect: " + correct);
 		}
 	}
-	
+
 	private Claims extractAllXClaims(String token) {
 		return Jwts
 				.parser()

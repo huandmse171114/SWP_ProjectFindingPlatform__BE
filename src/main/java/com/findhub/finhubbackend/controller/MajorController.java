@@ -20,7 +20,7 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 public class MajorController extends ApiController<Major, MajorService, MajorStatus> {
 
 	@PostMapping()
-	public ResponseEntity<?> add(@RequestBody MajorCreateModel model) {
+	public ResponseEntity<?> create(@RequestBody MajorCreateModel model) {
 		String code = model.getCode();
 		String name = model.getName();
 
@@ -37,7 +37,9 @@ public class MajorController extends ApiController<Major, MajorService, MajorSta
 			.build();
 
 		service.save(major);
-		return new ResponseEntity<>("Added new Major[code=" + code + "; name=\'" + name + "\'] successfully",
-				HttpStatus.OK);
+		return new ResponseEntity<>(
+			"Added new Major[code=" + code + "; name=\'" + name + "\'] successfully",
+			HttpStatus.OK
+		);
 	}
 }

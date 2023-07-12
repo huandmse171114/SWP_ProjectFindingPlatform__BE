@@ -21,4 +21,5 @@ public interface TeamService
 
     public List<TeamDTO> getAllByIdStartingWithOrNameContaining(String input);
 
+    public boolean isExistedInTeam(int memberId, int teamId);
 }
