@@ -10,7 +10,8 @@
 	</parent>
 	<groupId>com.findhub</groupId>
 	<artifactId>finhub-backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<!-- <version>0.0.1-snapshot</version> -->
+	<version>swp</version>
 	<name>Project Finding Platform</name>
 	<description>FindHub - Project Finding Platform</description>
 	<properties>
