@@ -1,0 +1,23 @@
+<ruleset name="Custom Rules"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+    <description>
+        My custom rules
+    </description>
+    <!-- Best practices category rule -->
+    <rule ref="category/java/bestpractices.xml/UnusedLocalVariable"/>
+    
+    <!-- Code style category rule -->
+    <rule ref="category/java/codestyle.xml/ClassNamingConventions">
+	    <properties>
+	        <!-- [a-z][a-zA-Z0-9_]: className valid - demoClass -->
+	        <!-- [A-Z][a-zA-Z0-9_]: className valid - DemoClass -->
+	        <property name="classPattern" value="[A-Z][a-zA-Z0-9_]*" />
+	    </properties>
+	</rule> 
+	
+	<!-- Performance category rule -->
+	<rule ref="category/java/performance.xml/AvoidInstantiatingObjectsInLoops" />
+		
+</ruleset>
