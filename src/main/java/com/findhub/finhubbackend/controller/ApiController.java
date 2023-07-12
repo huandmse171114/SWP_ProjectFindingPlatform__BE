@@ -83,6 +83,19 @@ public class ApiController<E, T extends Service<E, S>, S extends Enum<S>> {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/paging/{offset}/{pageSize}")
+    public ResponseEntity<?> getAll(
+        @PathVariable int offset,
+        @PathVariable int pageSize
+    ){
+        // Page<E> Es = service.getAll(offset, pageSize);
+        return ResponseEntity
+                    .ok()
+                    .body(
+                        service.getAll(offset, pageSize)
+                    );
+    }
+
     @GetMapping(SubPath.ID)
     public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
         E entity = service.get(id);

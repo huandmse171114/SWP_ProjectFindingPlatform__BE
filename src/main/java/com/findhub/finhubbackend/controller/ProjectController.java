@@ -106,6 +106,10 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		// .body(service.getAll());
 	}
 
+	//getByMemberId
+	//getByTeamId
+	//getByPublisherId
+
 	@PostMapping()
 	public ResponseEntity<?> create(@RequestBody ProjectCreateModel model) {
 

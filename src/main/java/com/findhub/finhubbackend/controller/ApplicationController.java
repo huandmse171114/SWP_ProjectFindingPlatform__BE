@@ -1,5 +1,6 @@
 package com.findhub.finhubbackend.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +12,8 @@ import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.application.ApplicationStatus;
 import com.findhub.finhubbackend.model.create.ApplicationCreateModel;
 import com.findhub.finhubbackend.service.application.ApplicationService;
+import com.findhub.finhubbackend.service.project.ProjectService;
+import com.findhub.finhubbackend.service.team.TeamService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 
 @RestController
@@ -19,8 +22,11 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 public class ApplicationController
 		extends ApiController<Application, ApplicationService, ApplicationStatus> {
 
-	// @Autowired
-	// private TeamService teamService;
+	@Autowired
+	private TeamService teamService;
+
+	@Autowired
+	private ProjectService projectService;
 
 	// @PostMapping("/")
 	@Override
@@ -39,8 +45,12 @@ public class ApplicationController
 
 		Application application = Application
 			.builder()
-				.teamId(teamId)
-				.projectId(projectId)
+				.team(
+					teamService.get(teamId)
+				)
+				.project(
+					projectService.get(projectId)
+				)
 			.build();
 
 		service.save(application);

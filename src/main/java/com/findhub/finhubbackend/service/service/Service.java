@@ -74,6 +74,8 @@ public interface Service<E, S> {
      */
     public List<E> getAll();
 
+    public List<E> getAll(int offset, int pageSize);
+
     /**
      * tìm tất cả T có id gần đúng
      */

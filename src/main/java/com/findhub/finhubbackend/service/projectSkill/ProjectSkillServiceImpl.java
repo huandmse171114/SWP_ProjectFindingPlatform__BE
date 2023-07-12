@@ -11,10 +11,12 @@ import com.findhub.finhubbackend.entity.projectSkill.ProjectSkill;
 import com.findhub.finhubbackend.entity.projectSkill.ProjectSkillStatus;
 import com.findhub.finhubbackend.repository.ProjectSkillRepository;
 import com.findhub.finhubbackend.service.project.ProjectService;
+import com.findhub.finhubbackend.service.service.ServiceImpl;
 import com.findhub.finhubbackend.service.skill.SkillService;
 
 @Service
 public class ProjectSkillServiceImpl
+        extends ServiceImpl<ProjectSkill, ProjectSkillRepository, ProjectSkillStatus>
         implements ProjectSkillService {
 
     @Autowired

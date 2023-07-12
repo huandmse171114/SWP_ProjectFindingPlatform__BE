@@ -22,6 +22,8 @@ public interface ProjectRepository extends Repo<Project> {
 
     // description: không làm
 
+    List<Project> findALlByPublisherId(int id);
+
     List<Project> findAllByWage(float wage);
 
     List<Project> findAllByWageGreaterThanEqual(float wage);

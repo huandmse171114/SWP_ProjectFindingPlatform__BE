@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.entity.Status;
@@ -63,23 +65,30 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum<S
     @Override
     public boolean updateStatus(int id, int status) {
         Optional<E> entity = repo.findById(id);
-        return updateStatus(entity.isPresent() ? entity.get() : null, status);
+        return updateStatus(
+            entity.isPresent()
+                ? entity.get()
+                : null,
+            status
+        );
     }
 
     @Override
     public boolean updateStatus(E entity, int status) {
-        if (entity != null) {
-            entity.setStatus(status);
-            update(entity);
-            return true;
-        }
-        return false;
+        if (entity == null) return false;
+        entity.setStatus(status);
+        update(entity);
+        return true;
     }
 
     @Override
     public boolean delete(int id) {
         Optional<E> entity = repo.findById(id);
-        return delete(entity.isPresent() ? entity.get() : null);
+        return delete(
+            entity.isPresent()
+                ? entity.get()
+                : null
+        );
     }
 
     @Override
@@ -93,7 +102,9 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum<S
     @Override
     public E get(int id) {
         Optional<E> entity = repo.findById(id);
-        return entity.isPresent() ? entity.get() : null;
+        return entity.isPresent()
+                ? entity.get()
+                : null;
     }
 
     @Override
@@ -108,12 +119,21 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum<S
 
     @Override
     public List<E> findAllByStatus(S status) {
-        return repo.findAllByStatus(getValue(status));
+        return repo.findAllByStatus(
+            getValue(status)
+        );
     }
 
     @Override
     public List<E> getAll() {
         return repo.findAll();
+    }
+
+    @Override
+    public List<E> getAll(int offset, int pageSize){
+        return repo.findAll(
+            PageRequest.of(offset, pageSize).withSort(Sort.by("Id"))
+        ).getContent();
     }
 
     @Override
@@ -127,7 +147,10 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum<S
     public E update(E entity) {
         return (entity == null)
                 ? null
-                : update(entity.getId(), entity);
+                : update(
+                    entity.getId(),
+                    entity
+                );
     }
 
     @Override
@@ -136,8 +159,8 @@ public class ServiceImpl<E extends MyEntity, R extends Repo<E>, S extends Enum<S
         return update(
                 old.isPresent()
                     ? old.get()
-                    : null
-                ,entity
+                    : null,
+                entity
         );
     }
 

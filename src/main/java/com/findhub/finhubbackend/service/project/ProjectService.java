@@ -23,6 +23,8 @@ public interface ProjectService
 
     // description: không làm
 
+    public List<Project> findALlByPublisherId(int id);
+
     public List<Project> findAllByWage(float wage);
 
     public List<Project> findAllByWageGreaterThanEqual(float wage);

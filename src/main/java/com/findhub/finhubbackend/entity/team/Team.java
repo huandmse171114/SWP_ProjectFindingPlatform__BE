@@ -15,8 +15,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Nationalized;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.teamMember.TeamMember;
+import com.findhub.finhubbackend.entity.teamProject.TeamProject;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -69,4 +71,20 @@ public class Team extends MyEntity {
 	)
 	@JsonManagedReference
 	private List<TeamMember> members;
+
+    @OneToMany(
+		mappedBy = "team",
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY
+	)
+	@JsonManagedReference
+	private List<TeamProject> projects;
+
+    @OneToMany(
+		mappedBy = "team",
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY
+	)
+	@JsonManagedReference
+	private List<Application> applications;
 }

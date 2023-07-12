@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.entity.application;
+package com.findhub.finhubbackend.entity.teamProject;
 
 import java.sql.Date;
 
@@ -12,11 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Nationalized;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
+import com.findhub.finhubbackend.entity.entity.Status;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.team.Team;
 
@@ -30,21 +32,32 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "Application")
+@Table(
+    name = "Team_Project",
+    uniqueConstraints = @UniqueConstraint(
+        columnNames = {
+            "TeamId",
+            "ProjectId"
+        }
+    )
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Application extends MyEntity {
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id"
+)
+public class TeamProject extends MyEntity {
+    @Id
+    @Column(
+        name = "Id",
+        nullable = false
+    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
 
-	@Id
-	@Column(
-		name = "Id",
-		nullable = false
-	)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	@ManyToOne(
+    @ManyToOne(
         fetch = FetchType.EAGER,
         cascade = CascadeType.ALL
     )
@@ -52,7 +65,7 @@ public class Application extends MyEntity {
     @JoinColumn(name = "ProjectId")
     private Project project;
 
-	@ManyToOne(
+    @ManyToOne(
         fetch = FetchType.EAGER,
         cascade = CascadeType.ALL
     )
@@ -60,24 +73,26 @@ public class Application extends MyEntity {
     @JoinColumn(name = "TeamId")
     private Team team;
 
-	@Nationalized
-	@Column(
-		name = "Message",
-		nullable = true
-	)
-	private String message;
+    @Default
+    @Column(
+        name = "StartDate",
+        nullable = false
+    )
+    private Date startDate = new Date(System.currentTimeMillis());
 
-	@Default
-	@Column(
-		name = "CreateDate",
-		nullable = false
-	)
-	private Date createDate = new Date(System.currentTimeMillis());
+    @Column(
+        name = "EndDate",
+        nullable = true
+    )
+    private Date endDate;
 
-	@Default
-	@Column(
-		name = "Status",
-		nullable = false
-	)
-	private int status = ApplicationStatus.PENDING.getValue();
+    @Default
+    private float wage = 0;
+
+    @Default
+    @Column(
+        name = "Status",
+        nullable = false
+    )
+    protected int status = Status.ACTIVE.getValue();
 }

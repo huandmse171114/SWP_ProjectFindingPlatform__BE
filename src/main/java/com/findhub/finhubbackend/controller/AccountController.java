@@ -52,7 +52,7 @@ public class AccountController
     }
 
     @PutMapping("/role")
-    public ResponseEntity<?> setRole(@RequestBody RoleUpdateModel u) {
+    public ResponseEntity<?> updateRole(@RequestBody RoleUpdateModel u) {
         int id = u.getAccountId();
         int newRole = u.getRoleId();
 

@@ -19,11 +19,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.findhub.finhubbackend.dto.MemberDTO;
 import com.findhub.finhubbackend.entity.entity.Status;
 import com.findhub.finhubbackend.entity.member.MemberRole;
+import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.team.Team;
 import com.findhub.finhubbackend.entity.team.TeamStatus;
 import com.findhub.finhubbackend.entity.teamMember.TeamMember;
 import com.findhub.finhubbackend.exception.EntityFoundException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
+import com.findhub.finhubbackend.model.create.ApplicationCreateModel;
 import com.findhub.finhubbackend.model.create.TeamCreateModel;
 import com.findhub.finhubbackend.model.model.ApiResponse;
 import com.findhub.finhubbackend.model.model.MemberTeamModel;
@@ -31,6 +33,7 @@ import com.findhub.finhubbackend.model.model.TeamModel;
 import com.findhub.finhubbackend.model.update.TeamMemberUpdateModel;
 import com.findhub.finhubbackend.model.update.TeamUpdateModel;
 import com.findhub.finhubbackend.service.member.MemberService;
+import com.findhub.finhubbackend.service.project.ProjectService;
 import com.findhub.finhubbackend.service.team.TeamService;
 import com.findhub.finhubbackend.service.teamMember.TeamMemberService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
@@ -51,7 +54,13 @@ public class TeamController
     private MemberService memberService;
 
     @Autowired
+    private ProjectService projectService;
+
+    @Autowired
     private TeamMemberService teamMemberService;
+
+    // @Autowired
+    // private TeamPro;
 
     private TeamModel getResponseModel(int id) {
         Team team = service.get(id);
@@ -267,6 +276,36 @@ public class TeamController
                             .message("success")
                         .build()
                 );
+    }
+
+    public ResponseEntity<?> applyProject(ApplicationCreateModel model){
+        int teamId = model.getTeamId();
+        int projectId = model.getProjectId();
+
+        Team t = service.get(teamId);
+        if(t == null) throw new EntityNotFoundException(entityName, teamId);
+
+        Project p = projectService.get(projectId);
+        if(p == null) throw new EntityNotFoundException(Project.class, projectId);
+
+        //save to application
+
+        return null;
+    }
+
+    public ResponseEntity<?> unApplyProject(ApplicationCreateModel model){
+        int teamId = model.getTeamId();
+        int projectId = model.getProjectId();
+
+        Team t = service.get(teamId);
+        if(t == null) throw new EntityNotFoundException(entityName, teamId);
+
+        Project p = projectService.get(projectId);
+        if(p == null) throw new EntityNotFoundException(Project.class, projectId);
+
+        //save to application
+
+        return null;
     }
 
 }

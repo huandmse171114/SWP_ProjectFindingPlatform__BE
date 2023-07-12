@@ -19,10 +19,12 @@ import org.hibernate.annotations.Nationalized;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.projectCategory.ProjectCategory;
 import com.findhub.finhubbackend.entity.projectDeliverable.ProjectDeliverable;
 import com.findhub.finhubbackend.entity.projectSkill.ProjectSkill;
+import com.findhub.finhubbackend.entity.teamProject.TeamProject;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -143,4 +145,20 @@ public class Project extends MyEntity {
 	)
 	@JsonManagedReference
 	private List<ProjectDeliverable> deliverables;
+
+	@OneToMany(
+		mappedBy = "project",
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY
+	)
+	@JsonManagedReference
+	private List<TeamProject> teams;
+
+	@OneToMany(
+		mappedBy = "project",
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY
+	)
+	@JsonManagedReference
+	private List<Application> applications;
 }

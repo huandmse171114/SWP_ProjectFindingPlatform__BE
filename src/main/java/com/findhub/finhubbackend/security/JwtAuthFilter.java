@@ -20,39 +20,37 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-	@Autowired 
+	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
-	
+
 	@Autowired
 	private CustomUserDetailService customUserDetailService;
-	
-	
+
 	@Override
 	protected void doFilterInternal(
-			HttpServletRequest request, 
-			HttpServletResponse response, 
-			FilterChain filterChain)
-			throws ServletException, IOException {
+		HttpServletRequest request,
+		HttpServletResponse response,
+		FilterChain filterChain
+	) throws ServletException, IOException {
 		//Get the jwt from the request
 		String token = getJwtFromRequest(request);
 		if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
 			String username = jwtTokenProvider.getUsernameFromJwt(token);
 			UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
 			System.out.println("Authorities: " + userDetails.getAuthorities().toString());
-			UsernamePasswordAuthenticationToken authenticationToken = 
+			UsernamePasswordAuthenticationToken authenticationToken =
 					new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 		}
 		filterChain.doFilter(request, response);
 	}
-	
+
 	private String getJwtFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
-		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer "))
 			return bearerToken.substring(7);
-		}
 		return null;
 	}
-	
+
 }

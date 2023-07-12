@@ -292,4 +292,9 @@ public class ProjectServiceImpl
 
 	}
 
+	@Override
+	public List<Project> findALlByPublisherId(int id) {
+		return repo.findALlByPublisherId(id);
+	}
+
 }
