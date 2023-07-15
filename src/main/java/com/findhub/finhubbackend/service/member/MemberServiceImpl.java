@@ -11,6 +11,10 @@ import com.findhub.finhubbackend.dto.MemberDTO;
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberStatus;
+import com.findhub.finhubbackend.entity.skill.Skill;
+import com.findhub.finhubbackend.entity.skill.Skill;
+import com.findhub.finhubbackend.entity.skill.Skill;
+import com.findhub.finhubbackend.entity.skill.Skill;
 import com.findhub.finhubbackend.model.model.MemberModel;
 import com.findhub.finhubbackend.model.model.SkillModel;
 import com.findhub.finhubbackend.model.response.MajorResponseModel;
@@ -105,15 +109,30 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
         if (member == null) return null;
 
         List<SkillModel> skills = new ArrayList<>();
-        skillService.getNameAndLevelByMemberId(id)
-            .forEach(each -> skills.add(
-                SkillModel
-                    .builder()
-                        .id(each.getId())
-                        .name(each.getName())
-                        .level(each.getLevel())
-                    .build()
-            )
+        // skillService.getNameAndLevelByMemberId(id)
+        //     .forEach(each -> skills.add(
+        //         SkillModel
+        //             .builder()
+        //                 .id(each.getId())
+        //                 .name(each.getName())
+        //                 .level(each.getLevel())
+        //             .build()
+        //     )
+        // );
+
+        member.getSkills().forEach(
+            skill -> {
+                Skill s = skill.getSkill();
+                skills.add(
+                    SkillModel
+                        .builder()
+                            .id(s.getId())
+                            .name(s.getName())
+                            .level(skill.getLevel())
+                            .status(id)
+                        .build()
+                );
+            }
         );
 
         String status = Utils.capitalize(

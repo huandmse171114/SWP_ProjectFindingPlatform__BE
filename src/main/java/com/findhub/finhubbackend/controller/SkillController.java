@@ -18,6 +18,14 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @RequestMapping(path = ApiPath.SKILL)
 public class SkillController extends ApiController<Skill, SkillService, SkillStatus> {
 
+    @Override
+	public ResponseEntity<?> getAll() {
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(null);
+		// .body(service.getAll());
+	}
+
     @PostMapping()
     public ResponseEntity<String> add(@RequestBody String name) {
         if (service.existsByName(name))

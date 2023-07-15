@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class MemberSkillUpdateModel {
     private int memberId;
     private int skillId;
+    private int level;
 }

@@ -1,7 +1,5 @@
 package com.findhub.finhubbackend.entity.mail;
 
-import javax.persistence.Entity;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
