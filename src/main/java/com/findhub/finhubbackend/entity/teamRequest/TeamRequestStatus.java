@@ -1,14 +1,19 @@
-package com.findhub.finhubbackend.entity.projectSkill;
+package com.findhub.finhubbackend.entity.teamRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.findhub.finhubbackend.util.Utils;
 
-public enum ProjectSkillStatus {
-	ACTIVE(0),
-    INACTIVE(1),
-    DELETED(2),
+public enum TeamRequestStatus {
+	REQUESTING(0),
+    INVITING(1),
+    APPROVED_REQUEST(2),
+    REJECTED_REQUEST(3),
+    ACCEPTED_INVITATION(4),
+    REJECTED_INVITATION(5),
+    CANCELED(6),
+    DELETED(7)
     ;
 
     protected final int value;
@@ -27,7 +32,7 @@ public enum ProjectSkillStatus {
         );
     }
 
-    private ProjectSkillStatus(int value) {
+    private TeamRequestStatus(int value) {
         this.value = value;
     }
 

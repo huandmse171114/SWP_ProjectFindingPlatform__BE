@@ -41,6 +41,14 @@ public enum AccountRole {
 		this.value = value;
 		this.stringValue = stringValue;
 	}
+	
+	public static String nameOf(int val) {
+		return status.get(val);
+	}
+	
+	public static List<StatusModel> getAll() {
+		return model;
+	}
 
 	public int getValue() {
 		return this.value;

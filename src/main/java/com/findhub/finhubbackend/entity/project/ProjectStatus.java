@@ -9,13 +9,13 @@ import com.findhub.finhubbackend.model.model.StatusModel;
 import com.findhub.finhubbackend.util.Utils;
 
 public enum ProjectStatus {
-	INACTIVE(0),
-	ACTIVE(1),
-	DELETED(1000),
-
+	ACTIVE(0),
+	INACTIVE(1),
+	ONGOING(2),
 	APPROVED(3),
-	ONGOING(4),
-	FINISHED(5),
+	FINISHED(4),
+	DELETED(5),
+
 	;
 
 	private final int value;

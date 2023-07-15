@@ -6,4 +6,6 @@ public interface SkillDTO {
     int getLevel();
 
     String getName();
+    
+    int getStatus();
 }

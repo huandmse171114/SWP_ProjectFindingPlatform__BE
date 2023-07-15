@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.findhub.finhubbackend.dto.MajorDTO;
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.major.MajorStatus;
+import com.findhub.finhubbackend.model.model.StatusModel;
+import com.findhub.finhubbackend.model.response.MajorResponseModel;
+import com.findhub.finhubbackend.model.update.MajorUpdateModel;
 import com.findhub.finhubbackend.repository.MajorRepository;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
 
@@ -55,6 +58,25 @@ public class MajorServiceImpl extends ServiceImpl<Major, MajorRepository, MajorS
 	@Override
 	public boolean existsByName(String name) {
 		return repo.existsByName(name);
+	}
+
+	@Override
+	public MajorResponseModel getModel(int id) {
+		Major m = get(id);
+		
+		MajorResponseModel result = MajorResponseModel.builder()
+				.id(id)
+				.name(m.getName())
+				.code(m.getCode())
+				.status(new StatusModel(m.getStatus(), MajorStatus.nameOf(m.getStatus())))
+				.build();
+		return result;
+	}
+
+	@Override
+	public boolean update(MajorUpdateModel majorModel) {
+		repo.update(majorModel.getId(), majorModel.getName(), majorModel.getCode());
+		return true;
 	}
 
 }

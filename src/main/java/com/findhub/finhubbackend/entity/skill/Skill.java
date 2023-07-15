@@ -66,7 +66,7 @@ public class Skill extends MyEntity {
         name = "Status",
         nullable = false
     )
-    private int status = SkillStatus.ACTIVE.getValue();
+    private int status = SkillStatus.VALIDATING.getValue();
 
     @OneToMany(
         mappedBy = "skill",

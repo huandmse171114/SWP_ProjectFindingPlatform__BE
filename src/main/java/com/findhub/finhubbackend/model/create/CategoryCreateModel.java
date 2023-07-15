@@ -1,4 +1,4 @@
-package com.findhub.finhubbackend.model.update;
+package com.findhub.finhubbackend.model.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MajorUpdateModel {
-    private int id;
-    private String name;
-    private String code;
+public class CategoryCreateModel {
+	private String name;
 }

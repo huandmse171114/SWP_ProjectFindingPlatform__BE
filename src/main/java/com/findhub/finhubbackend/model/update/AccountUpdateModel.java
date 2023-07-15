@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MajorUpdateModel {
-    private int id;
-    private String name;
-    private String code;
+public class AccountUpdateModel {
+	private int id;
+	private String email;
+	private String password;
+	private int role;
 }

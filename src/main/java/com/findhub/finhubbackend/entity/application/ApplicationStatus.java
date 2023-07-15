@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ApplicationStatus {
-	APPROVED(0),
-	PENDING(1),
-	DELETED(2),
-	REJECTED(3),
+	PENDING(0),
+	APPROVED(1),
+	REJECTED(2),
+	CANCELED(3),
+	DELETED(4)
 	;
 
 	private final int value;

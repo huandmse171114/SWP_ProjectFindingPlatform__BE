@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 import com.findhub.finhubbackend.dto.PublisherDTO;
 import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.entity.publisher.PublisherStatus;
+import com.findhub.finhubbackend.model.model.StatusModel;
 import com.findhub.finhubbackend.model.response.PublisherResponseModel;
+import com.findhub.finhubbackend.model.update.MemberUpdateDescriptionModel;
+import com.findhub.finhubbackend.model.update.PublisherUpdateDescriptionModel;
+import com.findhub.finhubbackend.model.update.PublisherUpdateModel;
 import com.findhub.finhubbackend.repository.PublisherRepository;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
 import com.findhub.finhubbackend.util.Utils;
@@ -79,11 +83,11 @@ public class PublisherServiceImpl extends ServiceImpl<Publisher, PublisherReposi
 
         if (publisher == null) return null;
 
-        String status =  Utils.capitalize(
-            PublisherStatus.nameOf(
-                publisher.getStatus()
-            )
-        );
+        StatusModel status = StatusModel.builder()
+        		.id(publisher.getStatus())
+        		.name(PublisherStatus.nameOf(publisher.getStatus()))
+        		.build();
+
 
         return PublisherResponseModel
             .builder()
@@ -91,9 +95,51 @@ public class PublisherServiceImpl extends ServiceImpl<Publisher, PublisherReposi
                 .name(publisher.getName())
                 .email(publisher.getEmail())
                 .phone(publisher.getPhone())
-                .DOB(publisher.getDob())
+                .DOB(publisher.getDob() != null ? publisher.getDob().toString() : null)
+                .description(publisher.getDescription())
                 .balance(publisher.getBalance())
                 .status(status)
             .build();
     }
+
+	@Override
+	public PublisherResponseModel getResponseModelByEmail(String email) {
+		Publisher publisher = findByEmail(email).get();
+
+        if (publisher == null) return null;
+        
+        int id = publisher.getId();
+
+        StatusModel status = StatusModel.builder()
+        		.id(publisher.getStatus())
+        		.name(PublisherStatus.nameOf(publisher.getStatus()))
+        		.build();
+
+
+        return PublisherResponseModel
+            .builder()
+                .id(id)
+                .name(publisher.getName())
+                .email(publisher.getEmail())
+                .phone(publisher.getPhone())
+                .DOB(publisher.getDob().toString())
+                .description(publisher.getDescription())
+                .balance(publisher.getBalance())
+                .status(status)
+            .build();
+	}
+
+	@Override
+	public boolean update(PublisherUpdateModel publisherModel) {
+		repo.update(publisherModel.getId(), publisherModel.getName(), publisherModel.getEmail(),
+				publisherModel.getPhone(), publisherModel.getDob(),
+				publisherModel.getStatus().getId());
+		return true;
+	}
+
+	@Override
+	public boolean updateDescription(PublisherUpdateDescriptionModel m) {
+		repo.updateDescription(m.getId(), m.getDescription());
+		return true;
+	}
 }

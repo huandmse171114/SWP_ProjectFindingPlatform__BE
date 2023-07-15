@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MajorUpdateModel {
-    private int id;
-    private String name;
-    private String code;
+public class MemberUpdateDescriptionModel {
+	private int id;
+	private String email;
+	private String description;
 }

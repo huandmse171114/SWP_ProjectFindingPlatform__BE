@@ -1,5 +1,9 @@
 package com.findhub.finhubbackend.model.update;
 
+import java.util.List;
+
+import com.findhub.finhubbackend.model.model.MemberSkillModel;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,8 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MajorUpdateModel {
-    private int id;
-    private String name;
-    private String code;
+public class MemberUpdateSkillModel {
+	private int id;
+	private String email;
+	private List<MemberSkillModel> skills;
 }

@@ -6,6 +6,8 @@ import java.util.Optional;
 import com.findhub.finhubbackend.dto.MajorDTO;
 import com.findhub.finhubbackend.entity.major.Major;
 import com.findhub.finhubbackend.entity.major.MajorStatus;
+import com.findhub.finhubbackend.model.response.MajorResponseModel;
+import com.findhub.finhubbackend.model.update.MajorUpdateModel;
 import com.findhub.finhubbackend.service.service.Service;
 
 public interface MajorService extends Service<Major, MajorStatus> {
@@ -37,4 +39,8 @@ public interface MajorService extends Service<Major, MajorStatus> {
     public boolean existsByName(String name);
 
     public boolean existsByCode(String code);
+    
+    public MajorResponseModel getModel(int id);
+
+	public boolean update(MajorUpdateModel majorModel);
 }

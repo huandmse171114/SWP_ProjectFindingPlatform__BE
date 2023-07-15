@@ -51,6 +51,13 @@ public class Publisher extends MyEntity {
 
 	@Nationalized
 	@Column(
+		name = "Description",
+		nullable = true
+	)
+	private String description;
+	
+	@Nationalized
+	@Column(
 		name = "Name",
 		nullable = true
 	)
@@ -80,7 +87,7 @@ public class Publisher extends MyEntity {
 		name = "Status",
 		nullable = false
 	)
-	private int status = MemberStatus.AVAILABLE.getValue();
+	private int status = PublisherStatus.GENERATED.getValue();
 
 	// @OneToMany(
     //     mappedBy = "publisher",

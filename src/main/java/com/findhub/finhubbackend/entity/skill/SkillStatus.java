@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum SkillStatus {
-    INACTIVE(0),
-    ACTIVE(1),
-    DELETED(2),
+	VALIDATING(0),
+    APPROVED(1),
+    REJECTED(2),
+    DELETED(3)
     ;
 
     private final int value;

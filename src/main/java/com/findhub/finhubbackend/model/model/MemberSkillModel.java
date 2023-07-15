@@ -1,5 +1,7 @@
 package com.findhub.finhubbackend.model.model;
 
+import com.findhub.finhubbackend.model.update.CategoryUpdateModel;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SkillModel {
-    private int id;
-    private String name;
-    private int level;
-    private StatusModel status;
+public class MemberSkillModel {
+	private int id;
+	private int level;
+	private Integer status;
 }

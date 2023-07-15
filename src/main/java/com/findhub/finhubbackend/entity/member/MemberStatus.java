@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum MemberStatus {
-	NOT_AVAILABLE(0),
-	AVAILABLE(1),
-	DELETED(2),
+	GENERATED(0),
+	INFORMED(1),
+	VERIFIED(2),
+	INACTIVATED(3),
+	DELETED(4)
 	;
 
 	private final int value;
@@ -16,7 +18,6 @@ public enum MemberStatus {
 		// only java 10+
 		for (var ps : values())
 			status.put(ps.getValue(), ps.name());
-
 	}
 
 	public static String nameOf(int val) {

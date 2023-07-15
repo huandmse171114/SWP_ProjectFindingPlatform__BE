@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.findhub.finhubbackend.entity.account.Account;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.project.ProjectStatus;
 import com.findhub.finhubbackend.entity.projectCategory.ProjectCategory;
 import com.findhub.finhubbackend.entity.projectDeliverable.ProjectDeliverable;
 import com.findhub.finhubbackend.entity.projectSkill.ProjectSkill;
+import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
 import com.findhub.finhubbackend.model.create.ProjectCreateModel;
 import com.findhub.finhubbackend.model.response.ProjectResponseModel;
@@ -32,12 +35,14 @@ import com.findhub.finhubbackend.model.update.ProjectCategoryUpdateModel;
 import com.findhub.finhubbackend.model.update.ProjectDeliverableUpdateModel;
 import com.findhub.finhubbackend.model.update.ProjectSkillUpdateModel;
 import com.findhub.finhubbackend.model.update.ProjectUpdateModel;
+import com.findhub.finhubbackend.service.account.AccountService;
 import com.findhub.finhubbackend.service.category.CategoryService;
 import com.findhub.finhubbackend.service.deliverable.DeliverableService;
 import com.findhub.finhubbackend.service.project.ProjectService;
 import com.findhub.finhubbackend.service.projectCategory.ProjectCategoryService;
 import com.findhub.finhubbackend.service.projectDeliverable.ProjectDeliverableService;
 import com.findhub.finhubbackend.service.projectSkill.ProjectSkillService;
+import com.findhub.finhubbackend.service.publisher.PublisherService;
 import com.findhub.finhubbackend.service.skill.SkillService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.SubPath;
@@ -51,6 +56,9 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 
 	@Autowired
 	private ProjectSkillService psService;
+	
+	@Autowired
+	private AccountService accountService;
 
 	@Autowired
 	private ProjectCategoryService pcServie;
@@ -60,6 +68,9 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 
 	@Autowired
 	private SkillService skillService;
+	
+	@Autowired
+	private PublisherService publisherService;
 
 	@Autowired
 	private CategoryService categoryService;
@@ -112,13 +123,23 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 
 	@PostMapping()
 	public ResponseEntity<?> create(@RequestBody ProjectCreateModel model) {
+		Account account = accountService.get(10);
+		System.out.println(model.getPublisherId());
+		
+		System.out.println(account.getEmail());
+		
+		Publisher publisher = publisherService.findByEmail("admin1@gmail.com").get();
 
+		System.out.println(publisher.getId());
+		
 		Date dueDate = Date.valueOf(model.getDueDate());
 
+		System.out.println(dueDate.toString());
+		
 		Project project = Project
 				.builder()
 					.name(model.getName())
-					.publisherId(model.getPublisherId())
+					.publisherId(publisher.getId())
 					.description(model.getDescription())
 					.wage(model.getWage())
 					.imageURL(model.getImageURL())
@@ -126,6 +147,8 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 					.dueDate(dueDate)
 					.status(model.getStatus())
 				.build();
+		
+		System.out.println(project.getPublisherId());
 
 		Project created = service.save(project);
 		int id = created.getId();
@@ -345,6 +368,16 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		);
 
 		return ResponseEntity.ok().body("update success");
+	}
+	
+	@GetMapping("/publisher/{id}")
+	public ResponseEntity<?> getAllByPublisherId(@PathVariable int id) {
+		Account account = accountService.get(id);
+		Publisher publisher = publisherService.findByEmail(account.getEmail()).get();
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(getResponseModels(service.getAllByPublisherId(publisher.getId())));
+		// .body(service.getAll());
 	}
 
 }

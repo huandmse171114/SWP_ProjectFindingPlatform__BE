@@ -1,11 +1,16 @@
 package com.findhub.finhubbackend.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +20,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.findhub.finhubbackend.entity.account.Account;
 import com.findhub.finhubbackend.entity.account.AccountRole;
 import com.findhub.finhubbackend.entity.account.AccountStatus;
+import com.findhub.finhubbackend.entity.category.Category;
 import com.findhub.finhubbackend.entity.entity.MyEntity;
 import com.findhub.finhubbackend.entity.entity.Status;
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
+import com.findhub.finhubbackend.model.AccountRegisterModel;
+import com.findhub.finhubbackend.model.model.StatusModel;
+import com.findhub.finhubbackend.model.response.AccountResponseModel;
+import com.findhub.finhubbackend.model.response.CategoryResponseModel;
+import com.findhub.finhubbackend.model.update.AccountUpdateModel;
 import com.findhub.finhubbackend.model.update.RoleUpdateModel;
 import com.findhub.finhubbackend.model.update.StatusUpdateModel;
 import com.findhub.finhubbackend.service.account.AccountService;
@@ -40,15 +51,47 @@ public class AccountController
 
     @Autowired
     private PublisherService publisherService;
+    
+    @Autowired
+	private PasswordEncoder passwordEncoder;
+    
+    private List<AccountResponseModel> getResponseModels(List<Account> accounts) {
+		if (accounts.isEmpty())
+			throw new EntityNotFoundException("No Category found");
+
+		List<AccountResponseModel> result = new ArrayList<>();
+		accounts.forEach(account -> {
+			result.add(service.getModel(account.getId()));
+		});
+		return result;
+	}
 
     @Override
-    public ResponseEntity<?> get(int id) {
+    public ResponseEntity<?> get(@PathVariable int id) {
         return super.get(id);
     }
 
     @Override
     public ResponseEntity<?> getAll() {
-        return super.getAll();
+    	return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(getResponseModels(service.getAll()));
+    }
+    
+    @GetMapping("/role/all")
+    public List<StatusModel> getAllRole() {
+    	return service.getAllRole();
+    }
+    
+    @PutMapping()
+    public ResponseEntity<String> update(@RequestBody AccountUpdateModel a) {
+//    	if (service.existByEmail(a.getEmail()))
+//            return new ResponseEntity<>("Account email [" + a.getEmail() + "] already existed", HttpStatus.FOUND);
+    	if(service.update(a)) {
+        	return new ResponseEntity<>("Update Account successfully", HttpStatus.OK);            	
+        }else {
+        	return new ResponseEntity<>("Update Account failed", HttpStatus.FAILED_DEPENDENCY);   
+        }
     }
 
     @PutMapping("/role")
@@ -125,7 +168,5 @@ public class AccountController
 				.created(location)
 				// .body(service.getModel(id));
 				.body("Account[" + id + "] set to " + roleName + "[" + newId + "]");
-
-
     }
 }
