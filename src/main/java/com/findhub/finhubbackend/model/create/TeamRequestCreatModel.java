@@ -1,5 +1,17 @@
 package com.findhub.finhubbackend.model.create;
 
-public class TeamRequestCreatModel {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class TeamRequestCreatModel {
+	private int teamId;
+	private int senderId;
+	private int receiverId;
+	private String message;
 }

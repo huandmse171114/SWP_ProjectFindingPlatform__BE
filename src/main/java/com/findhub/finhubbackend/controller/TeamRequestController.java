@@ -3,6 +3,7 @@ package com.findhub.finhubbackend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +26,9 @@ public class TeamRequestController
         return super.get(id);
     }
 
-    
+    @Override
+    public ResponseEntity<?> create(@RequestBody TeamRequestCreateModel m) {
+    	// TODO Auto-generated method stub
+    	return super.create(entity);
+    }
 }
