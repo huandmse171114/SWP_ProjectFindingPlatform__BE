@@ -13,11 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TeamResponseModel {
-    private int id;
-    private String name;
-    // private PublisherDTO publisher;
-    private List<TeamMemberResponseModel> members;
-    private float balance;
-    private StatusModel status;
+public class TeamMemberResponseModel {
+	private int id;
+	private String name;
+	private String email;
+	private StatusModel role;
+	private StatusModel status;
 }
