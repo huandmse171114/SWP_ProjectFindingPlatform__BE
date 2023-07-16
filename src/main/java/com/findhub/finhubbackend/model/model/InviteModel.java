@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class InviteModel {
     private int senderId; // accId
     private int receiverId; // accId
-    private int teamId;
+    // private int teamId;
     private String message;
 }

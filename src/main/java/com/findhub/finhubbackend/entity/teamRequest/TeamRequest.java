@@ -27,14 +27,13 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(
-    name = "Team_Request"
-    // ,
-    // uniqueConstraints = @UniqueConstraint(
-    //     columnNames = {
-    //         "SenderId",
-    //         "ReceiverId"
-    //     }
-    // )
+    name = "Team_Request",
+    uniqueConstraints = @UniqueConstraint(
+        columnNames = {
+            "SenderId",
+            "ReceiverId"
+        }
+    )
 )
 @AllArgsConstructor
 @NoArgsConstructor
@@ -64,11 +63,17 @@ public class TeamRequest extends MyEntity{
 	)
 	private int receiverId;
 
+    // @Column(
+	// 	name = "TeamId",
+	// 	nullable = false
+	// )
+	// private int teamId;
+
     @Column(
-		name = "TeamId",
-		nullable = false
-	)
-	private int teamId;
+        name = "Type",
+        nullable = false
+    )
+    private int type;
 
     @Nationalized
     @Column(
@@ -84,11 +89,10 @@ public class TeamRequest extends MyEntity{
 	)
 	private Date createDate = new Date(System.currentTimeMillis());
 
-
     @Default
     @Column(
         name = "Status",
         nullable = false
     )
-    private int status = TeamRequestStatus.REQUESTING.getValue();
+    private int status = TeamRequestStatus.PENDING.getValue();
 }
