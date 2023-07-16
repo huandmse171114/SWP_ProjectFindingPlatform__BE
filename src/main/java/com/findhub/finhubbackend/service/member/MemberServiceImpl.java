@@ -37,11 +37,12 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
     @Override
     public boolean isExistedInMember(int skillId, int memberId) {
         Member m = get(memberId);
-        for(var s : m.getSkills())
-            if(skillId == s.getSkill().getId()) return true;
+        for (var s : m.getSkills())
+            if (skillId == s.getSkill().getId())
+                return true;
         return false;
     }
-    
+
     private boolean isUpdateMemberStatus = true;
 
     @Autowired
@@ -49,7 +50,7 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
 
     @Autowired
     private MajorService majorService;
-    
+
     @Autowired
     private MemberSkillService memberSkillService;
 
@@ -113,163 +114,164 @@ public class MemberServiceImpl extends ServiceImpl<Member, MemberRepository, Mem
     public Optional<Member> findByPhone(String phone) {
         return repo.findByPhone(phone);
     }
-    
+
     public MemberModel getModel(int id) {
         Member member = get(id);
-        
-        if (member.getStatus() == MemberStatus.DELETED.getValue()) return null;
-        
+
+        if (member.getStatus() == MemberStatus.DELETED.getValue())
+            return null;
+
         StatusModel status = StatusModel.builder()
-        		.id(member.getStatus())
-        		.name(MemberStatus.nameOf(
-                    member.getStatus()
-                ))
-        		.build();
+                .id(member.getStatus())
+                .name(MemberStatus.nameOf(
+                        member.getStatus()))
+                .build();
 
         MemberModel result = MemberModel
-            .builder()
+                .builder()
                 .id(id)
                 .email(member.getEmail())
                 .name(member.getName())
                 .description(member.getDescription())
                 .balance(member.getBalance())
                 .status(status)
-            .build();
-        
+                .build();
+
         if (member.getStatus() != MemberStatus.GENERATED.getValue() && member.getName() != null) {
-        	List<SkillModel> skills = new ArrayList<>();
+            List<SkillModel> skills = new ArrayList<>();
             skillService.getNameAndLevelByMemberId(id)
-                .forEach(each -> skills.add(
-                    SkillModel
-                        .builder()
-                            .id(each.getId())
-                            .name(each.getName())
-                            .level(each.getLevel())
-                            .status(StatusModel.builder()
-                            		.id(each.getStatus())
-                            		.name(SkillStatus.nameOf(each.getStatus()))
-                            		.build())
-                        .build()
-                )
-            ); 
-     
-            
-        	Major major = majorService.get(member.getMajorId());   
-        	result.setMajor(MajorResponseModel
-	        		  .builder()
-	        		  .id(major.getId())
-		              .code(major.getCode())
-		              .name(major.getName())
-		              .build());
-        	result.setDOB(member.getDob().toString());
-        	result.setPhone(member.getPhone());
-        	result.setName(member.getName());
-        	result.setSkills(skills);
+                    .forEach(each -> skills.add(
+                            SkillModel
+                                    .builder()
+                                    .id(each.getId())
+                                    .name(each.getName())
+                                    .level(each.getLevel())
+                                    .status(StatusModel.builder()
+                                            .id(each.getStatus())
+                                            .name(SkillStatus.nameOf(each.getStatus()))
+                                            .build())
+                                    .build()));
+
+            Major major = majorService.get(member.getMajorId());
+            result.setMajor(MajorResponseModel
+                    .builder()
+                    .id(major.getId())
+                    .code(major.getCode())
+                    .name(major.getName())
+                    .build());
+            result.setDOB(member.getDob().toString());
+            result.setPhone(member.getPhone());
+            result.setName(member.getName());
+            result.setSkills(skills);
         }
         return result;
     }
 
-	@Override
-	public MemberModel getModel(String email) {
-		Optional<Member> memberOption = findByEmail(email);
-        
-		if (memberOption.isEmpty()) return null;
-		Member member = memberOption.get();
-		
-        if (member.getStatus() == MemberStatus.DELETED.getValue()) return null;
-        
+    @Override
+    public MemberModel getModel(String email) {
+        Optional<Member> memberOption = findByEmail(email);
+
+        if (memberOption.isEmpty())
+            return null;
+        Member member = memberOption.get();
+
+        if (member.getStatus() == MemberStatus.DELETED.getValue())
+            return null;
+
         StatusModel status = StatusModel.builder()
-        		.id(member.getStatus())
-        		.name(MemberStatus.nameOf(
-                    member.getStatus()
-                ))
-        		.build();
+                .id(member.getStatus())
+                .name(MemberStatus.nameOf(
+                        member.getStatus()))
+                .build();
 
         MemberModel result = MemberModel
-            .builder()
+                .builder()
                 .id(member.getId())
                 .email(member.getEmail())
                 .name(member.getName())
                 .description(member.getDescription())
                 .balance(member.getBalance())
                 .status(status)
-            .build();
-        
+                .build();
+
         if (member.getStatus() != MemberStatus.GENERATED.getValue() && member.getName() != null) {
-        	List<SkillModel> skills = new ArrayList<>();
-        	skillService.getNameAndLevelByMemberId(member.getId())
-	            .forEach(each -> skills.add(
-	                SkillModel
-	                    .builder()
-	                        .id(each.getId())
-	                        .name(each.getName())
-	                        .level(each.getLevel())
-	                        .status(StatusModel.builder()
-	                        		.id(each.getStatus())
-	                        		.name(SkillStatus.nameOf(each.getStatus()))
-	                        		.build())
-	                    .build()
-	            )
-	        ); 
-            
-        	Major major = majorService.get(member.getMajorId());   
-        	result.setMajor(MajorResponseModel
-	        		  .builder()
-	        		  .id(major.getId())
-		              .code(major.getCode())
-		              .name(major.getName())
-		              .build());
-        	result.setDOB(member.getDob().toString());
-        	result.setPhone(member.getPhone());
-        	result.setName(member.getName());
-        	result.setSkills(skills);
+            List<SkillModel> skills = new ArrayList<>();
+            skillService.getNameAndLevelByMemberId(member.getId())
+                    .forEach(each -> skills.add(
+                            SkillModel
+                                    .builder()
+                                    .id(each.getId())
+                                    .name(each.getName())
+                                    .level(each.getLevel())
+                                    .status(StatusModel.builder()
+                                            .id(each.getStatus())
+                                            .name(SkillStatus.nameOf(each.getStatus()))
+                                            .build())
+                                    .build()));
+
+            Major major = majorService.get(member.getMajorId());
+            result.setMajor(MajorResponseModel
+                    .builder()
+                    .id(major.getId())
+                    .code(major.getCode())
+                    .name(major.getName())
+                    .build());
+            result.setDOB(member.getDob().toString());
+            result.setPhone(member.getPhone());
+            result.setName(member.getName());
+            result.setSkills(skills);
         }
         return result;
-	}
+    }
 
-	@Override
-	public boolean update(MemberUpdateModel m) {
-		System.out.println(m.getId() + m.getName()+ m.getEmail()+ m.getPhone()+ m.getMajorId()+ m.getAvatarURL()+ m.getDob()+ m.getStatus().getId());
-		repo.update(m.getId(), m.getName(), m.getEmail(), m.getPhone(), m.getMajorId(), m.getAvatarURL(), m.getDob(), m.getStatus().getId());
-		return true;
-	}
+    @Override
+    public boolean update(MemberUpdateModel m) {
+        System.out.println(m.getId() + m.getName() + m.getEmail() + m.getPhone() + m.getMajorId() + m.getAvatarURL()
+                + m.getDob() + m.getStatus().getId());
+        repo.update(m.getId(), m.getName(), m.getEmail(), m.getPhone(), m.getMajorId(), m.getAvatarURL(), m.getDob(),
+                m.getStatus().getId());
+        return true;
+    }
 
-	@Override
-	public boolean updateDescription(MemberUpdateDescriptionModel m) {
-		repo.updateDescription(m.getId(), m.getDescription());
-		return true;
-	}
+    @Override
+    public boolean updateDescription(MemberUpdateDescriptionModel m) {
+        repo.updateDescription(m.getId(), m.getDescription());
+        return true;
+    }
 
-	@Override
-	public boolean updateSkill(MemberUpdateSkillModel m, Member member) {
-		isUpdateMemberStatus = true;
-		List<MemberSkillModel> skills = m.getSkills();
-		skills.forEach(skill -> {
-			MemberSkill mSkill = MemberSkill.builder()
-					.member(member)
-					.skill(skillService.get(skill.getId()))
-					.level(skill.getLevel())
-					.build();
-			if (skill.getStatus() != null) {
-				if (isUpdateMemberStatus) { //continue to check if the flag is still true, stop checking when it is false
-					isUpdateMemberStatus = skill.getStatus() != MemberSkillStatus.VALIDATING.getValue();				
-					System.out.println("flag: "+ skill.getId() + " " + isUpdateMemberStatus + " " + skill.getStatus());
-				}
-				mSkill.setStatus(skill.getStatus());
-			}
-			Optional<MemberSkill> existSkill = memberSkillService.findByMemberIdAndSkillId(member.getId(), skill.getId());
-			if (existSkill.isPresent()) mSkill.setId(existSkill.get().getId());
-			
-			memberSkillService.save(mSkill);
-		});
-		if (isUpdateMemberStatus) {
-			System.out.println("update");
-			repo.updateStatus(member.getId(), MemberStatus.VERIFIED.getValue());
-		}else {
-			System.out.println("not update");
-			repo.updateStatus(member.getId(), MemberStatus.INFORMED.getValue());
-		}
-		return true;
-	}
+    @Override
+    public boolean updateSkill(MemberUpdateSkillModel m, Member member) {
+        isUpdateMemberStatus = true;
+        List<MemberSkillModel> skills = m.getSkills();
+        skills.forEach(skill -> {
+            MemberSkill mSkill = MemberSkill.builder()
+                    .member(member)
+                    .skill(skillService.get(skill.getId()))
+                    .level(skill.getLevel())
+                    .build();
+            if (skill.getStatus() != null) {
+                if (isUpdateMemberStatus) { // continue to check if the flag is still true, stop checking when it is
+                                            // false
+                    isUpdateMemberStatus = skill.getStatus() != MemberSkillStatus.VALIDATING.getValue();
+                    System.out.println("flag: " + skill.getId() + " " + isUpdateMemberStatus + " " + skill.getStatus());
+                }
+                mSkill.setStatus(skill.getStatus());
+            }
+            Optional<MemberSkill> existSkill = memberSkillService.findByMemberIdAndSkillId(member.getId(),
+                    skill.getId());
+            if (existSkill.isPresent())
+                mSkill.setId(existSkill.get().getId());
+
+            memberSkillService.save(mSkill);
+        });
+        if (isUpdateMemberStatus) {
+            System.out.println("update");
+            repo.updateStatus(member.getId(), MemberStatus.VERIFIED.getValue());
+        } else {
+            System.out.println("not update");
+            repo.updateStatus(member.getId(), MemberStatus.INFORMED.getValue());
+        }
+        return true;
+    }
 
 }

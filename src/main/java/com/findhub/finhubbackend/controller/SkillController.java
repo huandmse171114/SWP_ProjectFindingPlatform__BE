@@ -28,55 +28,56 @@ import com.findhub.finhubbackend.util.Config.ApiPath;
 @CrossOrigin
 @RequestMapping(path = ApiPath.SKILL)
 public class SkillController extends ApiController<Skill, SkillService, SkillStatus> {
-	private List<SkillResponseModel> getResponseModels(List<Skill> skills) {
-		if (skills.isEmpty())
-			throw new EntityNotFoundException("No Skill found");
+    private List<SkillResponseModel> getResponseModels(List<Skill> skills) {
+        if (skills.isEmpty())
+            throw new EntityNotFoundException("No Skill found");
 
-		List<SkillResponseModel> result = new ArrayList<>();
-		skills.forEach(skill -> {
-			result.add(service.getModel(skill.getId()));
-		});
-		return result;
-	}
+        List<SkillResponseModel> result = new ArrayList<>();
+        skills.forEach(skill -> {
+            result.add(service.getModel(skill.getId()));
+        });
+        return result;
+    }
 
     @PostMapping()
     public ResponseEntity<String> add(@RequestBody SkillCreateModel skillModel) {
         if (service.existsByName(skillModel.getName()))
             return new ResponseEntity<>("Skill " + skillModel.getName() + " already existed", HttpStatus.FOUND);
-        
-        if(skillModel.getName().isBlank()) {
-        	return new ResponseEntity<>("Please fill in all fields", HttpStatus.EXPECTATION_FAILED);
+
+        if (skillModel.getName().isBlank()) {
+            return new ResponseEntity<>("Please fill in all fields", HttpStatus.EXPECTATION_FAILED);
         }
-        
+
         Skill skill = Skill
-            .builder()
+                .builder()
                 .name(skillModel.getName())
-            .build();
+                .build();
 
         service.save(skill);
         return new ResponseEntity<>("Added new Skill " + skillModel.getName() + " successfully", HttpStatus.OK);
     }
-    
+
     @PutMapping()
     public ResponseEntity<String> update(@RequestBody SkillUpdateModel skillModel) {
-    	if (service.existsByName(skillModel.getName()))
-            return new ResponseEntity<>("Skill " + skillModel.getName() + skillModel.getId() + " already existed", HttpStatus.FOUND);
-        
-        if(skillModel.getName().isBlank()) {
-        	return new ResponseEntity<>("Please fill in all fields", HttpStatus.EXPECTATION_FAILED);
+        if (service.existsByName(skillModel.getName()))
+            return new ResponseEntity<>("Skill " + skillModel.getName() + skillModel.getId() + " already existed",
+                    HttpStatus.FOUND);
+
+        if (skillModel.getName().isBlank()) {
+            return new ResponseEntity<>("Please fill in all fields", HttpStatus.EXPECTATION_FAILED);
         }
 
-            if(service.update(skillModel)) {
-            	return new ResponseEntity<>("Update Skill successfully", HttpStatus.OK);            	
-            }else {
-            	return new ResponseEntity<>("Update Skill failed", HttpStatus.FAILED_DEPENDENCY);   
-            }
+        if (service.update(skillModel)) {
+            return new ResponseEntity<>("Update Skill successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Update Skill failed", HttpStatus.FAILED_DEPENDENCY);
+        }
     }
-    
+
     @Override
     public ResponseEntity<?> getAll() {
-    	return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(getResponseModels(service.getAll()));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(getResponseModels(service.getAll()));
     }
 }

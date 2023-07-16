@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MemberSkillUpdateModel {
-    private int memberId;
+    private int accountId;
     private int skillId;
+    private int level;
 }

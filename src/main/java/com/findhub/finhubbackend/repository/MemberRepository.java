@@ -42,20 +42,20 @@ public interface MemberRepository extends Repo<Member> {
     List<Member> findAllByStatus(int status);
 
     @Query(value = """
-            SELECT *
-            FROM
-                Member
-            WHERE
-                Name LIKE %:name%
-            OR
-                Email LIKE %:email%
-            OR
-                Phone LIKE %:phone%
-            OR
-                Id LIKE :id%
-			ORDER BY
-                Id ASC
-            """, nativeQuery = true)
+                     SELECT *
+                     FROM
+                         Member
+                     WHERE
+                         Name LIKE %:name%
+                     OR
+                         Email LIKE %:email%
+                     OR
+                         Phone LIKE %:phone%
+                     OR
+                         Id LIKE :id%
+            ORDER BY
+                         Id ASC
+                     """, nativeQuery = true)
     List<MemberDTO> getAllByNameContainingOrEmailContainingOrPhoneContainingOrIdLike(
             @Param("id") int id,
             @Param("email") String email,
@@ -63,15 +63,15 @@ public interface MemberRepository extends Repo<Member> {
             @Param("name") String name);
 
     @Query(value = """
-            SELECT *
-            FROM
-                Member
-            WHERE
-                Name LIKE %:name%
-			ORDER BY
-                Id ASC
-            """, nativeQuery = true)
-            List<MemberDTO> getAllByNameContaining(@Param("name") String name);
+                     SELECT *
+                     FROM
+                         Member
+                     WHERE
+                         Name LIKE %:name%
+            ORDER BY
+                         Id ASC
+                     """, nativeQuery = true)
+    List<MemberDTO> getAllByNameContaining(@Param("name") String name);
 
     @Query(value = """
             SELECT
@@ -99,19 +99,18 @@ public interface MemberRepository extends Repo<Member> {
     @Transactional
     @Modifying
     @Query(value = "update Member set Name = :name, Phone = :phone, MajorId = :majorId, Email = :email, AvatarURL = :avatarURL, "
-    		+ "Status = :status, DOB = :dob where Id = :id", nativeQuery = true)
-	void update(@Param("id") int id, @Param("name") String name, @Param("email") String email,
-			@Param("phone") String phone, @Param("majorId") int majorId, @Param("avatarURL") String avatarURL, 
-			@Param("dob") String dob, @Param("status") int status);
+            + "Status = :status, DOB = :dob where Id = :id", nativeQuery = true)
+    void update(@Param("id") int id, @Param("name") String name, @Param("email") String email,
+            @Param("phone") String phone, @Param("majorId") int majorId, @Param("avatarURL") String avatarURL,
+            @Param("dob") String dob, @Param("status") int status);
 
     @Transactional
     @Modifying
     @Query(value = "update Member set Description = :description where Id = :id", nativeQuery = true)
-	void updateDescription(@Param("id") int id, @Param("description") String description);
+    void updateDescription(@Param("id") int id, @Param("description") String description);
 
-    
     @Transactional
     @Modifying
     @Query(value = "update Member set Status = :status where Id = :id", nativeQuery = true)
-	void updateStatus(@Param("id") int id, @Param("status") int status);
+    void updateStatus(@Param("id") int id, @Param("status") int status);
 }

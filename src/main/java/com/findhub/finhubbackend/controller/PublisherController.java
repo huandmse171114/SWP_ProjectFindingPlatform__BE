@@ -175,26 +175,26 @@ public class PublisherController
     
     @PutMapping()
     public ResponseEntity<String> update(@RequestBody PublisherUpdateModel publisherModel) {
-    	System.out.println(publisherModel.getEmail());
-    	Publisher publisher = publisherService.findByEmail(publisherModel.getEmail()).get();
-    	System.out.println(publisherModel.getEmail());
-    	publisherModel.setId(publisher.getId());
-    	
-    	if(service.update(publisherModel)) {
-        	return new ResponseEntity<>("Update Information successfully", HttpStatus.OK);            	
+        System.out.println(publisherModel.getEmail());
+        Publisher publisher = publisherService.findByEmail(publisherModel.getEmail()).get();
+        System.out.println(publisherModel.getEmail());
+        publisherModel.setId(publisher.getId());
+        
+        if(service.update(publisherModel)) {
+            return new ResponseEntity<>("Update Information successfully", HttpStatus.OK);            	
         }else {
-        	return new ResponseEntity<>("Update Information failed", HttpStatus.FAILED_DEPENDENCY);   
+            return new ResponseEntity<>("Update Information failed", HttpStatus.FAILED_DEPENDENCY);   
         }
     }
     
     @PutMapping("/description")
     public ResponseEntity<String> updateDescription(@RequestBody PublisherUpdateDescriptionModel m) {
-    	Publisher publisher = publisherService.findByEmail(m.getEmail()).get();
-    	m.setId(publisher.getId());
-    	if(service.updateDescription(m)) {
-        	return new ResponseEntity<>("Update Information successfully", HttpStatus.OK);            	
+        Publisher publisher = publisherService.findByEmail(m.getEmail()).get();
+        m.setId(publisher.getId());
+        if(service.updateDescription(m)) {
+            return new ResponseEntity<>("Update Information successfully", HttpStatus.OK);            	
         }else {
-        	return new ResponseEntity<>("Update Information failed", HttpStatus.FAILED_DEPENDENCY);   
+            return new ResponseEntity<>("Update Information failed", HttpStatus.FAILED_DEPENDENCY);   
         }
     }
 }

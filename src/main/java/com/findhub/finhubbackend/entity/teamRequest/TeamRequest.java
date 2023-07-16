@@ -28,12 +28,12 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @Table(
     name = "Team_Request",
-     uniqueConstraints = @UniqueConstraint(
-         columnNames = {
-             "SenderId",
-             "ReceiverId"
-         }
-     )
+    uniqueConstraints = @UniqueConstraint(
+        columnNames = {
+            "SenderId",
+            "ReceiverId"
+        }
+    )
 )
 @AllArgsConstructor
 @NoArgsConstructor
@@ -50,7 +50,7 @@ public class TeamRequest extends MyEntity{
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     @Column(
 		name = "SenderId",
 		nullable = false
@@ -62,12 +62,18 @@ public class TeamRequest extends MyEntity{
 		nullable = false
 	)
 	private int receiverId;
-    
+
+    // @Column(
+	// 	name = "TeamId",
+	// 	nullable = false
+	// )
+	// private int teamId;
+
     @Column(
-    		name = "Type",
-    		nullable = false
-    	)
-    	private int type;
+        name = "Type",
+        nullable = false
+    )
+    private int type;
 
     @Nationalized
     @Column(

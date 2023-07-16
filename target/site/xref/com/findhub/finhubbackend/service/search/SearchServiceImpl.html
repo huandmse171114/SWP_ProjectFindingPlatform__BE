@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en_US" lang="en_US">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>SearchServiceImpl xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/com/findhub/finhubbackend/service/search/SearchServiceImpl.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.findhub.finhubbackend.service.search;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> java.util.Optional;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.springframework.beans.factory.annotation.Autowired;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.springframework.stereotype.Service;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> com.findhub.finhubbackend.entity.account.Account;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> com.findhub.finhubbackend.repository.AccountRepository;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  @Service
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="SearchServiceImpl" href="../../../../../com/findhub/finhubbackend/service/search/SearchServiceImpl.html#SearchServiceImpl">SearchServiceImpl</a> <strong class="jxr_keyword">implements</strong> <a name="SearchService" href="../../../../../com/findhub/finhubbackend/service/search/SearchService.html#SearchService">SearchService</a>{
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  	
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  	@Autowired
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  	<strong class="jxr_keyword">private</strong> <a name="AccountRepository" href="../../../../../com/findhub/finhubbackend/repository/AccountRepository.html#AccountRepository">AccountRepository</a> accountRepository;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  	@Override
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  	<strong class="jxr_keyword">public</strong> <a name="Account" href="../../../../../com/findhub/finhubbackend/entity/account/Account.html#Account">Account</a> findAccountById(<strong class="jxr_keyword">int</strong> id) {
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  		Optional&lt;Account&gt; accountOptional = accountRepository.findById(id);
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  		<strong class="jxr_keyword">if</strong> (accountOptional.isPresent()) <strong class="jxr_keyword">return</strong> accountOptional.get();
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  		<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  	}
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  	
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  	
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2023. All rights reserved.</div>
+</body>
+</html>

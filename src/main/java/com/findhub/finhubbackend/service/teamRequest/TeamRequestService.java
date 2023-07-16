@@ -6,5 +6,4 @@ import com.findhub.finhubbackend.service.service.Service;
 
 public interface TeamRequestService
         extends Service<TeamRequest, TeamRequestStatus>{
-
 }
