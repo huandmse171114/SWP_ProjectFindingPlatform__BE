@@ -226,11 +226,11 @@ public class TeamRequestController
 
         tr.setStatus(TeamRequestStatus.REJECTED_REQUEST.getValue());
         // teamMemberService.save(
-        //         TeamMember
-        //                 .builder()
-        //                 .member(m)
-        //                 .team(t)
-        //                 .build());
+        // TeamMember
+        // .builder()
+        // .member(m)
+        // .team(t)
+        // .build());
         service.update(rqId, tr);
 
         return null;
@@ -263,8 +263,7 @@ public class TeamRequestController
 
         tr.setStatus(TeamRequestStatus.ACCEPTED_INVITATION.getValue());
         teamMemberService.save(
-                TeamMember
-                        .builder()
+                TeamMember.builder()
                         .member(m)
                         .team(t)
                         .build());
@@ -300,11 +299,11 @@ public class TeamRequestController
 
         tr.setStatus(TeamRequestStatus.REJECTED_INVITATION.getValue());
         // teamMemberService.save(
-        //         TeamMember
-        //                 .builder()
-        //                 .member(m)
-        //                 .team(t)
-        //                 .build());
+        // TeamMember
+        // .builder()
+        // .member(m)
+        // .team(t)
+        // .build());
         service.update(rqId, tr);
 
         return null;
