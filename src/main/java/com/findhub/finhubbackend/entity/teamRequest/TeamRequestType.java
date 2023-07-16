@@ -5,12 +5,9 @@ import java.util.Map;
 
 import com.findhub.finhubbackend.util.Utils;
 
-public enum TeamRequestStatus {
-	PENDING(0),
-    APPROVED(1),
-    REJECTED(2),
-    CANCELED(3),
-    DELETED(4)
+public enum TeamRequestType {
+	REQUEST(0),
+    INVITATION(1),
     ;
 
     protected final int value;
@@ -29,7 +26,7 @@ public enum TeamRequestStatus {
         );
     }
 
-    private TeamRequestStatus(int value) {
+    private TeamRequestType(int value) {
         this.value = value;
     }
 

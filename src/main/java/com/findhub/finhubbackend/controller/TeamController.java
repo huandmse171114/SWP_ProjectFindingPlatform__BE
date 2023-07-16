@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,6 +24,9 @@ import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.team.Team;
 import com.findhub.finhubbackend.entity.team.TeamStatus;
 import com.findhub.finhubbackend.entity.teamMember.TeamMember;
+import com.findhub.finhubbackend.entity.teamRequest.TeamRequest;
+import com.findhub.finhubbackend.entity.teamRequest.TeamRequestStatus;
+import com.findhub.finhubbackend.entity.teamRequest.TeamRequestType;
 import com.findhub.finhubbackend.exception.EntityFoundException;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
 import com.findhub.finhubbackend.model.create.ApplicationCreateModel;
@@ -36,13 +40,14 @@ import com.findhub.finhubbackend.service.member.MemberService;
 import com.findhub.finhubbackend.service.project.ProjectService;
 import com.findhub.finhubbackend.service.team.TeamService;
 import com.findhub.finhubbackend.service.teamMember.TeamMemberService;
+import com.findhub.finhubbackend.service.teamRequest.TeamRequestService;
 import com.findhub.finhubbackend.util.Config.ApiPath;
 import com.findhub.finhubbackend.util.Config.EntityPath;
 import com.findhub.finhubbackend.util.Config.SubPath;
 import com.findhub.finhubbackend.util.Config.Var;
 import com.findhub.finhubbackend.util.Utils;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 @RestController
 @CrossOrigin
@@ -55,9 +60,12 @@ public class TeamController
 
     @Autowired
     private ProjectService projectService;
-
+    
     @Autowired
     private TeamMemberService teamMemberService;
+    
+    @Autowired
+    private TeamRequestService teamRequestService;
 
     // @Autowired
     // private TeamPro;
@@ -139,21 +147,34 @@ public class TeamController
         );
 
         int id = team.getId();
-
         if(model.getMembers() != null)
             model.getMembers()
-                .forEach(member -> teamMemberService.save(
-                        TeamMember
-                            .builder()
-                                .team(team)
-                                .member(
-                                    memberService.get(
-                                        member.getId()
+                .forEach(member -> {                	
+                	//Add team member to TeamMember table
+                	teamMemberService.save(
+                            TeamMember
+                                .builder()
+                                    .team(team)
+                                    .member(
+                                        memberService.get(
+                                            member.getId()
+                                        )
                                     )
-                                )
-                                .role(member.getRole())
-                            .build()
-                    )
+                                    .role(member.getRole())
+                                .build());
+                	//Send join invitation
+                	teamRequestService.save(
+                			TeamRequest.builder()
+                				.senderId(team.getId())
+                				.receiverId(member.getId())
+                				.status(TeamRequestStatus.PENDING.getValue())
+                				.type(TeamRequestType.INVITATION.getValue())
+                				.message("We are looking for a talented and motivated member to join our team "
+                						+ "and help us achieve our goals. If you are interested in working with us, "
+                						+ "please let us know. We would love to have you on board!")
+                				.build()
+                			);
+                }
                 );
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
