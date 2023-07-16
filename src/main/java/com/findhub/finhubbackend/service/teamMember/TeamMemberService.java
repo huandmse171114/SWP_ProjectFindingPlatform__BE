@@ -15,4 +15,6 @@ public interface TeamMemberService
 
     public List<TeamMember> findAllByTeamId(int id);
 
+	public List<TeamMember> findAllByMemberIdAndRole(int id, int value);
+
 }

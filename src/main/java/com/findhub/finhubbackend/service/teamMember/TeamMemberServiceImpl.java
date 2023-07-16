@@ -24,4 +24,9 @@ public class TeamMemberServiceImpl
         return repo.findAllByTeamId(id);
     }
 
+	@Override
+	public List<TeamMember> findAllByMemberIdAndRole(int id, int value) {
+		return repo.findAllByMemberIdAndRole(id, value);
+	}
+
 }

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TeamMemberCreateModel {
     private int id;
-    // private String name;
+    private String name;
     private int role;
-    private int status;
 }

@@ -1,5 +1,6 @@
 package com.findhub.finhubbackend.controller;
 
+import java.io.Console;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,11 +21,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.findhub.finhubbackend.dto.MemberDTO;
 import com.findhub.finhubbackend.entity.entity.Status;
+import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberRole;
 import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.entity.team.Team;
 import com.findhub.finhubbackend.entity.team.TeamStatus;
 import com.findhub.finhubbackend.entity.teamMember.TeamMember;
+import com.findhub.finhubbackend.entity.teamMember.TeamMemberRole;
+import com.findhub.finhubbackend.entity.teamMember.TeamMemberStatus;
 import com.findhub.finhubbackend.entity.teamRequest.TeamRequest;
 import com.findhub.finhubbackend.entity.teamRequest.TeamRequestStatus;
 import com.findhub.finhubbackend.entity.teamRequest.TeamRequestType;
@@ -33,7 +38,10 @@ import com.findhub.finhubbackend.model.create.ApplicationCreateModel;
 import com.findhub.finhubbackend.model.create.TeamCreateModel;
 import com.findhub.finhubbackend.model.model.ApiResponse;
 import com.findhub.finhubbackend.model.model.MemberTeamModel;
+import com.findhub.finhubbackend.model.model.StatusModel;
 import com.findhub.finhubbackend.model.model.TeamModel;
+import com.findhub.finhubbackend.model.response.TeamMemberResponseModel;
+import com.findhub.finhubbackend.model.response.TeamResponseModel;
 import com.findhub.finhubbackend.model.update.TeamMemberUpdateModel;
 import com.findhub.finhubbackend.model.update.TeamUpdateModel;
 import com.findhub.finhubbackend.service.member.MemberService;
@@ -66,6 +74,9 @@ public class TeamController
     
     @Autowired
     private TeamRequestService teamRequestService;
+    
+    @Autowired
+    private TeamService teamService;
 
     // @Autowired
     // private TeamPro;
@@ -115,6 +126,50 @@ public class TeamController
             .status(HttpStatus.OK)
             .body(getResponseModel(id));
     }
+    
+    @GetMapping("/leader/{id}")
+    public ResponseEntity<?> getAllTeamsByLeaderId(@PathVariable int id) {
+    	//get all team member record of this member as a leader role
+    	List<TeamMember> teamMembers = teamMemberService.findAllByMemberIdAndRole(id, TeamMemberRole.LEADER.getValue());
+    	List<Team> teams = new ArrayList<>();
+    	teamMembers.forEach(teamMember -> {
+    		teams.add(teamMember.getTeam());
+    	});
+    	List<TeamResponseModel> teamResponse = new ArrayList<>();
+    	teams.forEach(team -> {
+    		List<TeamMemberResponseModel> memberResponseModels = new ArrayList<>();
+    		team.getMembers().forEach(member -> {
+    			System.out.println(member.getMember().getId());
+    			memberResponseModels.add(TeamMemberResponseModel.builder()
+    					.id(member.getMember().getId())
+    					.role(StatusModel.builder()
+    							.id(member.getRole())
+    							.name(TeamMemberRole.nameOf(member.getRole()))
+    							.build())
+    					.status(StatusModel.builder()
+    							.id(member.getStatus())
+    							.name(TeamMemberStatus.nameOf(member.getStatus()))
+    							.build())
+    					.name(member.getMember().getName())
+    					.email(member.getMember().getEmail())
+    					.build());
+    		});
+    		
+    		teamResponse.add(TeamResponseModel.builder()
+    							.id(team.getId())
+    							.status(StatusModel.builder()
+    									.id(team.getStatus())
+    									.name(TeamStatus.nameOf(team.getStatus()))
+    									.build())
+    							.members(memberResponseModels)
+    							.name(team.getName())
+    							.build());
+    	});
+    	
+//    	System.out.println(teams);
+//    	System.out.println(teamMembers);
+    	return ResponseEntity.status(HttpStatus.OK).body(teamResponse);
+    }
 
     @Override
     public ResponseEntity<?> getAll() {
@@ -150,30 +205,35 @@ public class TeamController
         if(model.getMembers() != null)
             model.getMembers()
                 .forEach(member -> {                	
-                	//Add team member to TeamMember table
-                	teamMemberService.save(
-                            TeamMember
-                                .builder()
-                                    .team(team)
-                                    .member(
-                                        memberService.get(
-                                            member.getId()
-                                        )
-                                    )
-                                    .role(member.getRole())
-                                .build());
+                	//Add team leader to TeamMember table
+                	if (member.getRole() == TeamMemberRole.LEADER.getValue()) {
+                		teamMemberService.save(
+                				TeamMember
+                				.builder()
+                				.team(team)
+                				.member(
+                						memberService.get(
+                								member.getId()
+                								)
+                						)
+                				.role(member.getRole())
+                				.build());                		
+                	}
+                	
                 	//Send join invitation
-                	teamRequestService.save(
-                			TeamRequest.builder()
+                	if (member.getRole() != TeamMemberRole.LEADER.getValue()) {
+                		teamRequestService.save(
+                				TeamRequest.builder()
                 				.senderId(team.getId())
                 				.receiverId(member.getId())
                 				.status(TeamRequestStatus.PENDING.getValue())
                 				.type(TeamRequestType.INVITATION.getValue())
-                				.message("We are looking for a talented and motivated member to join our team "
+                				.message("Hi, " + member.getName() + ". We are looking for a talented and motivated member to join our team "
                 						+ "and help us achieve our goals. If you are interested in working with us, "
                 						+ "please let us know. We would love to have you on board!")
                 				.build()
-                			);
+                				);                		
+                	}
                 }
                 );
 
@@ -185,7 +245,7 @@ public class TeamController
 		return ResponseEntity
 				.created(location)
 				// .body(service.getModel(id));
-				.body(service.get(id));
+				.body("Create team successfully");
     }
 
     @PutMapping()

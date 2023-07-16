@@ -11,4 +11,6 @@ public interface TeamMemberRepository
     List<TeamMember> findAllByMemberId(int id);
 
     List<TeamMember> findAllByTeamId(int id);
+
+	List<TeamMember> findAllByMemberIdAndRole(int id, int value);
 }
