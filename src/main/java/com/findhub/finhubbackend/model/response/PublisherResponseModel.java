@@ -2,6 +2,8 @@ package com.findhub.finhubbackend.model.response;
 
 import java.sql.Date;
 
+import com.findhub.finhubbackend.model.model.StatusModel;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,8 +17,9 @@ public class PublisherResponseModel {
     private int id;
     private String email;
     private String name;
-    private Date DOB;
+    private String DOB;
     private String phone;
     private float balance;
-    private String status;
+    private String description;
+    private StatusModel status;
 }

@@ -6,6 +6,8 @@ import java.util.Optional;
 import com.findhub.finhubbackend.dto.CategoryDTO;
 import com.findhub.finhubbackend.entity.category.Category;
 import com.findhub.finhubbackend.entity.category.CategoryStatus;
+import com.findhub.finhubbackend.model.response.CategoryResponseModel;
+import com.findhub.finhubbackend.model.update.CategoryUpdateModel;
 import com.findhub.finhubbackend.service.service.Service;
 
 public interface CategoryService extends Service<Category, CategoryStatus> {
@@ -23,5 +25,9 @@ public interface CategoryService extends Service<Category, CategoryStatus> {
     public List<CategoryDTO> getNameByProjectId(int id);
 
     public boolean existsByName(String name);
+    
+    public CategoryResponseModel getModel(int id);
+
+	public boolean update(CategoryUpdateModel categoryModel);
 
 }

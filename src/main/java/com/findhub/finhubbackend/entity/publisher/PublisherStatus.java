@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum PublisherStatus {
-	APPROVED(0),
-	PENDING(1),
-	DELETED(2),
-	REJECTED(3),
+	GENERATED(0),
+	INFORMED(1),
+	INACTIVE(2),
 	;
 
 	private final int value;

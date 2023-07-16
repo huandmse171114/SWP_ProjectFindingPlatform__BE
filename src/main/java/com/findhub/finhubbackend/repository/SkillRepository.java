@@ -3,6 +3,9 @@ package com.findhub.finhubbackend.repository;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -42,7 +45,8 @@ public interface SkillRepository extends Repo<Skill> {
             SELECT
                 s.Id,
                 s.Name,
-                ms.Level
+                ms.Level,
+                ms.Status
             FROM
                 Skill s
             JOIN
@@ -85,4 +89,9 @@ public interface SkillRepository extends Repo<Skill> {
     List<SkillDTO> getAllByNameContaining(@Param("name") String name);
 
     boolean existsByName(String name);
+
+    @Query(value = "update Skill set Name = :name where Id = :id", nativeQuery = true)
+    @Transactional
+    @Modifying
+	void update(@Param("id") int id, @Param("name") String name);
 }

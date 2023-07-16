@@ -21,7 +21,7 @@ public class MemberModel {
     private String DOB;
     private String phone;
     private float balance;
-    private String status;
+    private StatusModel status;
     private String role;
 
     // extend infomation

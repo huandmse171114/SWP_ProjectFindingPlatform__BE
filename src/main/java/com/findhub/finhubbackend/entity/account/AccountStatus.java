@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum AccountStatus {
-	INACTIVE(0),
-	ACTIVE(1),
+	ACTIVE(0),
+	INACTIVE(1),
 	DELETED(2),
 	;
-
+  
 	private final int value;
 	private static final Map<Integer, String> status = new HashMap<>();
 

@@ -7,6 +7,9 @@ import com.findhub.finhubbackend.dto.PublisherDTO;
 import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.entity.publisher.PublisherStatus;
 import com.findhub.finhubbackend.model.response.PublisherResponseModel;
+import com.findhub.finhubbackend.model.update.MemberUpdateDescriptionModel;
+import com.findhub.finhubbackend.model.update.PublisherUpdateDescriptionModel;
+import com.findhub.finhubbackend.model.update.PublisherUpdateModel;
 import com.findhub.finhubbackend.service.service.Service;
 
 public interface PublisherService extends Service<Publisher, PublisherStatus> {
@@ -34,6 +37,8 @@ public interface PublisherService extends Service<Publisher, PublisherStatus> {
     public List<Publisher> findAllByBalanceBetween(float start, float end);
 
     public PublisherResponseModel getResponseModelById(int id);
+    
+    public PublisherResponseModel getResponseModelByEmail(String email);
 
     public List<PublisherDTO> getAllByNameContainingOrEmailContainingOrPhoneContainingOrIdLike(String input);
 
@@ -41,4 +46,10 @@ public interface PublisherService extends Service<Publisher, PublisherStatus> {
             String input);
 
     public List<PublisherDTO> getAllByNameContaining(String name);
+
+	public boolean update(PublisherUpdateModel publisherModel);
+
+	public boolean updateDescription(PublisherUpdateDescriptionModel m);
+
+    
 }

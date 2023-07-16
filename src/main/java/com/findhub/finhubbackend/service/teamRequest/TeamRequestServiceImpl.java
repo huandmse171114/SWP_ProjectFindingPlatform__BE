@@ -11,5 +11,5 @@ import com.findhub.finhubbackend.service.service.ServiceImpl;
 public class TeamRequestServiceImpl
         extends ServiceImpl<TeamRequest, TeamRequestRepository, TeamRequestStatus>
         implements TeamRequestService{
-    
+
 }

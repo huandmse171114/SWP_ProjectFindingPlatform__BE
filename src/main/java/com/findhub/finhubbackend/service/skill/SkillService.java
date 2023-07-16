@@ -6,6 +6,8 @@ import java.util.Optional;
 import com.findhub.finhubbackend.dto.SkillDTO;
 import com.findhub.finhubbackend.entity.skill.Skill;
 import com.findhub.finhubbackend.entity.skill.SkillStatus;
+import com.findhub.finhubbackend.model.response.SkillResponseModel;
+import com.findhub.finhubbackend.model.update.SkillUpdateModel;
 import com.findhub.finhubbackend.service.service.Service;
 
 public interface SkillService extends Service<Skill, SkillStatus> {
@@ -32,5 +34,9 @@ public interface SkillService extends Service<Skill, SkillStatus> {
     public List<SkillDTO> getAllByNameContainingOrIdLike(int id, String name, int level);
 
     public boolean existsByName(String name);
+    
+    public SkillResponseModel getModel(int id);
+    
+    public boolean update(SkillUpdateModel skill);
 
 }

@@ -9,8 +9,8 @@ import com.findhub.finhubbackend.model.model.StatusModel;
 import com.findhub.finhubbackend.util.Utils;
 
 public enum ProjectDeliverableStatus {
-	INACTIVE(0),
-	ACTIVE(1),
+	ACTIVE(0),
+	INACTIVE(1),
 	DELETED(2),
 	;
 

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.findhub.finhubbackend.dto.SkillDTO;
 import com.findhub.finhubbackend.entity.skill.Skill;
 import com.findhub.finhubbackend.entity.skill.SkillStatus;
+import com.findhub.finhubbackend.model.model.StatusModel;
+import com.findhub.finhubbackend.model.response.SkillResponseModel;
+import com.findhub.finhubbackend.model.update.SkillUpdateModel;
 import com.findhub.finhubbackend.repository.SkillRepository;
 import com.findhub.finhubbackend.service.service.ServiceImpl;
 
@@ -50,4 +53,22 @@ public class SkillServiceImpl
     public boolean existsByName(String name) {
         return repo.existsByName(name);
     }
+    
+    @Override
+    public SkillResponseModel getModel(int id) {
+    	Skill s = get(id);
+    	SkillResponseModel result = SkillResponseModel.builder()
+    			.id(s.getId())
+    			.name(s.getName())
+    			.status(new StatusModel(s.getStatus(),SkillStatus.nameOf(s.getStatus())))
+    			.build();
+    	return result;
+    }
+
+	@Override
+	public boolean update(SkillUpdateModel skill) {
+		repo.update(skill.getId(), skill.getName());
+		return true;
+	}
+
 }

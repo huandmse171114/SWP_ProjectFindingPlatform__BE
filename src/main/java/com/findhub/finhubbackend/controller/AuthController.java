@@ -14,13 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.findhub.finhubbackend.entity.account.Account;
+import com.findhub.finhubbackend.entity.account.AccountRole;
 import com.findhub.finhubbackend.entity.account.AccountStatus;
+import com.findhub.finhubbackend.entity.member.Member;
+import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.model.AccountLoginModel;
 import com.findhub.finhubbackend.model.AccountRegisterModel;
 import com.findhub.finhubbackend.model.AuthResponseModel;
 import com.findhub.finhubbackend.security.CustomUserDetailService;
 import com.findhub.finhubbackend.security.JwtTokenProvider;
 import com.findhub.finhubbackend.service.account.AccountService;
+import com.findhub.finhubbackend.service.member.MemberService;
+import com.findhub.finhubbackend.service.publisher.PublisherService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -31,6 +36,12 @@ public class AuthController {
 
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private PublisherService publisherService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -52,10 +63,24 @@ public class AuthController {
 					.role(accountModel.getRole())
 					.status(AccountStatus.ACTIVE.getValue())
 					.build();
-
+			
 			accountService.save(account);
+			
+			if (accountModel.getRole() == AccountRole.PUBLISHER.getValue() || 
+					accountModel.getRole() == AccountRole.ADMIN.getValue()) {
+				Publisher publisher = Publisher.builder()
+						.email(accountModel.getEmail())
+						.build();
+				publisherService.save(publisher);
+			}else if(accountModel.getRole() == AccountRole.MEMBER.getValue()) {
+				Member member = Member.builder()
+						.email(accountModel.getEmail())
+						.build();
+				System.out.println(member.getMajorId());
+				memberService.save(member);
+			}
 
-			return new ResponseEntity<>("Register success", HttpStatus.OK);
+			return new ResponseEntity<>("Create account successfully", HttpStatus.OK);
 		}
 	}
 

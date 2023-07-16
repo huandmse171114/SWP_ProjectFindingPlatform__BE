@@ -1,5 +1,7 @@
 package com.findhub.finhubbackend.model.response;
 
+import com.findhub.finhubbackend.model.model.StatusModel;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,4 +15,5 @@ public class MajorResponseModel {
     private int id;
     private String code;
     private String name;
+    private StatusModel status;
 }

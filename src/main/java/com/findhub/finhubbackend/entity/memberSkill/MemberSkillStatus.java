@@ -6,9 +6,10 @@ import java.util.Map;
 import com.findhub.finhubbackend.util.Utils;
 
 public enum MemberSkillStatus {
-    INACTIVE(0),
-    ACTIVE(1),
-    DELETED(2),
+	VALIDATING(0),
+    APPROVED(1),
+    REJECTED(2),
+    DELETED(3)
     ;
 
     protected final int value;

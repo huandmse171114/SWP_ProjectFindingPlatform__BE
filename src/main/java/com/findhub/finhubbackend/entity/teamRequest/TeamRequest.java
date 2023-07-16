@@ -64,6 +64,12 @@ public class TeamRequest extends MyEntity{
 	)
 	private int receiverId;
 
+    @Column(
+		name = "TeamId",
+		nullable = false
+	)
+	private int teamId;
+
     @Nationalized
     @Column(
 		name = "Message",
@@ -84,5 +90,5 @@ public class TeamRequest extends MyEntity{
         name = "Status",
         nullable = false
     )
-    private int status = TeamRequestStatus.ACTIVE.getValue();
+    private int status = TeamRequestStatus.REQUESTING.getValue();
 }

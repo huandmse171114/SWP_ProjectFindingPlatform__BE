@@ -6,8 +6,8 @@ import java.util.Map;
 import com.findhub.finhubbackend.util.Utils;
 
 public enum ProjectSkillStatus {
-    INACTIVE(0),
-    ACTIVE(1),
+	ACTIVE(0),
+    INACTIVE(1),
     DELETED(2),
     ;
 

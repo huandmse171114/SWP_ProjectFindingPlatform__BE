@@ -83,5 +83,5 @@ public class MemberSkill extends MyEntity{
         name = "Status",
         nullable = false
     )
-    private int status = MemberSkillStatus.ACTIVE.getValue();
+    private int status = MemberSkillStatus.VALIDATING.getValue();
 }

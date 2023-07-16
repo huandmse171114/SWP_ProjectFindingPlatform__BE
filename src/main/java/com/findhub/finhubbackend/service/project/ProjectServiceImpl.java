@@ -297,4 +297,9 @@ public class ProjectServiceImpl
 		return repo.findALlByPublisherId(id);
 	}
 
+	@Override
+	public List<Project> getAllByPublisherId(int id) {
+		return repo.findALlByPublisherId(id);
+	}
+
 }

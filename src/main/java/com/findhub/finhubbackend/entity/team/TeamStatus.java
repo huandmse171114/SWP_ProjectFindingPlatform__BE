@@ -6,9 +6,11 @@ import java.util.Map;
 import com.findhub.finhubbackend.util.Utils;
 
 public enum TeamStatus {
-    INACTIVE(0),
-    ACTIVE(1),
-    DELETED(2),
+	ACTIVE(0),
+    INACTIVE(1),
+    PENDING(2),
+    ONGOING(3),
+    DELETED(4),
     ;
 
     private final int value;

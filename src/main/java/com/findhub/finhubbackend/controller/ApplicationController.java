@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,13 +29,12 @@ public class ApplicationController
 	@Autowired
 	private ProjectService projectService;
 
-	// @PostMapping("/")
-	@Override
-	public ResponseEntity<String> create(@RequestBody Object model) {
-		ApplicationCreateModel m = (ApplicationCreateModel) model;
-		int teamId = m.getTeamId();
-		int projectId = m.getProjectId();
-		// int leaderId = m.getLeaderId();
+	@PostMapping()
+	// @Override
+	public ResponseEntity<String> create(@RequestBody ApplicationCreateModel model) {
+		int teamId = model.getTeamId();
+		int projectId = model.getProjectId();
+		// int leaderId = model.getLeaderId();
 
 		if (service.existsByTeamIdAndProjectId(teamId, projectId))
 			return new ResponseEntity<String>(

@@ -13,5 +13,5 @@ public class SkillModel {
     private int id;
     private String name;
     private int level;
-    private int status;
+    private StatusModel status;
 }

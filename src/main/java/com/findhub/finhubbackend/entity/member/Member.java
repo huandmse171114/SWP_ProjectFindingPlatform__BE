@@ -105,15 +105,15 @@ public class Member extends MyEntity {
 		name = "Status",
 		nullable = false
 	)
-	private int status = MemberStatus.AVAILABLE.getValue();
+	private int status = MemberStatus.GENERATED.getValue();
 
 	@Column(
 		name = "MajorId",
 		nullable = true
 	)
-	private int majorId;
+	private Integer majorId;
 
-	@OneToMany(
+	@OneToMany( 
         mappedBy = "member",
         cascade = CascadeType.ALL,
         fetch = FetchType.LAZY
@@ -126,6 +126,7 @@ public class Member extends MyEntity {
         cascade = CascadeType.ALL,
         fetch = FetchType.LAZY
     )
+	
     @JsonManagedReference
     private List<MemberSkill> skills;
 }
