@@ -2,6 +2,7 @@ package com.findhub.finhubbackend.model.response;
 
 import java.util.List;
 
+import com.findhub.finhubbackend.entity.project.Project;
 import com.findhub.finhubbackend.model.model.StatusModel;
 
 import lombok.AllArgsConstructor;
@@ -20,4 +21,7 @@ public class TeamResponseModel {
     private List<TeamMemberResponseModel> members;
     private float balance;
     private StatusModel status;
+    private List<Project> projects;
+    private List<TeamReqRequestResponseModel> requests;
+    private Project project;
 }

@@ -17,6 +17,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 public class ProjectFindingPlatformApplication {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
+
 		// StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
 		// 		.configure()
 		// 		.build();

@@ -13,4 +13,8 @@ public interface TeamProjectService
 
     public List<TeamProject> findAllByTeamId(int id);
 
+	public List<TeamProject> findAllByProjectIdAndStatus(int id, int value);
+
+	public List<TeamProject> findAllByTeamIdAndStatus(int id, int value);
+
 }

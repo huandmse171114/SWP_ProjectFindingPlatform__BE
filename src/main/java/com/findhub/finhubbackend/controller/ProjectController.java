@@ -94,6 +94,23 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 
 		return result;
 	}
+	
+	private List<ProjectResponseModel> getPublisherResponseModels(List<Project> projects) {
+		if (projects.isEmpty())
+			throw new EntityNotFoundException("No projects found");
+
+		List<ProjectResponseModel> result = new ArrayList<>();
+
+		projects.forEach(
+			p -> result.add(
+				service.getPublisherModel(
+					p.getId()
+				)
+			)
+		);
+
+		return result;
+	}
 
 	@Override
 	public ResponseEntity<?> get(@PathVariable(Var.ID) int id) {
@@ -123,12 +140,9 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 
 	@PostMapping()
 	public ResponseEntity<?> create(@RequestBody ProjectCreateModel model) {
-		Account account = accountService.get(10);
-		System.out.println(model.getPublisherId());
-		
-		System.out.println(account.getEmail());
-		
-		Publisher publisher = publisherService.findByEmail("admin1@gmail.com").get();
+		Account account = accountService.get(model.getPublisherId());
+				
+		Publisher publisher = publisherService.findByEmail(account.getEmail()).get();
 
 		System.out.println(publisher.getId());
 		
@@ -376,7 +390,7 @@ public class ProjectController extends ApiController<Project, ProjectService, Pr
 		Publisher publisher = publisherService.findByEmail(account.getEmail()).get();
 		return ResponseEntity
 				.status(HttpStatus.OK)
-				.body(getResponseModels(service.getAllByPublisherId(publisher.getId())));
+				.body(getPublisherResponseModels(service.getAllByPublisherId(publisher.getId())));
 		// .body(service.getAll());
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.teamMember.TeamMember;
 import com.findhub.finhubbackend.entity.teamMember.TeamMemberStatus;
 import com.findhub.finhubbackend.repository.TeamMemberRepository;
@@ -27,6 +28,16 @@ public class TeamMemberServiceImpl
 	@Override
 	public List<TeamMember> findAllByMemberIdAndRole(int id, int value) {
 		return repo.findAllByMemberIdAndRole(id, value);
+	}
+
+	@Override
+	public List<TeamMember> findAllByTeamIdAndRole(int id, int value) {
+		return repo.findAllByTeamIdAndRole(id, value);
+	}
+
+	@Override
+	public List<TeamMember> findAllByRole(int value) {
+		return repo.findAllByRole(value);
 	}
 
 }

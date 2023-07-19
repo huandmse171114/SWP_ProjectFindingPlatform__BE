@@ -28,4 +28,6 @@ public class ProjectResponseModel {
     private List<ProjectCategoryResponseModel> categories;
     private List<ProjectDeliverableResponseModel> deliverables;
     private String status;
+    private List<ApplicationResponseModel> applications;
+    private TeamInProjectResponseModel team; 
 }

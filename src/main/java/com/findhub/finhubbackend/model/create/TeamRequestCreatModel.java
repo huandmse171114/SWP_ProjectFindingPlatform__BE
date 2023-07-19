@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TeamRequestCreatModel {
 	private int teamId;
-	private int senderId;
-	private int receiverId;
+	private int memberId;
 	private String message;
 }

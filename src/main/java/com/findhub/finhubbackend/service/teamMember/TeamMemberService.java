@@ -2,6 +2,7 @@ package com.findhub.finhubbackend.service.teamMember;
 
 import java.util.List;
 
+import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.teamMember.TeamMember;
 import com.findhub.finhubbackend.entity.teamMember.TeamMemberStatus;
 import com.findhub.finhubbackend.service.service.Service;
@@ -16,5 +17,9 @@ public interface TeamMemberService
     public List<TeamMember> findAllByTeamId(int id);
 
 	public List<TeamMember> findAllByMemberIdAndRole(int id, int value);
+
+	public List<TeamMember> findAllByTeamIdAndRole(int id, int value);
+
+	public List<TeamMember> findAllByRole(int value);
 
 }

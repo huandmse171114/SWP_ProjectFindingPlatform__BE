@@ -61,6 +61,8 @@ public interface ProjectService
 
 	public List<Project> getAllByPublisherId(int id);
 
+	public ProjectResponseModel getPublisherModel(int id);
+
 
     // public boolean existsByTeamIdAndProjectId(int teamId, int projectId);
 

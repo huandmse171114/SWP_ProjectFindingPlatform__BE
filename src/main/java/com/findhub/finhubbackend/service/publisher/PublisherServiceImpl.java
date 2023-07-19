@@ -122,7 +122,7 @@ public class PublisherServiceImpl extends ServiceImpl<Publisher, PublisherReposi
                 .name(publisher.getName())
                 .email(publisher.getEmail())
                 .phone(publisher.getPhone())
-                .DOB(publisher.getDob().toString())
+                .DOB(publisher.getDob() != null ? publisher.getDob().toString() : null)
                 .description(publisher.getDescription())
                 .balance(publisher.getBalance())
                 .status(status)

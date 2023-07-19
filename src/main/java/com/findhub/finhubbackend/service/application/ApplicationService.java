@@ -53,4 +53,6 @@ public interface ApplicationService extends Service<Application, ApplicationStat
 
     public boolean existsByTeamId(String teamId);
 
+	public List<Application> findAllByProjectIdAndStatus(int id, int value);
+
 }

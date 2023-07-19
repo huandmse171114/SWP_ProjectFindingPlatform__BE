@@ -70,4 +70,9 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Application
 	public boolean existsByTeamId(String teamId) {
 		return repo.existsByTeamId(teamId);
 	}
+
+	@Override
+	public List<Application> findAllByProjectIdAndStatus(int id, int value) {
+		return repo.findAllByProjectIdAndStatus(id, value);
+	}
 }

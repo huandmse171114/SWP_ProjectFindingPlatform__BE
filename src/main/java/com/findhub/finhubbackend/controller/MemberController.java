@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import com.findhub.finhubbackend.entity.account.Account;
 import com.findhub.finhubbackend.entity.member.Member;
 import com.findhub.finhubbackend.entity.member.MemberStatus;
 import com.findhub.finhubbackend.entity.memberSkill.MemberSkill;
+import com.findhub.finhubbackend.entity.publisher.Publisher;
 import com.findhub.finhubbackend.entity.skill.Skill;
 import com.findhub.finhubbackend.entity.team.Team;
 import com.findhub.finhubbackend.entity.teamMember.TeamMember;
@@ -31,6 +33,11 @@ import com.findhub.finhubbackend.model.model.ApiResponse;
 import com.findhub.finhubbackend.model.model.InviteModel;
 import com.findhub.finhubbackend.model.model.MemberModel;
 import com.findhub.finhubbackend.model.update.MemberSkillUpdateModel;
+import com.findhub.finhubbackend.model.update.MemberUpdateDescriptionModel;
+import com.findhub.finhubbackend.model.update.MemberUpdateModel;
+import com.findhub.finhubbackend.model.update.MemberUpdateSkillModel;
+import com.findhub.finhubbackend.model.update.PublisherUpdateDescriptionModel;
+import com.findhub.finhubbackend.model.update.PublisherUpdateModel;
 import com.findhub.finhubbackend.service.account.AccountService;
 import com.findhub.finhubbackend.service.member.MemberService;
 import com.findhub.finhubbackend.service.memberSkill.MemberSkillService;
@@ -95,8 +102,40 @@ public class MemberController
                 .body(mrm);
     }
 
-    public ResponseEntity<?> update(@RequestBody int n) {
-        return null;
+    @PutMapping()
+    public ResponseEntity<String> update(@RequestBody MemberUpdateModel memberModel) {
+        System.out.println(memberModel.getEmail());
+        Member member = service.findByEmail(memberModel.getEmail()).get();
+        System.out.println(member.getEmail());
+        memberModel.setId(member.getId());
+        
+        if(service.update(memberModel)) {
+            return new ResponseEntity<>("Update Information successfully", HttpStatus.OK);            	
+        }else {
+            return new ResponseEntity<>("Update Information failed", HttpStatus.FAILED_DEPENDENCY);   
+        }
+    }
+    
+    @PutMapping("/description")
+    public ResponseEntity<String> updateDescription(@RequestBody MemberUpdateDescriptionModel m) {
+        Member member = service.findByEmail(m.getEmail()).get();
+        m.setId(member.getId());
+        if(service.updateDescription(m)) {
+            return new ResponseEntity<>("Update Information successfully", HttpStatus.OK);            	
+        }else {
+            return new ResponseEntity<>("Update Information failed", HttpStatus.FAILED_DEPENDENCY);   
+        }
+    }
+    
+    @PutMapping("/skill")
+    public ResponseEntity<String> updateSkill(@RequestBody MemberUpdateSkillModel m) {
+        Member member = service.findByEmail(m.getEmail()).get();
+        m.setId(member.getId());
+        if(service.updateSkill(m, member)) {
+            return new ResponseEntity<>("Update Information successfully", HttpStatus.OK);            	
+        }else {
+            return new ResponseEntity<>("Update Information failed", HttpStatus.FAILED_DEPENDENCY);   
+        }
     }
 
     public ResponseEntity<?> addSkill(@RequestBody MemberSkillUpdateModel model) {

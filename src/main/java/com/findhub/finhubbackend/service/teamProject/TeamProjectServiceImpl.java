@@ -23,4 +23,14 @@ public class TeamProjectServiceImpl
     public List<TeamProject> findAllByTeamId(int id) {
         return repo.findAllByTeamId(id);
     }
+
+	@Override
+	public List<TeamProject> findAllByProjectIdAndStatus(int id, int value) {
+		return repo.findAllByProjectIdAndStatus(id, value);
+	}
+
+	@Override
+	public List<TeamProject> findAllByTeamIdAndStatus(int id, int value) {
+		return repo.findAllByTeamIdAndStatus(id, value);
+	}
 }

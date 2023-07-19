@@ -10,4 +10,8 @@ public interface TeamProjectRepository
     List<TeamProject> findAllByProjectId(int id);
 
     List<TeamProject> findAllByTeamId(int id);
+
+	List<TeamProject> findAllByProjectIdAndStatus(int id, int value);
+
+	List<TeamProject> findAllByTeamIdAndStatus(int id, int value);
 }

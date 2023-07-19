@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.findhub.finhubbackend.entity.application.Application;
 import com.findhub.finhubbackend.entity.application.ApplicationStatus;
 import com.findhub.finhubbackend.entity.project.Project;
+import com.findhub.finhubbackend.entity.project.ProjectStatus;
 import com.findhub.finhubbackend.entity.team.Team;
+import com.findhub.finhubbackend.entity.team.TeamStatus;
 import com.findhub.finhubbackend.entity.teamProject.TeamProject;
 import com.findhub.finhubbackend.exception.EntityNotFoundException;
 import com.findhub.finhubbackend.model.create.ApplicationCreateModel;
@@ -76,8 +78,15 @@ public class ApplicationController
 		Team t = a.getTeam();
 		Project p = a.getProject();
 
+		t.setStatus(TeamStatus.ONGOING.getValue());
+		teamService.update(t);
+		
+		p.setStatus(ProjectStatus.ONGOING.getValue());
+		projectService.update(p);
+		
 		a.setStatus(ApplicationStatus.APPROVED.getValue());
 		service.update(a);
+		
 		tpService.save(
 				TeamProject
 						.builder()
@@ -85,7 +94,7 @@ public class ApplicationController
 						.project(p)
 						.build());
 
-		return response("approved", HttpStatus.OK);
+		return response("Application approved", HttpStatus.OK);
 	}
 
 	@PostMapping("/rejected/{applicationId}")
@@ -94,18 +103,18 @@ public class ApplicationController
 		if (a == null)
 			throw new EntityNotFoundException(Application.class, applicationId);
 
-		// Team t = a.getTeam();
-		// Project p = a.getProject();
+		 Team t = a.getTeam();
+		 Project p = a.getProject();
 
 		a.setStatus(ApplicationStatus.REJECTED.getValue());
 		service.update(a);
-		// tpService.save(
-		// 		TeamProject
-		// 				.builder()
-		// 				.team(t)
-		// 				.project(p)
-		// 				.build());
+		 tpService.save(
+		 		TeamProject
+		 				.builder()
+		 				.team(t)
+		 				.project(p)
+		 				.build());
 
-		return response("rejected", HttpStatus.OK);
+		return response("Application rejected", HttpStatus.OK);
 	}
 }
